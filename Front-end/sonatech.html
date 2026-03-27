@@ -1,0 +1,2396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SonaTech – Empowering Digital Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --orange: #E8941A;
+      --orange-dark: #C97D10;
+      --orange-light: #F5A835;
+      --black: #1a1a1a;
+      --white: #ffffff;
+      --gray-50: #f8f8f8;
+      --gray-100: #f0f0f0;
+      --gray-200: #e4e4e4;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --bg: #dce6f0;
+      --card-bg: rgba(255,255,255,0.1);
+      --card-bg-solid: rgba(255,255,255,0.95);
+      --glass-border: rgba(255,255,255,0.2);
+      --glass-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      --glass-shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+      --backdrop-blur: blur(20px);
+      --backdrop-blur-sm: blur(10px);
+      --shadow: 0 4px 24px rgba(0,0,0,0.12);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.18);
+      --radius: 14px;
+      --radius-lg: 20px;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Sora', sans-serif;
+      --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== BACKGROUND HERO ===== */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(160deg, #c9d8e8 0%, #b8cedd 40%, #a8bfcf 100%);
+    }
+    .page-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('images/sonacomp.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.25;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .page-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.04;
+      z-index: 2;
+    }
+    /* Building silhouette */
+    .building-bg {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+      height: 65%;
+      background: linear-gradient(to top, rgba(100,130,155,0.35) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .building-bg::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 40px,
+        transparent 40px,
+        transparent 80px
+      );
+    }
+
+    /* ===== LAYOUT ===== */
+    #root { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur);
+      -webkit-backdrop-filter: var(--backdrop-blur);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--glass-shadow);
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .navbar-logo {
+      width: 56px;
+      height: 56px;
+      background: var(--orange);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--black);
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .navbar-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .navbar-logo svg { width: 32px; height: 32px; }
+    .navbar-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.5px;
+    }
+    .navbar-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-ghost {
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--black);
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: underline;
+      transition: var(--transition);
+    }
+    .btn-ghost:hover { background: var(--gray-100); }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 9px 22px;
+      border-radius: 10px;
+      transition: var(--transition);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--glass-shadow-lg);
+      border-color: rgba(255,255,255,0.5);
+    }
+    .btn-primary:active { transform: translateY(0); box-shadow: var(--glass-shadow); }
+    .btn-secondary {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      color: var(--black);
+      border: 1px solid var(--glass-border);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 9px 22px;
+      border-radius: 10px;
+      transition: var(--transition);
+      box-shadow: var(--glass-shadow);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+      box-shadow: var(--glass-shadow-lg);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .globe-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--black);
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .globe-btn:hover { background: var(--gray-100); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      padding: 14px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      margin-top: auto;
+    }
+    .footer span { color: var(--orange); font-style: italic; }
+
+    /* ===== MAIN CONTENT ===== */
+    .page-content { flex: 1; position: relative; }
+
+    /* ===== HERO PAGE ===== */
+    .hero-section {
+      min-height: calc(100vh - 68px - 46px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      position: relative;
+    }
+    .hero-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur);
+      -webkit-backdrop-filter: var(--backdrop-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 52px 56px;
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--glass-shadow-lg);
+      animation: slideUp 0.5s ease both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-card h1 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+    .hero-card h1 strong { color: var(--orange); }
+    .discover-btn {
+      position: fixed;
+      bottom: 60px;
+      right: 28px;
+      background: var(--orange);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      transition: var(--transition);
+      text-decoration: underline;
+      z-index: 50;
+    }
+    .discover-btn:hover {
+      background: var(--orange-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--glass-shadow-lg);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* ===== COURSES PAGE ===== */
+    .courses-page { padding: 28px 32px; }
+    .search-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .back-btn {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+      box-shadow: var(--glass-shadow);
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.2);
+      box-shadow: var(--glass-shadow-lg);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .search-input-wrap {
+      flex: 1;
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      height: 48px;
+      box-shadow: var(--glass-shadow);
+    }
+    .search-input-wrap svg { color: var(--gray-400); flex-shrink: 0; margin-right: 10px; }
+    .search-input-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--black);
+      background: transparent;
+    }
+    .search-input-wrap input::placeholder { color: var(--gray-400); text-decoration: underline; }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .course-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--glass-shadow);
+      animation: slideUp 0.4s ease both;
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--glass-shadow-lg);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .course-card-header {
+      background: #8B7355;
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 10px 16px;
+      text-align: center;
+    }
+    .course-card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-200);
+    }
+    .course-card-img-placeholder {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, var(--gray-200) 0%, var(--gray-100) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .course-card-body { padding: 14px 16px; }
+    .course-card-desc { font-size: 0.82rem; color: var(--gray-600); line-height: 1.5; }
+
+    /* ===== COURSE DETAIL ===== */
+    .course-detail-page { padding: 0 0 32px; }
+    .course-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      padding: 18px 32px;
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .tab-container {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      display: flex;
+      padding: 4px;
+      box-shadow: var(--glass-shadow);
+    }
+    .tab-btn {
+      padding: 9px 24px;
+      border: none;
+      background: none;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: var(--transition);
+      color: var(--gray-600);
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: var(--card-bg-solid);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      color: var(--black);
+      box-shadow: var(--glass-shadow);
+      font-weight: 700;
+      border: 1px solid var(--glass-border);
+    }
+    .tab-btn:not(.active):hover { background: var(--gray-100); color: var(--black); }
+
+    .course-detail-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur);
+      -webkit-backdrop-filter: var(--backdrop-blur);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border);
+      margin: 0 32px;
+      padding: 40px 48px;
+      box-shadow: var(--glass-shadow-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      animation: slideUp 0.4s ease both;
+    }
+    .course-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 10px 32px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .course-detail-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--black);
+    }
+    .course-detail-desc {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .course-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+    .meta-item svg { color: var(--gray-400); flex-shrink: 0; }
+    .course-img-right {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 2px solid var(--gray-200);
+      background: var(--gray-200);
+    }
+    .course-img-placeholder {
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(135deg, var(--gray-200), var(--gray-100));
+      border-radius: var(--radius);
+      border: 2px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+    .start-btn {
+      background: var(--orange);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 14px 48px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      transition: var(--transition);
+      text-decoration: underline;
+      display: block;
+      text-align: center;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .start-btn:hover {
+      background: var(--orange-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--glass-shadow-lg);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* ===== TRAINER SECTION ===== */
+    .trainer-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur);
+      -webkit-backdrop-filter: var(--backdrop-blur);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-border);
+      margin: 0 32px;
+      padding: 40px 48px;
+      box-shadow: var(--glass-shadow-lg);
+      animation: slideUp 0.4s ease both;
+    }
+    .trainer-header { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
+    .trainer-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--orange);
+      background: linear-gradient(135deg, #f0c5f0, #c5d5f0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .trainer-name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
+    .trainer-role { color: var(--gray-500); font-size: 0.9rem; margin-top: 4px; }
+    .trainer-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-box {
+      background: #f3f0ff;
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stat-icon { color: var(--orange); font-size: 1.2rem; }
+    .stat-value { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
+    .stat-label { font-size: 0.78rem; color: var(--gray-500); }
+    .trainer-about h3 { font-weight: 700; margin-bottom: 12px; }
+    .trainer-about p { color: var(--gray-600); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ===== FAQ SECTION ===== */
+    .faq-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--gray-200);
+      margin: 0 32px;
+      padding: 40px 48px;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.4s ease both;
+    }
+    .faq-item { border-bottom: 1px solid var(--gray-200); padding: 18px 0; }
+    .faq-q { font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { font-size: 0.88rem; color: var(--gray-600); margin-top: 10px; line-height: 1.6; display: none; }
+    .faq-a.open { display: block; }
+
+    /* ===== AUTH PAGES ===== */
+    .auth-page {
+      min-height: calc(100vh - 68px - 46px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+    }
+    .auth-header-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 32px;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .auth-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--black);
+      padding: 40px 48px;
+      max-width: 560px;
+      width: 100%;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.12);
+      animation: slideUp 0.4s ease both;
+    }
+    .auth-card h1 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    .form-input {
+      width: 100%;
+      background: var(--gray-100);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-input:focus { border-color: var(--orange); }
+    .input-with-icon {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gray-100);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 13px 16px;
+    }
+    .input-with-icon:focus-within { border-color: var(--orange); }
+    .input-with-icon svg { color: var(--gray-400); flex-shrink: 0; }
+    .input-with-icon input {
+      border: none;
+      background: transparent;
+      outline: none;
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--black);
+    }
+    .select-input {
+      width: 100%;
+      background: var(--gray-100);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--black);
+      outline: none;
+      appearance: none;
+    }
+    .select-input:focus { border-color: var(--orange); }
+    .login-extras { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+    .remember-me { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+    .remember-checkbox {
+      width: 20px; height: 20px;
+      background: var(--orange);
+      border: 2px solid var(--black);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .forgot-link { color: var(--black); font-size: 0.9rem; font-weight: 600; text-decoration: underline; cursor: pointer; }
+    .forgot-link:hover { color: var(--orange); }
+    .auth-footer { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-600); }
+    .auth-footer a { color: var(--black); font-weight: 700; text-decoration: underline; cursor: pointer; }
+    .auth-footer a:hover { color: var(--orange); }
+    .btn-full { width: 100%; padding: 14px; font-size: 1rem; border-radius: 12px; margin-top: 8px; }
+
+    /* ===== AUTH GATE ===== */
+    .auth-gate-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--black);
+      padding: 48px 56px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.12);
+      animation: slideUp 0.4s ease both;
+    }
+    .auth-gate-card p { font-size: 1.1rem; color: var(--gray-600); margin-bottom: 28px; }
+    .auth-gate-sep { font-size: 1.1rem; color: var(--gray-400); margin: 16px 0; }
+
+    /* ===== DASHBOARD ===== */
+    .dashboard-layout { display: flex; min-height: calc(100vh - 68px - 46px); }
+    .sidebar {
+      width: 260px;
+      background: var(--white);
+      border-right: 2px solid var(--black);
+      padding: 28px 0;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-user { padding: 0 24px 24px; border-bottom: 1px solid var(--gray-200); margin-bottom: 16px; }
+    .sidebar-avatar {
+      width: 56px; height: 56px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .sidebar-name { font-weight: 700; font-size: 0.95rem; }
+    .sidebar-role { font-size: 0.78rem; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .sidebar-nav { flex: 1; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover { background: var(--gray-50); color: var(--black); }
+    .nav-item.active { background: #fff8ec; color: var(--orange); font-weight: 700; border-left-color: var(--orange); }
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .sidebar-logout {
+      padding: 16px 24px 0;
+      border-top: 1px solid var(--gray-200);
+    }
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ef4444;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 10px 0;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      transition: var(--transition);
+    }
+    .logout-btn:hover { color: #dc2626; }
+    .dashboard-main { flex: 1; padding: 32px; overflow-y: auto; }
+    .dashboard-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+    .dashboard-sub { color: var(--gray-500); margin-bottom: 28px; font-size: 0.9rem; }
+
+    /* STATS CARDS */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+    .stat-card {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    }
+    .stat-card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .stat-card-value { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--black); }
+    .stat-card-label { font-size: 0.8rem; color: var(--gray-500); margin-top: 4px; }
+
+    /* TABLE */
+    .section-card {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .section-card-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 0.78rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; padding: 0 12px 12px; text-align: left; border-bottom: 2px solid var(--gray-200); }
+    td { padding: 14px 12px; font-size: 0.88rem; border-bottom: 1px solid var(--gray-100); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--gray-50); }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .badge-green { background: #dcfce7; color: #16a34a; }
+    .badge-orange { background: #fff7ed; color: #ea580c; }
+    .badge-blue { background: #dbeafe; color: #2563eb; }
+    .badge-gray { background: var(--gray-100); color: var(--gray-600); }
+
+    /* PROGRESS BAR */
+    .progress-bar { height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--orange); border-radius: 4px; transition: width 0.6s ease; }
+
+    /* EMPLOYEE DASHBOARD ENROLLED */
+    .enrolled-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .enrolled-card {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: var(--transition);
+    }
+    .enrolled-card:hover { border-color: var(--orange); box-shadow: var(--shadow); }
+    .enrolled-cat { font-size: 0.75rem; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .enrolled-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 12px; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-card {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 8px 8px 0 var(--black);
+      animation: slideUp 0.3s ease both;
+    }
+    .modal-card h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+    .modal-card p { color: var(--gray-600); font-size: 0.9rem; margin-bottom: 24px; }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+    .btn-danger { background: #ef4444; color: white; border: 2px solid var(--black); font-family: var(--font-body); font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+
+    /* ALERT */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .alert-error { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; }
+    .alert-success { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
+
+    /* QUIZ */
+    .quiz-card {
+      background: var(--card-bg);
+      border: 2px solid var(--black);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      max-width: 680px;
+      margin: 32px auto;
+      box-shadow: var(--shadow-lg);
+    }
+    .quiz-progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.85rem; color: var(--gray-500); font-weight: 600; }
+    .quiz-question { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 24px; }
+    .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+    .quiz-option {
+      border: 2px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 14px 18px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quiz-option:hover { border-color: var(--orange); background: #fff8ec; }
+    .quiz-option.selected { border-color: var(--orange); background: #fff8ec; }
+    .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+    .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+    .quiz-nav { display: flex; justify-content: space-between; margin-top: 28px; }
+
+    /* CERTIFICATE */
+    .certificate-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border: 3px solid var(--orange);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      max-width: 700px;
+      margin: 32px auto;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-decoration {
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 200px; height: 200px;
+      border: 3px solid rgba(232,148,26,0.3);
+      border-radius: 50%;
+    }
+    .cert-decoration2 {
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 160px; height: 160px;
+      border: 3px solid rgba(232,148,26,0.2);
+      border-radius: 50%;
+    }
+    .cert-logo { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: var(--orange); margin-bottom: 8px; }
+    .cert-title { font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 32px; }
+    .cert-presents { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+    .cert-name { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--orange); margin-bottom: 16px; }
+    .cert-completed { font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+    .cert-course { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 32px; }
+    .cert-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,148,26,0.2); border: 1px solid var(--orange); border-radius: 50px; padding: 10px 24px; font-size: 0.88rem; color: var(--orange); margin-bottom: 24px; }
+    .cert-date { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+
+    /* REPORT */
+    .report-chart { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 12px; height: 140px; }
+    .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .chart-bar { width: 100%; background: var(--orange); border-radius: 6px 6px 0 0; transition: height 0.6s ease; min-height: 4px; }
+    .chart-bar-label { font-size: 0.72rem; color: var(--gray-500); font-weight: 600; text-align: center; }
+    .chart-bar-val { font-size: 0.75rem; font-weight: 700; color: var(--black); }
+
+    /* RESPONSIVE HELPERS */
+    @media (max-width: 900px) {
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
+      .course-detail-card { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .enrolled-grid { grid-template-columns: repeat(2, 1fr); }
+      .trainer-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .courses-grid { grid-template-columns: 1fr; }
+      .auth-card { padding: 28px 24px; }
+      .navbar { padding: 0 16px; }
+      .dashboard-main { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useContext, createContext, useCallback } = React;
+
+// ===== DATA =====
+const COURSES_DATA = [
+  {
+    id: 'linux', category: 'Linux', title: 'Learn the fundamentals of linux',
+    desc: 'Employees who learn the fundamentals of Linux in this formation will gain the ability to navigate the command line, manage files and processes, understand the file system hierarchy, and apply essential commands for system administration and daily operations.',
+    hours: 70, employees: 15234, language: 'Arabic', certificate: true,
+    image: 'images/linux.png',
+    outline: [
+      { lesson: 'Introduction to Linux & Shell', duration: '12 min', type: 'Video' },
+      { lesson: 'Filesystem Hierarchy and Navigation', duration: '20 min', type: 'Video' },
+      { lesson: 'Basic File Operations (ls, cp, mv, rm)', duration: '18 min', type: 'Video' },
+      { lesson: 'Permission and Ownership', duration: '22 min', type: 'Video' },
+      { lesson: 'Process Management', duration: '18 min', type: 'Video' },
+      { lesson: 'Networking Basics & Practical Exercises', duration: '26 min', type: 'Live Workshop' }
+    ],
+    trainer: { name: 'SAADI Maria', role: 'Computer scientist & Instructor', rating: 4.9, reviews: 12000, employees: 15234, courses: 10, about: 'A third year bachelor degree Computer Science at university of Algiers 1.' }
+  },
+  {
+    id: 'softskills', category: 'Soft Skills', title: 'Management & Leadership Trainings',
+    desc: 'Management & Leadership Trainings are structured programs designed to develop essential skills in strategic thinking, decision-making, communication, and team empowerment to help leaders effectively guide organizations toward achieving their goals.',
+    hours: 90, employees: 20134, language: 'Arabic', certificate: true,
+    image: 'images/Management.png',
+    outline: [
+      { lesson: 'Leadership styles and self-awareness', duration: '15 min', type: 'Video' },
+      { lesson: 'Communication skills for managers', duration: '18 min', type: 'Video' },
+      { lesson: 'Team building & conflict resolution', duration: '22 min', type: 'Workshop' },
+      { lesson: 'Decision making and problem solving', duration: '20 min', type: 'Video' },
+      { lesson: 'Change management in corporate culture', duration: '25 min', type: 'Video' }
+    ],
+    trainer: { name: 'BENALI Ahmed', role: 'HR Specialist & Coach', rating: 4.7, reviews: 9800, employees: 20134, courses: 8, about: 'Senior HR manager with 15+ years of experience in leadership training and organizational development.' }
+  },
+  {
+    id: 'techskills', category: 'Tech Skills', title: 'Digital Transformation & Future Skills',
+    desc: 'Digital Transformation & Future Skills focus on equipping individuals and organizations with the technological literacy, adaptability, and innovation mindset needed to thrive in a rapidly evolving digital economy.',
+    hours: 90, employees: 18745, language: 'Arabic', certificate: true,
+    image: 'images/Digital.png',
+    outline: [
+      { lesson: 'Digital maturity assessment', duration: '14 min', type: 'Video' },
+      { lesson: 'Emerging technologies (AI, IoT, Cloud)', duration: '20 min', type: 'Video' },
+      { lesson: 'Data-driven decision making', duration: '18 min', type: 'Case study' },
+      { lesson: 'Business process automation', duration: '22 min', type: 'Workshop' },
+      { lesson: 'Digital transformation roadmap', duration: '24 min', type: 'Project' }
+    ],
+    trainer: { name: 'OUALI Karim', role: 'Digital Transformation Expert', rating: 4.8, reviews: 11000, employees: 18745, courses: 12, about: 'Expert in digital strategy and business transformation with a decade of consulting experience.' }
+  },
+  {
+    id: 'ecoenergy', category: 'Eco Energy', title: 'Energy Transition & Sustainability',
+    desc: 'Energy Transition & Sustainability emphasize shifting from fossil fuels to renewable energy sources while promoting responsible resource use, innovation, and environmental stewardship to ensure a resilient and low-carbon future.',
+    hours: 95, employees: 45000, language: 'Arabic', certificate: true,
+    image: 'images/energy.jpg',
+    outline: [
+      { lesson: 'Renewable energy basics', duration: '15 min', type: 'Video' },
+      { lesson: 'Energy policy & regulation', duration: '18 min', type: 'Video' },
+      { lesson: 'Sustainability metrics', duration: '20 min', type: 'Workshop' },
+      { lesson: 'Carbon footprint reduction strategies', duration: '22 min', type: 'Video' },
+      { lesson: 'Case study: successful transition programs', duration: '25 min', type: 'Case study' }
+    ],
+    trainer: { name: 'HAMDI Lyes', role: 'Energy Engineer & Researcher', rating: 4.9, reviews: 22000, employees: 45000, courses: 6, about: 'PhD in Renewable Energy Systems. Passionate about sustainable development and energy policy in Algeria.' }
+  },
+  {
+    id: 'cybersafety', category: 'Cyber Safety', title: 'Cybersecurity & Digital Safety',
+    desc: 'Cybersecurity & Digital Safety involve protecting systems, data, and individuals from digital threats by implementing secure practices, technologies, and awareness strategies to ensure privacy, resilience, and trust in the digital environment.',
+    hours: 80, employees: 40500, language: 'Arabic', certificate: true,
+    image: 'images/cyber.png',
+    outline: [
+      { lesson: 'Threat modeling and security mindset', duration: '14 min', type: 'Video' },
+      { lesson: 'Network security fundamentals', duration: '18 min', type: 'Video' },
+      { lesson: 'Phishing & social engineering', duration: '16 min', type: 'Workshop' },
+      { lesson: 'Endpoint hardening practices', duration: '20 min', type: 'Video' },
+      { lesson: 'Incident response workflow', duration: '25 min', type: 'Simulation' }
+    ],
+    trainer: { name: 'MEZIANE Sara', role: 'Cybersecurity Analyst', rating: 4.8, reviews: 18000, employees: 40500, courses: 9, about: 'Certified ethical hacker and security consultant with expertise in industrial network security.' }
+  },
+  {
+    id: 'rd', category: 'R&D', title: 'Research, Innovation & Knowledge Capital',
+    desc: 'Research, Innovation & Knowledge Capital center on generating new ideas, advancing technologies, and leveraging intellectual assets to drive organizational growth, competitiveness, and long-term value creation.',
+    hours: 30, employees: 45500, language: 'Arabic', certificate: true,
+    image: 'images/research.png',
+    outline: [
+      { lesson: 'Research methodologies and stages', duration: '12 min', type: 'Video' },
+      { lesson: 'Idea generation and evaluation', duration: '16 min', type: 'Seminar' },
+      { lesson: 'Innovation lifecycle', duration: '18 min', type: 'Video' },
+      { lesson: 'Knowledge management tools', duration: '20 min', type: 'Workshop' },
+      { lesson: 'R&D in energy sector case study', duration: '22 min', type: 'Case study' }
+    ],
+    trainer: { name: 'TALEB Nadia', role: 'Research Scientist', rating: 4.6, reviews: 15000, employees: 45500, courses: 5, about: 'PhD researcher specializing in innovation management and knowledge transfer in the oil & gas sector.' }
+  }
+];
+
+const QUIZ_QUESTIONS = [
+  { q: 'What does the Linux command "ls" do?', options: ['List files and directories', 'Load system', 'Log status', 'Launch server'], correct: 0 },
+  { q: 'Which command is used to change directory in Linux?', options: ['mkdir', 'cd', 'mv', 'rm'], correct: 1 },
+  { q: 'What does "sudo" stand for?', options: ['Super User Do', 'System Update Do', 'Secure User Domain', 'Switch User Default'], correct: 0 },
+  { q: 'Which file contains user account information in Linux?', options: ['/etc/passwd', '/etc/users', '/home/users', '/var/passwd'], correct: 0 },
+  { q: 'What is the root directory in Linux?', options: ['/root', '/', '/home', '/bin'], correct: 1 }
+];
+
+// ===== TRANSLATIONS =====
+const TRANSLATIONS = {
+  en: {
+    language: 'Language',
+    english: 'English',
+    arabic: 'العربية',
+    french: 'Français',
+    dashboard: 'Dashboard',
+    logout: 'Logout',
+    login: 'Login',
+    signup: 'Sign-up',
+    discoverCourses: 'Discover available courses',
+    sonaTech: 'SonaTech',
+    empoweringDigitalLearning: 'Empowering digital learning',
+    browseCourses: 'Browse Courses',
+    searchCourse: 'Search course',
+    startButton: 'Start',
+    courseDetails: 'Course details',
+    trainerReviews: 'Trainer & Reviews',
+    faqPolicy: 'FAQ & Policy',
+    enrolledCourse: 'Enrolled course',
+    courseRoadmap: 'Your Course Roadmap',
+    nextRecommendedCourses: 'Next recommended courses',
+    gotoQuiz: 'Go to quiz for this course',
+    courseOutline: 'Course outline & videos',
+    platformDesc: 'SonaTech is an educative platform destinated to Sonatrach\'s employees to enhance their skills in various fields'
+  },
+  ar: {
+    language: 'اللغة',
+    english: 'English',
+    arabic: 'العربية',
+    french: 'Français',
+    dashboard: 'لوحة التحكم',
+    logout: 'تسجيل الخروج',
+    login: 'تسجيل الدخول',
+    signup: 'إنشاء حساب',
+    discoverCourses: 'اكتشف الدورات المتاحة',
+    sonaTech: 'سونا تك',
+    empoweringDigitalLearning: 'تمكين التعلم الرقمي',
+    browseCourses: 'تصفح الدورات',
+    searchCourse: 'البحث عن دورة',
+    startButton: 'ابدأ',
+    courseDetails: 'تفاصيل الدورة',
+    trainerReviews: 'المدرب والتقييمات',
+    faqPolicy: 'الأسئلة الشائعة والسياسة',
+    enrolledCourse: 'الدورة المسجلة',
+    courseRoadmap: 'خريطة طريق الدورة',
+    nextRecommendedCourses: 'الدورات الموصى بها التالية',
+    gotoQuiz: 'انتقل إلى الاختبار لهذه الدورة',
+    courseOutline: 'مخطط الدورة والفيديوهات',
+    platformDesc: 'سونا تك هي منصة تعليمية موجهة لموظفي سوناطراك لتحسين مهاراتهم في مختلف المجالات'
+  },
+  fr: {
+    language: 'Langue',
+    english: 'English',
+    arabic: 'العربية',
+    french: 'Français',
+    dashboard: 'Tableau de bord',
+    logout: 'Déconnexion',
+    login: 'Connexion',
+    signup: 'S\'inscrire',
+    discoverCourses: 'Découvrez les cours disponibles',
+    sonaTech: 'SonaTech',
+    empoweringDigitalLearning: 'Autonomiser l\'apprentissage numérique',
+    browseCourses: 'Parcourir les cours',
+    searchCourse: 'Rechercher un cours',
+    startButton: 'Commencer',
+    courseDetails: 'Détails du cours',
+    trainerReviews: 'Formateur et avis',
+    faqPolicy: 'FAQ et politique',
+    enrolledCourse: 'Cours inscrit',
+    courseRoadmap: 'Votre feuille de route de cours',
+    nextRecommendedCourses: 'Prochains cours recommandés',
+    gotoQuiz: 'Aller au quiz pour ce cours',
+    courseOutline: 'Plan de cours et vidéos',
+    platformDesc: 'SonaTech est une plateforme éducative destinée aux employés de Sonatrach pour améliorer leurs compétences dans divers domaines'
+  }
+};
+
+// ===== COURSE TRANSLATIONS =====
+const COURSES_TRANSLATIONS = {
+  en: {
+    linux: { title: 'Learn the fundamentals of linux', desc: 'Employees who learn the fundamentals of Linux in this formation will gain the ability to navigate the command line, manage files and processes, understand the file system hierarchy, and apply essential commands for system administration and daily operations.' },
+    softskills: { title: 'Management & Leadership Trainings', desc: 'Management & Leadership Trainings are structured programs designed to develop essential skills in strategic thinking, decision-making, communication, and team empowerment to help leaders effectively guide organizations toward achieving their goals.' },
+    techskills: { title: 'Digital Transformation & Future Skills', desc: 'Digital Transformation & Future Skills focus on equipping individuals and organizations with the technological literacy, adaptability, and innovation mindset needed to thrive in a rapidly evolving digital economy.' },
+    ecoenergy: { title: 'Energy Transition & Sustainability', desc: 'Energy Transition & Sustainability emphasize shifting from fossil fuels to renewable energy sources while promoting responsible resource use, innovation, and environmental stewardship to ensure a resilient and low-carbon future.' },
+    cybersafety: { title: 'Cybersecurity & Digital Safety', desc: 'Cybersecurity & Digital Safety involve protecting systems, data, and individuals from digital threats by implementing secure practices, technologies, and awareness strategies to ensure privacy, resilience, and trust in the digital environment.' },
+    rd: { title: 'Research, Innovation & Knowledge Capital', desc: 'Research, Innovation & Knowledge Capital center on generating new ideas, advancing technologies, and leveraging intellectual assets to drive organizational growth, competitiveness, and long-term value creation.' }
+  },
+  ar: {
+    linux: { title: 'تعلم أساسيات لينكس', desc: 'الموظفون الذين يتعلمون أساسيات Linux في هذا التدريب سيكتسبون القدرة على التنقل في سطر الأوامر وإدارة الملفات والعمليات وفهم الهرمية النظام وتطبيق الأوامر الأساسية.' },
+    softskills: { title: 'تدريبات الإدارة والقيادة', desc: 'تدريبات الإدارة والقيادة هي برامج منظمة مصممة لتطوير المهارات الأساسية في التفكير الاستراتيجي واتخاذ القرارات والتواصل وتمكين الفريق لمساعدة القادة على توجيه المنظمات نحو تحقيق أهدافهم.' },
+    techskills: { title: 'التحول الرقمي ومهارات المستقبل', desc: 'يركز التحول الرقمي ومهارات المستقبل على تزويد الأفراد والمنظمات بالمعرفة التكنولوجية والتكيف والعقلية الابتكارية اللازمة للازدهار في اقتصاد رقمي سريع التطور.' },
+    ecoenergy: { title: 'انتقال الطاقة والاستدامة', desc: 'ينصب التركيز على الانتقال من الوقود الأحفوري إلى مصادر الطاقة المتجددة مع تعزيز الاستخدام المسؤول للموارد والابتكار والإشراف البيئي.' },
+    cybersafety: { title: 'الأمن السيبراني والسلامة الرقمية', desc: 'يتعلق الأمن السيبراني والسلامة الرقمية بحماية الأنظمة والبيانات والأفراد من التهديدات الرقمية من خلال تطبيق ممارسات آمنة وتقنيات آمنة واستراتيجيات الوعي.' },
+    rd: { title: 'البحث والابتكار ورأس المال المعرفي', desc: 'يركز البحث والابتكار ورأس المال المعرفي على توليد أفكار جديدة والتقدم التكنولوجي واستخدام الأصول الفكرية لدفع النمو التنظيمي والقدرة التنافسية.' }
+  },
+  fr: {
+    linux: { title: 'Apprenez les bases de linux', desc: 'Les employés qui apprennent les bases de Linux dans cette formation acquerront la capacité de naviguer en ligne de commande, de gérer les fichiers et les processus, de comprendre la hiérarchie du système de fichiers et d\'appliquer les commandes essentielles.' },
+    softskills: { title: 'Formation en gestion et leadership', desc: 'La formation en gestion et leadership est un programme structuré conçu pour développer les compétences essentielles en pensée stratégique, prise de décision, communication et autonomisation des équipes.' },
+    techskills: { title: 'Transformation numérique et compétences futures', desc: 'La transformation numérique et les compétences futures visent à équiper les individus et les organisations de la littératie technologique et de l\'esprit d\'innovation nécessaire pour prospérer dans une économie numérique en rapide évolution.' },
+    ecoenergy: { title: 'Transition énergétique et durabilité', desc: 'La transition énergétique et la durabilité mettent l\'accent sur le passage des combustibles fossiles aux sources d\'énergie renouvelables tout en promouvant l\'utilisation responsable des ressources et la gestion de l\'environnement.' },
+    cybersafety: { title: 'Cybersécurité et sécurité numérique', desc: 'La cybersécurité et la sécurité numérique impliquent la protection des systèmes, des données et des individus contre les menaces numériques en mettant en œuvre des pratiques sécurisées et des stratégies de sensibilisation.' },
+    rd: { title: 'Recherche, innovation et capital intellectuel', desc: 'La recherche, l\'innovation et le capital intellectuel se concentrent sur la génération de nouvelles idées, l\'avancement des technologies et l\'exploitation des actifs intellectuels pour stimuler la croissance organisationnelle.' }
+  }
+};
+
+const t = (key, lang = 'en') => TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en']?.[key] || key;
+const getCourseTranslation = (courseId, prop, lang = 'en') => COURSES_TRANSLATIONS[lang]?.[courseId]?.[prop] || COURSES_TRANSLATIONS['en']?.[courseId]?.[prop] || '';
+
+// ===== AUTH CONTEXT =====
+const AuthContext = createContext(null);
+const useAuth = () => useContext(AuthContext);
+
+// ===== ICONS (inline SVG) =====
+const Icon = {
+  Globe: () => <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+  Search: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>,
+  Back: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>,
+  Clock: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+  Users: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  Award: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>,
+  Star: () => <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  Play: () => <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"/><polygon points="10 8 16 12 10 16 10 8"/></svg>,
+  Email: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+  Lock: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  Person: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+  Home: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+  Book: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  Chart: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>,
+  Settings: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
+  LogOut: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>,
+  Plus: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+  Check: () => <svg width="14" height="14" fill="none" stroke="white" strokeWidth="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>,
+  ChevronDown: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>,
+  Trash: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>,
+  Edit: () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
+  FileText: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
+  Monitor: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+  Upload: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>,
+  HelpCircle: () => <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+};
+
+// ===== NAVBAR =====
+function Navbar({ onNavigate, currentUser, onLogout, language, onLanguageChange }) {
+  const [langOpen, setLangOpen] = useState(false);
+  
+  return (
+    <nav className="navbar">
+      <div className="navbar-brand" onClick={() => onNavigate('home')}>
+        <div className="navbar-logo">
+          <img src="images/Sonatrach.jpg" alt="SonaTech Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+        <span className="navbar-title">SonaTech</span>
+      </div>
+      <div className="navbar-actions">
+        <div style={{ position: 'relative' }}>
+          <button className="globe-btn" title={t('language', language)} onClick={() => setLangOpen(!langOpen)}>
+            <Icon.Globe />
+          </button>
+          {langOpen && (
+            <div style={{ position: 'absolute', top: '100%', right: 0, background: 'white', border: '2px solid var(--black)', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', zIndex: 1000, minWidth: '120px', marginTop: '4px' }}>
+              <button onClick={() => { onLanguageChange('en'); setLangOpen(false); }} style={{ display: 'block', width: '100%', padding: '10px 14px', border: 'none', background: language === 'en' ? 'var(--gray-100)' : 'transparent', cursor: 'pointer', textAlign: 'left', fontWeight: language === 'en' ? 700 : 400 }}>
+                English
+              </button>
+              <button onClick={() => { onLanguageChange('ar'); setLangOpen(false); }} style={{ display: 'block', width: '100%', padding: '10px 14px', border: 'none', borderTop: '1px solid var(--gray-200)', background: language === 'ar' ? 'var(--gray-100)' : 'transparent', cursor: 'pointer', textAlign: 'left', fontWeight: language === 'ar' ? 700 : 400 }}>
+                العربية
+              </button>
+              <button onClick={() => { onLanguageChange('fr'); setLangOpen(false); }} style={{ display: 'block', width: '100%', padding: '10px 14px', border: 'none', borderTop: '1px solid var(--gray-200)', background: language === 'fr' ? 'var(--gray-100)' : 'transparent', cursor: 'pointer', textAlign: 'left', fontWeight: language === 'fr' ? 700 : 400 }}>
+                Français
+              </button>
+            </div>
+          )}
+        </div>
+        {currentUser ? (
+          <>
+            <button className="btn-ghost" onClick={() => onNavigate('dashboard')}>{t('dashboard', language)}</button>
+            <button className="btn-primary" onClick={onLogout}>{t('logout', language)}</button>
+          </>
+        ) : (
+          <>
+            <button className="btn-ghost" onClick={() => onNavigate('login')}>{t('login', language)}</button>
+            <button className="btn-primary" onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+}
+
+// ===== FOOTER =====
+function Footer({ language = 'en' }) {
+  return (
+    <footer className="footer">
+      © 2026 SonaTech – <span>"{t('empoweringDigitalLearning', language)}"</span>
+    </footer>
+  );
+}
+
+// ===== HOME PAGE =====
+function HomePage({ onNavigate, language = 'en' }) {
+  return (
+    <div className="hero-section">
+      <div className="hero-card">
+        <h1>
+          {t('platformDesc', language)}
+        </h1>
+        <div style={{ display:'flex', gap:'12px', justifyContent:'center', flexWrap:'wrap' }}>
+          <button className="btn-primary" style={{padding:'12px 32px', fontSize:'1rem'}} onClick={() => onNavigate('login')}>{t('login', language)}</button>
+          <button className="btn-secondary" style={{padding:'12px 32px', fontSize:'1rem'}} onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
+        </div>
+      </div>
+      <button className="discover-btn" onClick={() => onNavigate('courses')}>
+        {t('discoverCourses', language)}
+      </button>
+    </div>
+  );
+}
+
+// ===== COURSES LISTING =====
+function CoursesPage({ onNavigate, currentUser, language = 'en' }) {
+  const [search, setSearch] = useState('');
+  const filtered = COURSES_DATA.filter(c => {
+    const courseTitle = getCourseTranslation(c.id, 'title', language);
+    return c.category.toLowerCase().includes(search.toLowerCase()) ||
+           courseTitle.toLowerCase().includes(search.toLowerCase());
+  });
+  const handleCourseClick = (course) => {
+    if (!currentUser) { onNavigate('auth-gate'); return; }
+    onNavigate('course-detail', { course });
+  };
+  return (
+    <div className="courses-page">
+      <div className="search-bar-wrap">
+        <button className="back-btn" onClick={() => onNavigate('home')}><Icon.Back /></button>
+        <div className="search-input-wrap">
+          <Icon.Search />
+          <input
+            type="text"
+            placeholder={t('searchCourse', language)}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="courses-grid">
+        {filtered.map((course, i) => (
+          <div key={course.id} className="course-card" style={{animationDelay:`${i*0.07}s`}} onClick={() => handleCourseClick(course)}>
+            <div className="course-card-header">{course.category}</div>
+            <img src={course.image} alt={course.title} className="course-card-img" onError={e => { e.target.onerror = null; e.target.src = 'images/placeholder-course.png'; }} />
+            <div className="course-card-img-placeholder" style={{display:'none'}}>{course.emoji}</div>
+            <div className="course-card-body">
+              <div style={{fontWeight:'700', fontSize:'0.9rem', marginBottom:'6px'}}>{getCourseTranslation(course.id, 'title', language)}</div>
+              <div className="course-card-desc" style={{WebkitLineClamp:2, display:'-webkit-box', WebkitBoxOrient:'vertical', overflow:'hidden'}}>
+                {getCourseTranslation(course.id, 'desc', language)}
+              </div>
+              <div style={{display:'flex', gap:'12px', marginTop:'10px', flexWrap:'wrap'}}>
+                <span style={{display:'flex',alignItems:'center',gap:'4px',fontSize:'0.78rem',color:'var(--gray-500)'}}>
+                  <Icon.Clock /> {course.hours}h
+                </span>
+                <span style={{display:'flex',alignItems:'center',gap:'4px',fontSize:'0.78rem',color:'var(--gray-500)'}}>
+                  <Icon.Users /> {course.employees.toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ===== AUTH GATE =====
+function AuthGatePage({ onNavigate, language = 'en' }) {
+  return (
+    <div className="auth-page">
+      <div className="auth-gate-card">
+        <p>You have to login or create account</p>
+        <button className="btn-primary btn-full" style={{marginBottom:'8px'}} onClick={() => onNavigate('login')}>{t('login', language)}</button>
+        <div className="auth-gate-sep">or</div>
+        <button className="btn-primary btn-full" onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
+        <button className="back-btn" style={{margin:'24px auto 0', display:'flex'}} onClick={() => onNavigate('courses')}><Icon.Back /></button>
+      </div>
+    </div>
+  );
+}
+
+// ===== COURSE DETAIL =====
+function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) {
+  const [tab, setTab] = useState('details');
+  const [faqOpen, setFaqOpen] = useState(null);
+  const [enrolled, setEnrolled] = useState(false);
+  const [enrollMsg, setEnrollMsg] = useState('');
+
+  const handleStart = () => {
+    setEnrolled(true);
+    setEnrollMsg('✅ Successfully enrolled! Showing course plan...');
+    onNavigate('course-plan', { course });
+  };
+
+  const faqs = [
+    { q: 'What are the prerequisites for this course?', a: 'No prior knowledge is required. This course is designed for all Sonatrach employees regardless of their technical background.' },
+    { q: 'How long do I have access to the course?', a: 'You will have unlimited access to the course materials for 12 months after enrollment.' },
+    { q: 'Is the certificate recognized officially?', a: 'Yes, the certificate is officially recognized by Sonatrach and the AST Division for internal career development purposes.' },
+    { q: 'Can I retake the quiz if I fail?', a: 'Yes, you may retake the assessment up to 3 times. A minimum score of 70% is required to receive the certificate.' }
+  ];
+
+  return (
+    <div className="course-detail-page">
+      <div style={{display:'flex', alignItems:'center', gap:'16px', padding:'14px 32px', background:'rgba(255,255,255,0.6)', backdropFilter:'blur(8px)'}}>
+        <button className="back-btn" onClick={() => onNavigate('courses')}><Icon.Back /></button>
+        <div className="tab-container">
+          {['details','trainer','faq'].map(tabName => (
+            <button key={tabName} className={`tab-btn ${tab===tabName?'active':''}`} onClick={() => setTab(tabName)}>
+              {tabName === 'details' ? t('courseDetails', language) : tabName === 'trainer' ? t('trainerReviews', language) : t('faqPolicy', language)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {enrollMsg && <div className="alert alert-success" style={{margin:'16px 32px 0'}}>{enrollMsg}</div>}
+
+      {tab === 'details' && (
+        <div className="course-detail-card">
+          <div>
+            <div className="course-badge">{course.category}</div>
+            <div className="course-detail-title">{getCourseTranslation(course.id, 'title', language)}</div>
+            <div className="course-detail-desc">{getCourseTranslation(course.id, 'desc', language)}</div>
+            <div className="course-meta">
+              <div className="meta-item"><Icon.Clock /> {course.hours}h</div>
+              <div className="meta-item"><Icon.Users /> {course.employees.toLocaleString()} employees</div>
+              <div className="meta-item"><Icon.Globe /> {course.language}</div>
+              <div className="meta-item"><Icon.Award /> Certificate included</div>
+            </div>
+            <button className="start-btn" onClick={handleStart}>Start</button>
+          </div>
+          <img src={course.image} alt={course.title} className="course-img-right" onError={e => { e.target.onerror = null; e.target.src = 'images/placeholder-course.png'; }} />
+          <div className="course-img-placeholder" style={{display:'none'}}>{course.emoji}</div>
+        </div>
+      )}
+
+      {tab === 'trainer' && (
+        <div className="trainer-card">
+          <div className="trainer-header">
+            <div className="trainer-avatar">👩‍💻</div>
+            <div>
+              <div className="trainer-name">{course.trainer.name}</div>
+              <div className="trainer-role">{course.trainer.role}</div>
+            </div>
+          </div>
+          <div className="trainer-stats">
+            {[
+              { icon: '⭐', val: course.trainer.rating, label: 'Instructor rating' },
+              { icon: '🏅', val: course.trainer.reviews.toLocaleString(), label: 'Reviews' },
+              { icon: '👥', val: course.trainer.employees.toLocaleString(), label: 'Employees' },
+              { icon: '▶️', val: course.trainer.courses, label: 'Courses' }
+            ].map((s, i) => (
+              <div key={i} className="stat-box">
+                <span className="stat-icon">{s.icon}</span>
+                <div>
+                  <div className="stat-value">{s.val}</div>
+                  <div className="stat-label">{s.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="trainer-about">
+            <h3>About {course.trainer.name.split(' ')[1]}</h3>
+            <p>{course.trainer.about}</p>
+          </div>
+        </div>
+      )}
+
+      {tab === 'faq' && (
+        <div className="faq-card">
+          <h2 style={{fontFamily:'var(--font-display)', fontWeight:'700', marginBottom:'24px'}}>Frequently Asked Questions</h2>
+          {faqs.map((f, i) => (
+            <div key={i} className="faq-item">
+              <div className="faq-q" onClick={() => setFaqOpen(faqOpen===i?null:i)}>
+                {f.q}
+                <Icon.ChevronDown />
+              </div>
+              <div className={`faq-a ${faqOpen===i?'open':''}`}>{f.a}</div>
+            </div>
+          ))}
+          <div style={{marginTop:'32px', padding:'20px', background:'var(--gray-50)', borderRadius:'12px', fontSize:'0.85rem', color:'var(--gray-600)'}}>
+            <strong>Policy:</strong> All course enrollments are subject to Sonatrach's internal training policy. Completion of this course is voluntary unless specified otherwise by your department manager. For any issues, contact your HR representative.
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CoursePlanPage({ course, onNavigate, language = 'en' }) {
+  const recommended = COURSES_DATA.filter(c => c.id !== course.id).slice(0, 4);
+
+  return (
+    <div className="course-detail-page">
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'20px' }}>
+        <button className="back-btn" onClick={() => onNavigate('course-detail', { course })}><Icon.Back /></button>
+        <h2 style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:'800' }}>{t('courseRoadmap', language)}</h2>
+      </div>
+
+      <div className="course-detail-card" style={{ gridTemplateColumns:'1fr' }}>
+        <div>
+          <p style={{ fontSize:'1rem', fontWeight:'600', marginBottom:'12px' }}>{t('enrolledCourse', language)}:</p>
+          <div className="course-detail-title" style={{ fontSize:'1.2rem', marginBottom:'8px' }}>{getCourseTranslation(course.id, 'title', language)}</div>
+          <div className="course-detail-desc">{getCourseTranslation(course.id, 'desc', language)}</div>
+
+          <div style={{ margin:'22px 0 10px', fontWeight:'800', color:'var(--gray-700)' }}>{t('courseOutline', language)}:</div>
+          <div style={{ display:'grid', gap:'10px', marginBottom:'16px' }}>
+            {course.outline?.map((item, index) => (
+              <div key={index} style={{ background:'#fff', border:'1px solid #ddd', borderRadius:'10px', padding:'12px 14px' }}>
+                <div style={{ fontWeight:'700' }}>{index + 1}. {item.lesson}</div>
+                <div style={{ fontSize:'0.82rem', color:'var(--gray-600)' }}>{item.type} • {item.duration}</div>
+              </div>
+            ))}
+            {!course.outline?.length && <div style={{ fontSize:'0.9rem', color:'var(--gray-500)' }}>Outline not available yet for this course.</div>}
+          </div>
+
+          <div style={{ margin:'12px 0 10px', fontWeight:'700', color:'var(--gray-700)' }}>{t('nextRecommendedCourses', language)}:</div>
+          {recommended.map((c) => (
+            <div key={c.id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff', border:'1px solid #ddd', borderRadius:'10px', padding:'10px 14px', marginBottom:'10px' }}>
+              <div>
+                <div style={{ fontWeight:'700' }}>{c.title}</div>
+                <div style={{ fontSize:'0.8rem', color:'var(--gray-600)' }}>{c.category} · {c.hours}h</div>
+              </div>
+              <button className="btn-secondary" style={{ padding:'6px 12px', fontSize:'0.75rem' }} onClick={() => onNavigate('course-detail', { course: c })}>Open</button>
+            </div>
+          ))}
+
+          <div style={{ marginTop:'20px' }}>
+            <button className="btn-primary" onClick={() => onNavigate('quiz', { course })}>Go to quiz for this course</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===== LOGIN PAGE =====
+function LoginPage({ onNavigate, onLogin, users, language = 'en' }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(true);
+  const [error, setError] = useState('');
+
+  const handleLogin = () => {
+    if (!email || !password) { setError('Please fill in all fields.'); return; }
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) { setError('Invalid email or password. Try: admin@sonatrach.dz / admin123'); return; }
+    onLogin(user);
+    onNavigate('dashboard');
+  };
+
+  return (
+    <div className="auth-page">
+      <button className="back-btn" style={{alignSelf:'flex-start', marginBottom:'16px'}} onClick={() => onNavigate('home')}><Icon.Back /></button>
+      <div style={{textAlign:'center', marginBottom:'16px'}}>
+        <h2 style={{fontFamily:'var(--font-display)', fontSize:'1.6rem', fontWeight:'800', color:'white', textShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>SonaTech Platform</h2>
+      </div>
+      <div className="auth-card">
+        {error && <div className="alert alert-error">{error}</div>}
+        <div className="form-group">
+          <label>Email</label>
+          <div className="input-with-icon">
+            <Icon.Person />
+            <input type="email" placeholder="Type your email here" value={email} onChange={e => setEmail(e.target.value)} />
+          </div>
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <div className="input-with-icon">
+            <Icon.Lock />
+            <input type="password" placeholder="Type your password" value={password} onChange={e => setPassword(e.target.value)}
+              onKeyDown={e => e.key==='Enter' && handleLogin()} />
+          </div>
+        </div>
+        <button className="btn-primary btn-full" onClick={handleLogin}>Login</button>
+        <div className="login-extras">
+          <div className="remember-me" onClick={() => setRemember(!remember)}>
+            <div className="remember-checkbox">{remember && <Icon.Check />}</div>
+            Remember me
+          </div>
+          <span className="forgot-link">Forgot password?</span>
+        </div>
+        <div style={{marginTop:'20px', padding:'12px', background:'var(--gray-50)', borderRadius:'10px', fontSize:'0.8rem', color:'var(--gray-600)'}}>
+          <strong>Demo accounts:</strong><br/>
+          admin@sonatrach.dz / admin123<br/>
+          trainer@sonatrach.dz / trainer123<br/>
+          employee@sonatrach.dz / emp123
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===== SIGNUP PAGE =====
+function SignupPage({ onNavigate, onLogin, language = 'en' }) {
+  const [form, setForm] = useState({ role:'', name:'', email:'', password:'', confirm:'' });
+  const [error, setError] = useState('');
+
+  const handleSignup = () => {
+    if (!form.role || !form.name || !form.email || !form.password || !form.confirm) { setError('Please fill all fields.'); return; }
+    if (form.password !== form.confirm) { setError('Passwords do not match.'); return; }
+    if (form.password.length < 6) { setError('Password must be at least 6 characters.'); return; }
+    onLogin({ email: form.email, name: form.name, role: form.role });
+    onNavigate('dashboard');
+  };
+
+  return (
+    <div className="auth-page">
+      <button className="back-btn" style={{alignSelf:'flex-start', marginBottom:'16px'}} onClick={() => onNavigate('home')}><Icon.Back /></button>
+      <div className="auth-card" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'32px', maxWidth:'820px', alignItems:'start'}}>
+        <div>
+          <h1>Sign-up</h1>
+          {error && <div className="alert alert-error">{error}</div>}
+          <div className="form-group">
+            <select className="select-input" value={form.role} onChange={e => setForm({...form, role:e.target.value})}>
+              <option value="">Role</option>
+              <option value="employee">Employee</option>
+              <option value="trainer">Trainer</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <input className="form-input" type="text" placeholder="Full Name" value={form.name} onChange={e => setForm({...form, name:e.target.value})} />
+          </div>
+          <div className="form-group">
+            <input className="form-input" type="email" placeholder="Email" value={form.email} onChange={e => setForm({...form, email:e.target.value})} />
+          </div>
+          <div className="form-group">
+            <input className="form-input" type="password" placeholder="Password" value={form.password} onChange={e => setForm({...form, password:e.target.value})} />
+          </div>
+          <div className="form-group">
+            <input className="form-input" type="password" placeholder="Confirm password" value={form.confirm} onChange={e => setForm({...form, confirm:e.target.value})} />
+          </div>
+        </div>
+        <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'16px', paddingTop:'60px'}}>
+          <button className="btn-primary" style={{padding:'14px 40px', fontSize:'1rem', borderRadius:'50px'}} onClick={handleSignup}>Sign-up</button>
+          <p className="auth-footer">Already have an account? <a onClick={() => onNavigate('login')}>Login</a></p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===== QUIZ PAGE =====
+function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
+  const [currentQ, setCurrentQ] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [answered, setAnswered] = useState(false);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+
+  const q = QUIZ_QUESTIONS[currentQ];
+
+  const handleSelect = (idx) => {
+    if (answered) return;
+    setSelected(idx);
+    setAnswered(true);
+    if (idx === q.correct) setScore(s => s+1);
+  };
+  const handleNext = () => {
+    if (currentQ < QUIZ_QUESTIONS.length - 1) {
+      setCurrentQ(c => c+1);
+      setSelected(null);
+      setAnswered(false);
+    } else {
+      setDone(true);
+    }
+  };
+
+  if (done) {
+    const pct = Math.round((score / QUIZ_QUESTIONS.length) * 100);
+    const passed = pct >= 70;
+    return (
+      <div style={{padding:'32px'}}>
+        <button className="back-btn" onClick={() => onNavigate('courses')}><Icon.Back /></button>
+        <div className="quiz-card" style={{textAlign:'center'}}>
+          <div style={{fontSize:'4rem', marginBottom:'16px'}}>{passed ? '🎉' : '📚'}</div>
+          <h2 style={{fontFamily:'var(--font-display)', fontWeight:'800', fontSize:'1.5rem', marginBottom:'8px'}}>
+            {passed ? 'Congratulations!' : 'Keep Learning!'}
+          </h2>
+          <p style={{color:'var(--gray-600)', marginBottom:'24px'}}>
+            You scored <strong>{score}/{QUIZ_QUESTIONS.length}</strong> ({pct}%)
+            {passed ? ' — You passed!' : ' — 70% required to pass.'}
+          </p>
+          <div style={{background: passed ? '#f0fdf4':'#fef2f2', border:`2px solid ${passed?'#86efac':'#fca5a5'}`, borderRadius:'12px', padding:'16px', marginBottom:'24px'}}>
+            <div style={{fontSize:'2rem', fontWeight:'800', color: passed?'#16a34a':'#dc2626'}}>{pct}%</div>
+            <div style={{fontSize:'0.85rem', color:'var(--gray-600)'}}>{passed?'Certificate earned!':'Try again to earn your certificate'}</div>
+          </div>
+          {passed && (
+            <button className="btn-primary" style={{marginRight:'12px'}} onClick={() => onNavigate('certificate', {course, userName: currentUser?.name || 'Employee'})}>
+              Download Certificate
+            </button>
+          )}
+          {!passed && (
+            <button className="btn-primary" onClick={() => { setCurrentQ(0); setSelected(null); setAnswered(false); setScore(0); setDone(false); }}>
+              Retry Quiz
+            </button>
+          )}
+          <button className="btn-secondary" style={{marginLeft:'12px'}} onClick={() => onNavigate('courses')}>Back to Courses</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{padding:'32px'}}>
+      <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'24px'}}>
+        <button className="back-btn" onClick={() => onNavigate('course-detail', {course})}><Icon.Back /></button>
+        <span style={{fontFamily:'var(--font-display)', fontWeight:'700', fontSize:'1.1rem'}}>{course.category} — Quiz</span>
+      </div>
+      <div className="quiz-card">
+        <div className="quiz-progress-header">
+          <span>Question {currentQ + 1} of {QUIZ_QUESTIONS.length}</span>
+          <span>Score: {score}</span>
+        </div>
+        <div className="progress-bar" style={{marginBottom:'24px'}}>
+          <div className="progress-fill" style={{width:`${((currentQ)/QUIZ_QUESTIONS.length)*100}%`}}></div>
+        </div>
+        <div className="quiz-question">{q.q}</div>
+        <div className="quiz-options">
+          {q.options.map((opt, i) => {
+            let cls = 'quiz-option';
+            if (answered) {
+              if (i === q.correct) cls += ' correct';
+              else if (i === selected) cls += ' wrong';
+            } else if (i === selected) cls += ' selected';
+            return (
+              <div key={i} className={cls} onClick={() => handleSelect(i)}>
+                <div style={{width:'24px', height:'24px', borderRadius:'50%', border:'2px solid currentColor', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.8rem', fontWeight:'700'}}>
+                  {String.fromCharCode(65+i)}
+                </div>
+                {opt}
+              </div>
+            );
+          })}
+        </div>
+        <div className="quiz-nav">
+          <div></div>
+          {answered && (
+            <button className="btn-primary" onClick={handleNext}>
+              {currentQ < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results'}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===== CERTIFICATE PAGE =====
+function CertificatePage({ course, userName, onNavigate, language = 'en' }) {
+  const today = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+  return (
+    <div style={{padding:'32px'}}>
+      <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'24px'}}>
+        <button className="back-btn" onClick={() => onNavigate('courses')}><Icon.Back /></button>
+        <span style={{fontFamily:'var(--font-display)', fontWeight:'700'}}>Certificate of Completion</span>
+        <button className="btn-primary" style={{marginLeft:'auto'}} onClick={() => window.print()}>
+          Download PDF
+        </button>
+      </div>
+      <div className="certificate-card">
+        <div className="cert-decoration"></div>
+        <div className="cert-decoration2"></div>
+        <div className="cert-logo">SonaTech</div>
+        <div className="cert-title">Certificate of Completion</div>
+        <div style={{fontSize:'3rem', marginBottom:'16px'}}>🏅</div>
+        <div className="cert-presents">This certifies that</div>
+        <div className="cert-name">{userName}</div>
+        <div className="cert-completed">has successfully completed</div>
+        <div className="cert-course">{course.title}</div>
+        <div className="cert-badge">
+          ⭐ {course.category} · {course.hours} hours · Certificate of Achievement
+        </div>
+        <div style={{width:'120px', height:'2px', background:'rgba(232,148,26,0.5)', margin:'24px auto'}}></div>
+        <div className="cert-date">Issued on {today} · Sonatrach AST Division</div>
+      </div>
+    </div>
+  );
+}
+
+// ===== ADMIN DASHBOARD =====
+function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: setGlobalUsers }) {
+  const [users, setUsers] = useState([
+    { id:1, name:'Ahmed Benali', email:'ahmed@sonatrach.dz', role:'employee', status:'active', enrolled:3 },
+    { id:2, name:'Sara Meziane', email:'sara@sonatrach.dz', role:'employee', status:'active', enrolled:1 },
+    { id:3, name:'SAADI Maria', email:'maria@sonatrach.dz', role:'trainer', status:'active', enrolled:0 },
+    { id:4, name:'Lyes Hamdi', email:'lyes@sonatrach.dz', role:'trainer', status:'active', enrolled:0 },
+    { id:5, name:'Karim Ouali', email:'karim@sonatrach.dz', role:'employee', status:'inactive', enrolled:2 },
+  ]);
+  const [showModal, setShowModal] = useState(false);
+  const [newUser, setNewUser] = useState({ name:'', email:'', password:'', role:'employee' });
+
+  return (
+    <div className="dashboard-main">
+      {activeNav === 'overview' && (
+        <>
+          <div className="dashboard-title">Welcome, Administrator 👋</div>
+          <div className="dashboard-sub">E-Learning Platform Overview</div>
+          <div className="stats-grid">
+            {[
+              { icon:'👥', val:'5', label:'Total Users' },
+              { icon:'📚', val:'6', label:'Courses' },
+              { icon:'✅', val:'124', label:'Completions' },
+              { icon:'📊', val:'87%', label:'Avg. Progress' }
+            ].map((s,i) => (
+              <div key={i} className="stat-card">
+                <div className="stat-card-icon">{s.icon}</div>
+                <div className="stat-card-value">{s.val}</div>
+                <div className="stat-card-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <div className="section-card">
+            <div className="section-card-title">📈 Monthly Enrollments</div>
+            <div className="report-chart">
+              <div className="chart-bars">
+                {[{m:'Jan',v:80},{m:'Feb',v:65},{m:'Mar',v:90},{m:'Apr',v:75},{m:'May',v:95},{m:'Jun',v:100}].map((b,i) => (
+                  <div key={i} className="chart-bar-wrap">
+                    <div className="chart-bar-val">{b.v}</div>
+                    <div className="chart-bar" style={{height:`${b.v}%`}}></div>
+                    <div className="chart-bar-label">{b.m}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {activeNav === 'users' && (
+        <>
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px'}}>
+            <div>
+              <div className="dashboard-title">Manage Users</div>
+              <div className="dashboard-sub">Create and manage employee & trainer accounts</div>
+            </div>
+            <button className="btn-primary" onClick={() => setShowModal(true)} style={{display:'flex', alignItems:'center', gap:'8px'}}>
+              <Icon.Plus /> Create Account
+            </button>
+          </div>
+          <div className="section-card">
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Enrolled</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                {users.map(u => (
+                  <tr key={u.id}>
+                    <td><strong>{u.name}</strong></td>
+                    <td style={{color:'var(--gray-500)'}}>{u.email}</td>
+                    <td><span className={`badge ${u.role==='admin'?'badge-blue':u.role==='trainer'?'badge-orange':'badge-gray'}`}>{u.role}</span></td>
+                    <td><span className={`badge ${u.status==='active'?'badge-green':'badge-gray'}`}>{u.status}</span></td>
+                    <td>{u.enrolled}</td>
+                    <td>
+                      <div style={{display:'flex', gap:'8px'}}>
+                        <button style={{background:'none', border:'1px solid var(--gray-200)', borderRadius:'6px', padding:'4px 8px', cursor:'pointer', color:'var(--gray-600)'}} onClick={() => {
+                          setUsers(users.map(x => x.id===u.id ? {...x, status: x.status==='active'?'inactive':'active'} : x));
+                        }}>
+                          {u.status==='active'?'Disable':'Enable'}
+                        </button>
+                        <button style={{background:'none', border:'1px solid #fca5a5', borderRadius:'6px', padding:'4px 8px', cursor:'pointer', color:'#dc2626'}} onClick={() => setUsers(users.filter(x => x.id!==u.id))}>
+                          <Icon.Trash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {showModal && (
+            <div className="modal-overlay" onClick={() => setShowModal(false)}>
+              <div className="modal-card" onClick={e => e.stopPropagation()}>
+                <h2>Create New Account</h2>
+                <div className="form-group">
+                  <label>Full Name</label>
+                  <input className="form-input" type="text" placeholder="Full name" value={newUser.name} onChange={e => setNewUser({...newUser, name:e.target.value})} />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input className="form-input" type="email" placeholder="email@sonatrach.dz" value={newUser.email} onChange={e => setNewUser({...newUser, email:e.target.value})} />
+                </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input className="form-input" type="password" placeholder="Set password" value={newUser.password} onChange={e => setNewUser({...newUser, password:e.target.value})} />
+                </div>
+                <div className="form-group">
+                  <label>Role</label>
+                  <select className="select-input" value={newUser.role} onChange={e => setNewUser({...newUser, role:e.target.value})}>
+                    <option value="employee">Employee</option>
+                    <option value="trainer">Trainer</option>
+                    <option value="admin">Administrator</option>
+                  </select>
+                </div>
+                <div className="modal-actions">
+                  <button className="btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                  <button className="btn-primary" onClick={() => {
+                    if (newUser.name && newUser.email && newUser.password) {
+                      const newUserObj = { email: newUser.email, password: newUser.password, role: newUser.role, name: newUser.name };
+                      setGlobalUsers([...globalUsers, newUserObj]);
+                      setUsers([...users, {id: Date.now(), ...newUser, status:'active', enrolled:0}]);
+                      setNewUser({name:'', email:'', password:'', role:'employee'});
+                      setShowModal(false);
+                    }
+                  }}>Create Account</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      {activeNav === 'courses' && (
+        <>
+          <div className="dashboard-title">Manage Courses</div>
+          <div className="dashboard-sub">Monitor and manage all platform courses</div>
+          <div className="section-card">
+            <table>
+              <thead>
+                <tr><th>Course</th><th>Category</th><th>Duration</th><th>Enrollments</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {COURSES_DATA.map(c => (
+                  <tr key={c.id}>
+                    <td><strong>{c.title}</strong></td>
+                    <td><span className="badge badge-orange">{c.category}</span></td>
+                    <td>{c.hours}h</td>
+                    <td>{c.employees.toLocaleString()}</td>
+                    <td><span className="badge badge-green">Active</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+      {activeNav === 'progress' && (
+        <>
+          <div className="dashboard-title">Monitor Progress</div>
+          <div className="dashboard-sub">Track employee learning progress across all courses</div>
+          <div className="section-card">
+            <table>
+              <thead>
+                <tr><th>Employee</th><th>Course</th><th>Progress</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {[
+                  { name:'Ahmed Benali', course:'Linux', progress:85, status:'In Progress' },
+                  { name:'Sara Meziane', course:'Cyber Safety', progress:100, status:'Completed' },
+                  { name:'Karim Ouali', course:'Tech Skills', progress:45, status:'In Progress' },
+                  { name:'Lyes Hamdi', course:'Eco Energy', progress:100, status:'Completed' },
+                  { name:'Nadia Taleb', course:'R&D', progress:30, status:'In Progress' }
+                ].map((r, i) => (
+                  <tr key={i}>
+                    <td><strong>{r.name}</strong></td>
+                    <td>{r.course}</td>
+                    <td>
+                      <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                        <div className="progress-bar" style={{flex:1}}>
+                          <div className="progress-fill" style={{width:`${r.progress}%`}}></div>
+                        </div>
+                        <span style={{fontSize:'0.82rem', fontWeight:'700', minWidth:'36px'}}>{r.progress}%</span>
+                      </div>
+                    </td>
+                    <td><span className={`badge ${r.status==='Completed'?'badge-green':'badge-blue'}`}>{r.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+      {activeNav === 'reports' && (
+        <>
+          <div className="dashboard-title">Generate Reports</div>
+          <div className="dashboard-sub">Platform analytics and statistics</div>
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px'}}>
+            <div className="section-card">
+              <div className="section-card-title">📊 Enrollment by Category</div>
+              {COURSES_DATA.map(c => (
+                <div key={c.id} style={{marginBottom:'16px'}}>
+                  <div style={{display:'flex', justifyContent:'space-between', marginBottom:'6px', fontSize:'0.85rem'}}>
+                    <span style={{fontWeight:'600'}}>{c.category}</span>
+                    <span style={{color:'var(--gray-500)'}}>{c.employees.toLocaleString()}</span>
+                  </div>
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{width:`${(c.employees/45500)*100}%`}}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="section-card">
+              <div className="section-card-title">🏆 Top Performing Courses</div>
+              <table>
+                <thead><tr><th>#</th><th>Course</th><th>Completions</th></tr></thead>
+                <tbody>
+                  {[...COURSES_DATA].sort((a,b) => b.employees-a.employees).slice(0,4).map((c,i) => (
+                    <tr key={c.id}>
+                      <td><strong>#{i+1}</strong></td>
+                      <td>{c.category}</td>
+                      <td><span className="badge badge-green">{Math.round(c.employees*0.72).toLocaleString()}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ===== TRAINER DASHBOARD =====
+function TrainerDashboard({ user, onNavigate }) {
+  const [activeNav, setActiveNav] = useState('courses');
+  const [showUpload, setShowUpload] = useState(false);
+  const [quizCreated, setQuizCreated] = useState(false);
+
+  return (
+    <div className="dashboard-main">
+      {activeNav === 'courses' && (
+        <>
+          <div className="dashboard-title">My Courses 📚</div>
+          <div className="dashboard-sub">Manage your course content</div>
+          <div className="section-card">
+            <div className="section-card-title" style={{justifyContent:'space-between'}}>
+              <span>Course List</span>
+              <button className="btn-primary" style={{fontSize:'0.85rem', padding:'8px 16px'}} onClick={() => setShowUpload(true)}>
+                + Upload Materials
+              </button>
+            </div>
+            <table>
+              <thead><tr><th>Course</th><th>Enrolled</th><th>Avg. Score</th><th>Actions</th></tr></thead>
+              <tbody>
+                {COURSES_DATA.slice(0,3).map(c => (
+                  <tr key={c.id}>
+                    <td><strong>{c.title}</strong></td>
+                    <td>{c.employees.toLocaleString()}</td>
+                    <td><span className="badge badge-green">78%</span></td>
+                    <td>
+                      <button style={{background:'none', border:'1px solid var(--gray-200)', borderRadius:'6px', padding:'4px 10px', cursor:'pointer', fontSize:'0.82rem'}}
+                        onClick={() => setActiveNav('quiz')}>Manage Quiz</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {showUpload && (
+            <div className="modal-overlay" onClick={() => setShowUpload(false)}>
+              <div className="modal-card" onClick={e => e.stopPropagation()}>
+                <h2>Upload Course Materials</h2>
+                <p>Upload PDFs, videos, or documents for your course.</p>
+                <div style={{border:'2px dashed var(--gray-300)', borderRadius:'12px', padding:'40px', textAlign:'center', cursor:'pointer', marginBottom:'20px', background:'var(--gray-50)'}}>
+                  <div style={{fontSize:'2.5rem', marginBottom:'8px'}}>📁</div>
+                  <div style={{fontWeight:'600', marginBottom:'4px'}}>Drop files here</div>
+                  <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>PDF, MP4, PPTX, DOCX</div>
+                </div>
+                <div className="modal-actions">
+                  <button className="btn-secondary" onClick={() => setShowUpload(false)}>Cancel</button>
+                  <button className="btn-primary" onClick={() => setShowUpload(false)}>Upload</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      {activeNav === 'quiz' && (
+        <>
+          <div className="dashboard-title">Create Quiz ✏️</div>
+          <div className="dashboard-sub">Build assessments for your students</div>
+          {quizCreated && <div className="alert alert-success">Quiz created and published successfully!</div>}
+          <div className="section-card">
+            {QUIZ_QUESTIONS.slice(0,3).map((q, i) => (
+              <div key={i} style={{border:'2px solid var(--gray-200)', borderRadius:'12px', padding:'20px', marginBottom:'16px'}}>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:'12px'}}>
+                  <strong style={{fontSize:'0.92rem'}}>Q{i+1}: {q.q}</strong>
+                  <button style={{background:'none', border:'none', cursor:'pointer', color:'var(--gray-400)'}}><Icon.Edit /></button>
+                </div>
+                {q.options.map((opt, oi) => (
+                  <div key={oi} style={{display:'flex', alignItems:'center', gap:'8px', padding:'6px 10px', borderRadius:'8px', background: oi===q.correct?'#f0fdf4':'transparent', marginBottom:'4px', fontSize:'0.85rem'}}>
+                    <span style={{width:'20px', height:'20px', borderRadius:'50%', background: oi===q.correct?'#16a34a':'var(--gray-200)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.7rem', color: oi===q.correct?'white':'var(--gray-600)', flexShrink:0, fontWeight:'700'}}>{String.fromCharCode(65+oi)}</span>
+                    {opt}
+                    {oi===q.correct && <span style={{marginLeft:'auto', fontSize:'0.75rem', color:'#16a34a', fontWeight:'700'}}>✓ Correct</span>}
+                  </div>
+                ))}
+              </div>
+            ))}
+            <button className="btn-primary" onClick={() => setQuizCreated(true)}>Publish Quiz</button>
+          </div>
+        </>
+      )}
+      {activeNav === 'results' && (
+        <>
+          <div className="dashboard-title">View Results 📊</div>
+          <div className="dashboard-sub">Student performance analytics</div>
+          <div className="stats-grid" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
+            {[{icon:'👥', val:'2,341', label:'Students'}, {icon:'✅', val:'1,876', label:'Completed'}, {icon:'📈', val:'78%', label:'Avg. Score'}].map((s,i) => (
+              <div key={i} className="stat-card">
+                <div className="stat-card-icon">{s.icon}</div>
+                <div className="stat-card-value">{s.val}</div>
+                <div className="stat-card-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <div className="section-card">
+            <div className="section-card-title">Recent Quiz Results</div>
+            <table>
+              <thead><tr><th>Student</th><th>Course</th><th>Score</th><th>Date</th><th>Status</th></tr></thead>
+              <tbody>
+                {[
+                  {name:'Ahmed B.', course:'Linux', score:85, date:'2026-03-20', passed:true},
+                  {name:'Sara M.', course:'Cyber Safety', score:92, date:'2026-03-19', passed:true},
+                  {name:'Karim O.', course:'Tech Skills', score:60, date:'2026-03-18', passed:false},
+                  {name:'Nadia T.', course:'R&D', score:78, date:'2026-03-17', passed:true},
+                ].map((r,i) => (
+                  <tr key={i}>
+                    <td><strong>{r.name}</strong></td>
+                    <td>{r.course}</td>
+                    <td><strong>{r.score}%</strong></td>
+                    <td style={{color:'var(--gray-500)'}}>{r.date}</td>
+                    <td><span className={`badge ${r.passed?'badge-green':'badge-orange'}`}>{r.passed?'Passed':'Failed'}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ===== EMPLOYEE DASHBOARD =====
+function EmployeeDashboard({ user, onNavigate }) {
+  const [activeNav, setActiveNav] = useState('home');
+  const [enrolled] = useState([
+    { course: COURSES_DATA[0], progress: 85, completed: false },
+    { course: COURSES_DATA[4], progress: 100, completed: true },
+    { course: COURSES_DATA[2], progress: 30, completed: false }
+  ]);
+
+  return (
+    <div className="dashboard-main">
+      {activeNav === 'home' && (
+        <>
+          <div className="dashboard-title">Welcome, {user.name} 👋</div>
+          <div className="dashboard-sub">Continue your learning journey</div>
+          <div className="stats-grid" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
+            {[
+              {icon:'📚', val:enrolled.length, label:'Enrolled Courses'},
+              {icon:'✅', val:enrolled.filter(e=>e.completed).length, label:'Completed'},
+              {icon:'🏅', val:'1', label:'Certificates Earned'}
+            ].map((s,i) => (
+              <div key={i} className="stat-card">
+                <div className="stat-card-icon">{s.icon}</div>
+                <div className="stat-card-value">{s.val}</div>
+                <div className="stat-card-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <div className="section-card">
+            <div className="section-card-title">📚 My Enrolled Courses</div>
+            <div className="enrolled-grid">
+              {enrolled.map((e, i) => (
+                <div key={i} className="enrolled-card">
+                  <div className="enrolled-cat">{e.course.category}</div>
+                  <div className="enrolled-title">{e.course.title}</div>
+                  <div style={{marginBottom:'10px'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.78rem', color:'var(--gray-500)', marginBottom:'4px'}}>
+                      <span>Progress</span><span style={{fontWeight:'700'}}>{e.progress}%</span>
+                    </div>
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{width:`${e.progress}%`}}></div>
+                    </div>
+                  </div>
+                  <button className="btn-primary" style={{fontSize:'0.82rem', padding:'7px 16px', width:'100%'}}
+                    onClick={() => onNavigate('quiz', {course: e.course})}>
+                    {e.completed ? 'Retake Quiz' : 'Continue'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="section-card">
+            <div className="section-card-title">🎯 Explore More Courses</div>
+            <button className="btn-primary" onClick={() => onNavigate('courses')}>Browse All Courses</button>
+          </div>
+        </>
+      )}
+      {activeNav === 'certificates' && (
+        <>
+          <div className="dashboard-title">My Certificates 🏅</div>
+          <div className="dashboard-sub">Download your earned certificates</div>
+          <div style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'16px'}}>
+            {enrolled.filter(e => e.completed).map((e, i) => (
+              <div key={i} className="section-card" style={{textAlign:'center'}}>
+                <div style={{fontSize:'3rem', marginBottom:'12px'}}>🏅</div>
+                <div style={{fontWeight:'700', marginBottom:'4px'}}>{e.course.title}</div>
+                <div style={{fontSize:'0.82rem', color:'var(--gray-500)', marginBottom:'16px'}}>{e.course.category}</div>
+                <button className="btn-primary" style={{fontSize:'0.85rem'}}
+                  onClick={() => onNavigate('certificate', {course: e.course, userName: user.name})}>
+                  Download Certificate
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ===== DASHBOARD PAGE =====
+function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language = 'en' }) {
+  const [activeNav, setActiveNav] = useState('overview');
+
+  const navItems = {
+    admin: [
+      { id:'overview', label:'Overview', icon:'Home' },
+      { id:'users', label:'Manage Users', icon:'Users' },
+      { id:'courses', label:'Manage Courses', icon:'Book' },
+      { id:'progress', label:'Monitor Progress', icon:'Monitor' },
+      { id:'reports', label:'Generate Reports', icon:'Chart' }
+    ],
+    trainer: [
+      { id:'courses', label:'My Courses', icon:'Book' },
+      { id:'quiz', label:'Create Quiz', icon:'HelpCircle' },
+      { id:'results', label:'View Results', icon:'Chart' }
+    ],
+    employee: [
+      { id:'home', label:'My Learning', icon:'Home' },
+      { id:'certificates', label:'Certificates', icon:'Award' }
+    ]
+  };
+
+  const items = navItems[user.role] || navItems.employee;
+
+  const renderMain = () => {
+    if (user.role === 'admin') return <AdminDashboard onNavigate={onNavigate} activeNav={activeNav} setActiveNav={setActiveNav} />;
+    if (user.role === 'trainer') return <TrainerDashboard user={user} onNavigate={onNavigate} />;
+    return <EmployeeDashboard user={user} onNavigate={onNavigate} />;
+  };
+
+  // For admin, sync nav
+  const AdminMain = () => {
+    const [nav, setNav] = useState('overview');
+    const adminItems = navItems.admin;
+    return (
+      <div className="dashboard-layout">
+        <aside className="sidebar">
+          <div className="sidebar-user">
+            <div className="sidebar-avatar">{user.name[0]}</div>
+            <div className="sidebar-name">{user.name}</div>
+            <div className="sidebar-role">{user.role}</div>
+          </div>
+          <nav className="sidebar-nav">
+            {adminItems.map(item => (
+              <div key={item.id} className={`nav-item ${nav===item.id?'active':''}`} onClick={() => setNav(item.id)}>
+                {Icon[item.icon] ? React.createElement(Icon[item.icon]) : null}
+                {item.label}
+              </div>
+            ))}
+          </nav>
+          <div className="sidebar-logout">
+            <button className="logout-btn" onClick={onLogout}><Icon.LogOut /> Logout</button>
+          </div>
+        </aside>
+        <div style={{flex:1, overflowY:'auto'}}>
+          <AdminDashboard activeNav={nav} users={users} setUsers={setUsers} />
+        </div>
+      </div>
+    );
+  };
+
+  const TrainerMain = () => {
+    const [nav, setNav] = useState('courses');
+    return (
+      <div className="dashboard-layout">
+        <aside className="sidebar">
+          <div className="sidebar-user">
+            <div className="sidebar-avatar">{user.name[0]}</div>
+            <div className="sidebar-name">{user.name}</div>
+            <div className="sidebar-role">{user.role}</div>
+          </div>
+          <nav className="sidebar-nav">
+            {navItems.trainer.map(item => (
+              <div key={item.id} className={`nav-item ${nav===item.id?'active':''}`} onClick={() => setNav(item.id)}>
+                {Icon[item.icon] ? React.createElement(Icon[item.icon]) : null}
+                {item.label}
+              </div>
+            ))}
+          </nav>
+          <div className="sidebar-logout">
+            <button className="logout-btn" onClick={onLogout}><Icon.LogOut /> Logout</button>
+          </div>
+        </aside>
+        <div style={{flex:1, overflowY:'auto'}}>
+          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} />
+        </div>
+      </div>
+    );
+  };
+
+  const EmployeeMain = () => {
+    const [nav, setNav] = useState('home');
+    return (
+      <div className="dashboard-layout">
+        <aside className="sidebar">
+          <div className="sidebar-user">
+            <div className="sidebar-avatar">{user.name[0]}</div>
+            <div className="sidebar-name">{user.name}</div>
+            <div className="sidebar-role">{user.role}</div>
+          </div>
+          <nav className="sidebar-nav">
+            {navItems.employee.map(item => (
+              <div key={item.id} className={`nav-item ${nav===item.id?'active':''}`} onClick={() => setNav(item.id)}>
+                {Icon[item.icon] ? React.createElement(Icon[item.icon]) : null}
+                {item.label}
+              </div>
+            ))}
+            <div className="nav-item" onClick={() => onNavigate('courses')}>
+              <Icon.Book /> Browse Courses
+            </div>
+          </nav>
+          <div className="sidebar-logout">
+            <button className="logout-btn" onClick={onLogout}><Icon.LogOut /> Logout</button>
+          </div>
+        </aside>
+        <div style={{flex:1, overflowY:'auto'}}>
+          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} />
+        </div>
+      </div>
+    );
+  };
+
+  if (user.role === 'admin') return <AdminMain />;
+  if (user.role === 'trainer') return <TrainerMain />;
+  return <EmployeeMain />;
+}
+
+// ===== APP (Router) =====
+function App() {
+  const [page, setPage] = useState('home');
+  const [pageData, setPageData] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [language, setLanguage] = useState('en');
+  const [users, setUsers] = useState([
+    { email: 'admin@sonatrach.dz', password: 'admin123', role: 'admin', name: 'Admin User' },
+    { email: 'trainer@sonatrach.dz', password: 'trainer123', role: 'trainer', name: 'SAADI Maria' },
+    { email: 'employee@sonatrach.dz', password: 'emp123', role: 'employee', name: 'Ahmed Benali' }
+  ]);
+
+  const navigate = (to, data = {}) => {
+    setPage(to);
+    setPageData(data);
+    window.scrollTo(0, 0);
+  };
+
+  const handleLogin = (user) => setCurrentUser(user);
+  const handleLogout = () => { setCurrentUser(null); navigate('home'); };
+
+  const renderPage = () => {
+    switch (page) {
+      case 'home': return <HomePage onNavigate={navigate} language={language} />;
+      case 'courses': return <CoursesPage onNavigate={navigate} currentUser={currentUser} language={language} />;
+      case 'auth-gate': return <AuthGatePage onNavigate={navigate} language={language} />;
+      case 'course-detail': return <CourseDetailPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} />;
+      case 'course-plan': return <CoursePlanPage course={pageData.course} onNavigate={navigate} language={language} />;
+      case 'login': return <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
+      case 'signup': return <SignupPage onNavigate={navigate} onLogin={handleLogin} language={language} />;
+      case 'dashboard': return currentUser ? <DashboardPage user={currentUser} onNavigate={navigate} onLogout={handleLogout} users={users} setUsers={setUsers} language={language} /> : <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
+      case 'quiz': return <QuizPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} />;
+      case 'certificate': return <CertificatePage course={pageData.course} userName={pageData.userName} onNavigate={navigate} language={language} />;
+      default: return <HomePage onNavigate={navigate} language={language} />;
+    }
+  };
+
+  const showNavbarFooter = !['dashboard'].includes(page);
+
+  return (
+    <>
+      <div className="page-bg"></div>
+      <div className="building-bg"></div>
+      <div id="root" style={{display:'flex', flexDirection:'column', minHeight:'100vh', position:'relative', zIndex:1}}>
+        <Navbar onNavigate={navigate} currentUser={currentUser} onLogout={handleLogout} language={language} onLanguageChange={setLanguage} />
+        <main className="page-content" style={{flex:1}}>
+          {renderPage()}
+        </main>
+        <Footer language={language} />
+      </div>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

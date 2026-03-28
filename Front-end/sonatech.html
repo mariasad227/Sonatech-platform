@@ -211,6 +211,13 @@
       box-shadow: var(--glass-shadow-lg);
       border-color: rgba(255,255,255,0.4);
     }
+    .btn-secondary.active {
+      background: var(--orange);
+      color: var(--white);
+      border-color: var(--orange-dark);
+      transform: translateY(0);
+      box-shadow: var(--glass-shadow);
+    }
     .globe-btn {
       background: none;
       border: none;
@@ -988,9 +995,10 @@
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script type="text/babel">
-const { useState, useEffect, useContext, createContext, useCallback } = React;
+const { useState, useEffect, useContext, createContext, useCallback, useRef } = React;
 
 // ===== DATA =====
 const COURSES_DATA = [
@@ -1114,7 +1122,112 @@ const TRANSLATIONS = {
     nextRecommendedCourses: 'Next recommended courses',
     gotoQuiz: 'Go to quiz for this course',
     courseOutline: 'Course outline & videos',
-    platformDesc: 'SonaTech is an educative platform destinated to Sonatrach\'s employees to enhance their skills in various fields'
+    authGateMessage: 'You have to login or create account',
+    faqSection: 'Frequently Asked Questions',
+    policyTitle: 'Policy',
+    policyText: 'All course enrollments are subject to Sonatrach\'s internal training policy. Completion of this course is voluntary unless specified otherwise by your department manager. For any issues, contact your HR representative.',
+    outlineNotAvailable: 'Outline not available yet for this course.',
+    open: 'Open',
+    backToCourses: 'Back to Courses',
+    rememberMe: 'Remember me',
+    forgotPassword: 'Forgot password?',
+    demoAccounts: 'Demo accounts:',
+    adminCreds: 'admin@sonatrach.dz / admin123',
+    trainerCreds: 'trainer@sonatrach.dz / trainer123',
+    employeeCreds: 'employee@sonatrach.dz / emp123',
+    fillAllFields: 'Please fill in all fields.',
+    invalidLogin: 'Invalid email or password. Try: admin@sonatrach.dz / admin123',
+    signupSuccess: 'Signup successful! Redirecting...',
+    signupFillAll: 'Please fill all fields.',
+    signupPasswordsMismatch: 'Passwords do not match.',
+    signupPasswordMin: 'Password must be at least 6 characters.',
+    alreadyHaveAccount: 'Already have an account? Login',
+    quizNextQuestion: 'Next Question →',
+    quizSeeResults: 'See Results',
+    quizCongratulations: 'Congratulations!',
+    quizKeepLearning: 'Keep Learning!',
+    quizPassedText: 'You passed!',
+    quizRetryText: 'Try again to earn your certificate',
+    quizCertificateEarned: 'Certificate earned!',
+    quizStart: 'Start Quiz',
+    quizScore: 'Score',
+    quizQuestion: 'Question',
+    goToQuizForCourse: 'Go to quiz for this course',
+    viewResults: 'View Results',
+    createQuiz: 'Create Quiz',
+    myCourses: 'My Courses',
+    manageUsers: 'Manage Users',
+    manageCourses: 'Manage Courses',
+    overview: 'Overview',
+    myLearning: 'My Learning',
+    certificates: 'Certificates',
+    monitorProgress: 'Monitor Progress',
+    generateReports: 'Generate Reports',
+    courses: 'Courses',
+    employees: 'Employees',
+    progress: 'Progress',
+    reports: 'Reports',
+    downloadCertificate: 'Download Certificate',
+    uploadMaterials: 'Upload Materials',
+    cancel: 'Cancel',
+    upload: 'Upload',
+    uploading: 'Uploading...',
+    quizInstruction: 'Build assessments for your students',
+    selectFiles: 'Drop files here or click to select',
+    selectedFiles: 'Selected files',
+    certificateIncluded: 'Certificate included',
+    about: 'About',
+    platformTitle: 'SonaTech Platform',
+    platformDesc: 'SonaTech is an educative platform destinated to Sonatrach’s employees to enhance their skills in various fields.',
+    email: 'Email',
+    password: 'Password',
+    typeYourEmail: 'Type your email here',
+    typeYourPassword: 'Type your password',
+    rememberMe: 'Remember me',
+    forgotPassword: 'Forgot password?',
+    demoAccountsText: 'Demo accounts:',
+    welcomeAdministrator: 'Welcome, Administrator 👋',
+    dashboardOverview: 'E-Learning Platform Overview',
+    totalUsers: 'Total Users',
+    coursesLabel: 'Courses',
+    completionsLabel: 'Completions',
+    averageProgress: 'Avg. Progress',
+    monthlyEnrollments: 'Monthly Enrollments',
+    createNewAccount: 'Create New Account',
+    fullName: 'Full Name',
+    setPassword: 'Set password',
+    role: 'Role',
+    status: 'Status',
+    enrolled: 'Enrolled',
+    userId: 'User ID',
+    manageCourseContent: 'Manage your course content',
+    courseList: 'Course List',
+    uploadCourseMaterials: 'Upload Course Materials',
+    uploadDescription: 'Upload PDFs, videos, or documents for your course.',
+    fileTypes: 'PDF, MP4, PPTX, DOCX',
+    uploadSuccess: 'Files uploaded successfully!',
+    publishQuiz: 'Publish Quiz',
+    quizCreatedSuccess: 'Quiz created and published successfully!',
+    viewResultsTitle: 'View Results 📊',
+    studentPerformanceAnalytics: 'Student performance analytics',
+    students: 'Students',
+    completed: 'Completed',
+    averageScore: 'Avg. Score',
+    recentQuizResults: 'Recent Quiz Results',
+    passed: 'Passed',
+    failed: 'Failed',
+    welcomeUser: 'Welcome, {name} 👋',
+    continueLearning: 'Continue your learning journey',
+    enrolledCourses: 'Enrolled Courses',
+    certificatesEarned: 'Certificates Earned',
+    myEnrolledCourses: 'My Enrolled Courses',
+    exploreMoreCourses: 'Explore More Courses',
+    browseAllCourses: 'Browse All Courses',
+    retakeQuiz: 'Retake Quiz',
+    continueBtn: 'Continue',
+    myCertificates: 'My Certificates 🏅',
+    downloadCertificates: 'Download your earned certificates'
+  
   },
   ar: {
     language: 'اللغة',
@@ -1139,7 +1252,115 @@ const TRANSLATIONS = {
     nextRecommendedCourses: 'الدورات الموصى بها التالية',
     gotoQuiz: 'انتقل إلى الاختبار لهذه الدورة',
     courseOutline: 'مخطط الدورة والفيديوهات',
-    platformDesc: 'سونا تك هي منصة تعليمية موجهة لموظفي سوناطراك لتحسين مهاراتهم في مختلف المجالات'
+    authGateMessage: 'يجب عليك تسجيل الدخول أو إنشاء حساب',
+    faqSection: 'الأسئلة الشائعة',
+    policyTitle: 'السياسة',
+    policyText: 'جميع التسجيلات في الدورة تخضع لسياسة التدريب الداخلية لسوناطراك. إكمال هذه الدورة اختيارية ما لم يحدد خلاف ذلك مدير القسم. لأي مشاكل، اتصل بممثل الموارد البشرية.',
+    outlineNotAvailable: 'المنهج غير متوفر بعد لهذه الدورة.',
+    open: 'فتح',
+    backToCourses: 'العودة إلى الدورات',
+    rememberMe: 'تذكرني',
+    forgotPassword: 'نسيت كلمة المرور؟',
+    demoAccounts: 'حسابات تجريبية:',
+    adminCreds: 'admin@sonatrach.dz / admin123',
+    trainerCreds: 'trainer@sonatrach.dz / trainer123',
+    employeeCreds: 'employee@sonatrach.dz / emp123',
+    fillAllFields: 'يرجى ملء جميع الحقول.',
+    invalidLogin: 'البريد الإلكتروني أو كلمة المرور غير صحيحة. جرب: admin@sonatrach.dz / admin123',
+    signupSuccess: 'تم التسجيل بنجاح! جاري التحويل...',
+    signupFillAll: 'يرجى ملء جميع الحقول.',
+    signupPasswordsMismatch: 'كلمات المرور غير متطابقة.',
+    signupPasswordMin: 'يجب أن تكون كلمة المرور على الأقل 6 أحرف.',
+    alreadyHaveAccount: 'لديك حساب بالفعل؟ تسجيل الدخول',
+    quizNextQuestion: 'السؤال التالي →',
+    quizSeeResults: 'عرض النتائج',
+    quizCongratulations: 'تهانينا!',
+    quizKeepLearning: 'استمر في التعلم!',
+    quizPassedText: 'لقد نجحت!',
+    quizRetryText: 'حاول مرة أخرى للحصول على الشهادة',
+    quizCertificateEarned: 'تم الحصول على الشهادة!',
+    quizStart: 'ابدأ الاختبار',
+    quizScore: 'النتيجة',
+    quizQuestion: 'سؤال',
+    goToQuizForCourse: 'اذهب إلى الاختبار لهذه الدورة',
+    viewResults: 'عرض النتائج',
+    createQuiz: 'إنشاء اختبار',
+    myCourses: 'دوراتي',
+    manageUsers: 'إدارة المستخدمين',
+    manageCourses: 'إدارة الدورات',
+    overview: 'نظرة عامة',
+    myLearning: 'التعلم الخاص بي',
+    certificates: 'الشهادات',
+    monitorProgress: 'مراقبة التقدم',
+    generateReports: 'توليد التقارير',
+    courses: 'الدورات',
+    employees: 'الموظفون',
+    welcomeAdministrator: 'مرحبًا بك أيها المسؤول 👋',
+    dashboardOverview: 'نظرة عامة على منصة التعلم الإلكتروني',
+    totalUsers: 'إجمالي المستخدمين',
+    coursesLabel: 'الدورات',
+    completionsLabel: 'الاكتمل',
+    averageProgress: 'متوسط التقدم',
+    monthlyEnrollments: 'التسجيلات الشهرية',
+    createNewAccount: 'إنشاء حساب جديد',
+    fullName: 'الاسم الكامل',
+    setPassword: 'تعيين كلمة المرور',
+    role: 'الدور',
+    status: 'الحالة',
+    enrolled: 'المسجلين',
+    userId: 'معرف المستخدم',
+    manageCourseContent: 'إدارة محتوى الدورة الخاصة بك',
+    courseList: 'قائمة الدورات',
+    uploadCourseMaterials: 'تحميل مواد الدورة',
+    uploadDescription: 'قم بتحميل ملفات PDF أو فيديوهات أو مستندات للدورة.',
+    fileTypes: 'PDF، MP4، PPTX، DOCX',
+    uploadSuccess: 'تم تحميل الملفات بنجاح!',
+    publishQuiz: 'نشر الاختبار',
+    quizCreatedSuccess: 'تم إنشاء الاختبار ونشره بنجاح!',
+    viewResultsTitle: 'عرض النتائج 📊',
+    studentPerformanceAnalytics: 'تحليلات أداء الطلاب',
+    students: 'الطلاب',
+    completed: 'مكتمل',
+    averageScore: 'متوسط الدرجة',
+    recentQuizResults: 'نتائج الاختبار الأخيرة',
+    passed: 'ناجح',
+    failed: 'راسب',
+    welcomeUser: 'مرحبًا، {name} 👋',
+    continueLearning: 'تابع رحلة التعلم الخاصة بك',
+    enrolledCourses: 'الدورات المسجلة',
+    certificatesEarned: 'الشهادات المكتسبة',
+    myEnrolledCourses: 'الدورات المسجلة لدي',
+    exploreMoreCourses: 'اكتشف المزيد من الدورات',
+    browseAllCourses: 'استعرض جميع الدورات',
+    retakeQuiz: 'إعادة الاختبار',
+    continueBtn: 'متابعة',
+    myCertificates: 'شهاداتي 🏅',
+    downloadCertificates: 'تحميل الشهادات المكتسبة',
+    progress: 'التقدم',
+    reports: 'التقارير',
+    downloadCertificate: 'تحميل الشهادة',
+    uploading: 'جارٍ التحميل...',
+    quizInstruction: 'إنشاء تقييمات للمتدربين.',
+    uploadMaterials: 'تحميل المواد',
+    upload: 'تحميل',
+    cancel: 'إلغاء',
+    selectFiles: 'اسحب الملفات هنا أو انقر للاختيار',
+    uploadMaterials: 'تحميل المواد',
+    cancel: 'إلغاء',
+    upload: 'تحميل',
+    selectFiles: 'اسحب الملفات هنا أو انقر للاختيار',
+    selectedFiles: 'الملفات المحددة',
+    certificateIncluded: 'الشهادة متضمنة',
+    about: 'حول',
+    platformTitle: 'منصة سونا تك',
+    platformDesc: 'سونا تك عبارة عن منصة تعليمية موجهة لموظفي سوناطراك لتعزيز مهاراتهم في مختلف المجالات.',
+    email: 'البريد الإلكتروني',
+    password: 'كلمة المرور',
+    typeYourEmail: 'اكتب بريدك الإلكتروني هنا',
+    typeYourPassword: 'اكتب كلمة المرور هنا',
+    rememberMe: 'تذكرني',
+    forgotPassword: 'نسيت كلمة المرور؟',
+    demoAccountsText: 'حسابات تجريبية:'
   },
   fr: {
     language: 'Langue',
@@ -1164,7 +1385,115 @@ const TRANSLATIONS = {
     nextRecommendedCourses: 'Prochains cours recommandés',
     gotoQuiz: 'Aller au quiz pour ce cours',
     courseOutline: 'Plan de cours et vidéos',
-    platformDesc: 'SonaTech est une plateforme éducative destinée aux employés de Sonatrach pour améliorer leurs compétences dans divers domaines'
+    authGateMessage: 'Vous devez vous connecter ou créer un compte',
+    faqSection: 'Questions fréquemment posées',
+    policyTitle: 'Politique',
+    policyText: 'Toutes les inscriptions aux cours sont soumises à la politique de formation interne de Sonatrach. L\'achèvement de ce cours est volontaire sauf indication contraire de votre responsable de service. Pour tout problème, contactez votre représentant RH.',
+    outlineNotAvailable: 'Plan de cours non disponible pour le moment.',
+    open: 'Ouvrir',
+    backToCourses: 'Retour aux cours',
+    rememberMe: 'Se souvenir de moi',
+    forgotPassword: 'Mot de passe oublié ?',
+    demoAccounts: 'Comptes de démonstration :',
+    adminCreds: 'admin@sonatrach.dz / admin123',
+    trainerCreds: 'trainer@sonatrach.dz / trainer123',
+    employeeCreds: 'employee@sonatrach.dz / emp123',
+    fillAllFields: 'Veuillez remplir tous les champs.',
+    invalidLogin: 'E-mail ou mot de passe invalide. Essayez : admin@sonatrach.dz / admin123',
+    signupSuccess: 'Inscription réussie ! Redirection...',
+    signupFillAll: 'Veuillez remplir tous les champs.',
+    signupPasswordsMismatch: 'Les mots de passe ne correspondent pas.',
+    signupPasswordMin: 'Le mot de passe doit comporter au moins 6 caractères.',
+    alreadyHaveAccount: 'Vous avez déjà un compte ? Connexion',
+    quizNextQuestion: 'Question suivante →',
+    quizSeeResults: 'Voir les résultats',
+    quizCongratulations: 'Félicitations !',
+    quizKeepLearning: 'Continuez à apprendre !',
+    quizPassedText: 'Vous avez réussi !',
+    quizRetryText: 'Réessayez pour obtenir votre certificat',
+    quizCertificateEarned: 'Certificat obtenu !',
+    quizStart: 'Commencer le quiz',
+    quizScore: 'Score',
+    quizQuestion: 'Question',
+    goToQuizForCourse: 'Aller au quiz pour ce cours',
+    viewResults: 'Voir les résultats',
+    createQuiz: 'Créer un quiz',
+    myCourses: 'Mes cours',
+    manageUsers: 'Gérer les utilisateurs',
+    manageCourses: 'Gérer les cours',
+    overview: 'Aperçu',
+    myLearning: 'Mon apprentissage',
+    certificates: 'Certificats',
+    monitorProgress: 'Suivre les progrès',
+    generateReports: 'Générer des rapports',
+    courses: 'Cours',
+    employees: 'Employés',
+    welcomeAdministrator: 'Bienvenue, administrateur 👋',
+    dashboardOverview: 'Vue d ensemble de la plateforme e-learning',
+    totalUsers: 'Nombre total d utilisateurs',
+    coursesLabel: 'Cours',
+    completionsLabel: 'Completions',
+    averageProgress: 'Progression moyenne',
+    monthlyEnrollments: 'Inscriptions mensuelles',
+    createNewAccount: 'Créer un nouveau compte',
+    fullName: 'Nom complet',
+    setPassword: 'Définir le mot de passe',
+    role: 'Rôle',
+    status: 'Statut',
+    enrolled: 'Inscrits',
+    userId: 'ID utilisateur',
+    manageCourseContent: 'Gérez votre contenu de cours',
+    courseList: 'Liste des cours',
+    uploadCourseMaterials: 'Télécharger les supports de cours',
+    uploadDescription: 'Téléchargez des PDF, vidéos ou documents pour votre cours.',
+    fileTypes: 'PDF, MP4, PPTX, DOCX',
+    uploadSuccess: 'Fichiers téléchargés avec succès !',
+    publishQuiz: 'Publier le quiz',
+    quizCreatedSuccess: 'Quiz créé et publié avec succès !',
+    viewResultsTitle: 'Voir les résultats 📊',
+    studentPerformanceAnalytics: 'Analyse des performances des étudiants',
+    students: 'Étudiants',
+    completed: 'Complété',
+    averageScore: 'Score moyen',
+    recentQuizResults: 'Résultats de quiz récents',
+    passed: 'Réussi',
+    failed: 'Échec',
+    welcomeUser: 'Bienvenue, {name} 👋',
+    continueLearning: 'Continuez votre parcours d apprentissage',
+    enrolledCourses: 'Cours inscrits',
+    certificatesEarned: 'Certificats obtenus',
+    myEnrolledCourses: 'Mes cours inscrits',
+    exploreMoreCourses: 'Découvrez plus de cours',
+    browseAllCourses: 'Parcourir tous les cours',
+    retakeQuiz: 'Refaire le quiz',
+    continueBtn: 'Continuer',
+    myCertificates: 'Mes certificats 🏅',
+    downloadCertificates: 'Télécharger vos certificats obtenus',
+    progress: 'Progrès',
+    reports: 'Rapports',
+    downloadCertificate: 'Télécharger le certificat',
+    uploading: 'Téléchargement...',
+    quizInstruction: 'Créez des évaluations pour vos apprenants',
+    uploadMaterials: 'Télécharger des supports',
+    upload: 'Télécharger',
+    cancel: 'Annuler',
+    selectFiles: 'Glissez les fichiers ici ou cliquez pour sélectionner',
+    uploadMaterials: 'Télécharger des documents',
+    cancel: 'Annuler',
+    upload: 'Télécharger',
+    selectFiles: 'Glissez les fichiers ici ou cliquez pour sélectionner',
+    selectedFiles: 'Fichiers sélectionnés',
+    certificateIncluded: 'Certificat inclus',
+    about: 'À propos',
+    platformTitle: 'Plateforme SonaTech',
+    platformDesc: 'SonaTech est une plateforme éducative destinée aux employés de Sonatrach pour renforcer leurs compétences dans divers domaines.',
+    email: 'E-mail',
+    password: 'Mot de passe',
+    typeYourEmail: 'Saisissez votre e-mail ici',
+    typeYourPassword: 'Saisissez votre mot de passe',
+    rememberMe: 'Se souvenir de moi',
+    forgotPassword: 'Mot de passe oublié ?',
+    demoAccountsText: 'Comptes de démonstration :'
   }
 };
 
@@ -1366,7 +1695,7 @@ function AuthGatePage({ onNavigate, language = 'en' }) {
   return (
     <div className="auth-page">
       <div className="auth-gate-card">
-        <p>You have to login or create account</p>
+        <p>{t('authGateMessage', language)}</p>
         <button className="btn-primary btn-full" style={{marginBottom:'8px'}} onClick={() => onNavigate('login')}>{t('login', language)}</button>
         <div className="auth-gate-sep">or</div>
         <button className="btn-primary btn-full" onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
@@ -1419,11 +1748,11 @@ function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) 
             <div className="course-detail-desc">{getCourseTranslation(course.id, 'desc', language)}</div>
             <div className="course-meta">
               <div className="meta-item"><Icon.Clock /> {course.hours}h</div>
-              <div className="meta-item"><Icon.Users /> {course.employees.toLocaleString()} employees</div>
+              <div className="meta-item"><Icon.Users /> {course.employees.toLocaleString()} {t('employees', language)}</div>
               <div className="meta-item"><Icon.Globe /> {course.language}</div>
-              <div className="meta-item"><Icon.Award /> Certificate included</div>
+              <div className="meta-item"><Icon.Award /> {t('certificateIncluded', language)}</div>
             </div>
-            <button className="start-btn" onClick={handleStart}>Start</button>
+            <button className="start-btn" onClick={handleStart}>{t('startButton', language)}</button>
           </div>
           <img src={course.image} alt={course.title} className="course-img-right" onError={e => { e.target.onerror = null; e.target.src = 'images/placeholder-course.png'; }} />
           <div className="course-img-placeholder" style={{display:'none'}}>{course.emoji}</div>
@@ -1456,7 +1785,7 @@ function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) 
             ))}
           </div>
           <div className="trainer-about">
-            <h3>About {course.trainer.name.split(' ')[1]}</h3>
+            <h3>{t('about', language)} {course.trainer.name.split(' ')[1]}</h3>
             <p>{course.trainer.about}</p>
           </div>
         </div>
@@ -1464,7 +1793,7 @@ function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) 
 
       {tab === 'faq' && (
         <div className="faq-card">
-          <h2 style={{fontFamily:'var(--font-display)', fontWeight:'700', marginBottom:'24px'}}>Frequently Asked Questions</h2>
+          <h2 style={{fontFamily:'var(--font-display)', fontWeight:'700', marginBottom:'24px'}}>{t('faqSection', language)}</h2>
           {faqs.map((f, i) => (
             <div key={i} className="faq-item">
               <div className="faq-q" onClick={() => setFaqOpen(faqOpen===i?null:i)}>
@@ -1475,7 +1804,7 @@ function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) 
             </div>
           ))}
           <div style={{marginTop:'32px', padding:'20px', background:'var(--gray-50)', borderRadius:'12px', fontSize:'0.85rem', color:'var(--gray-600)'}}>
-            <strong>Policy:</strong> All course enrollments are subject to Sonatrach's internal training policy. Completion of this course is voluntary unless specified otherwise by your department manager. For any issues, contact your HR representative.
+            <strong>{t('policyTitle', language)}:</strong> {t('policyText', language)}
           </div>
         </div>
       )}
@@ -1517,12 +1846,12 @@ function CoursePlanPage({ course, onNavigate, language = 'en' }) {
                 <div style={{ fontWeight:'700' }}>{c.title}</div>
                 <div style={{ fontSize:'0.8rem', color:'var(--gray-600)' }}>{c.category} · {c.hours}h</div>
               </div>
-              <button className="btn-secondary" style={{ padding:'6px 12px', fontSize:'0.75rem' }} onClick={() => onNavigate('course-detail', { course: c })}>Open</button>
+              <button className="btn-secondary" style={{ padding:'6px 12px', fontSize:'0.75rem' }} onClick={() => onNavigate('course-detail', { course: c })}>{t('open', language)}</button>
             </div>
           ))}
 
           <div style={{ marginTop:'20px' }}>
-            <button className="btn-primary" onClick={() => onNavigate('quiz', { course })}>Go to quiz for this course</button>
+            <button className="btn-primary" onClick={() => onNavigate('quiz', { course })}>{t('goToQuizForCourse', language)}</button>
           </div>
         </div>
       </div>
@@ -1538,8 +1867,10 @@ function LoginPage({ onNavigate, onLogin, users, language = 'en' }) {
   const [error, setError] = useState('');
 
   const handleLogin = () => {
-    if (!email || !password) { setError('Please fill in all fields.'); return; }
-    const user = users.find(u => u.email === email && u.password === password);
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+    if (!cleanEmail || !cleanPassword) { setError('Please fill in all fields.'); return; }
+    const user = users.find(u => u.email.toLowerCase() === cleanEmail && u.password === cleanPassword);
     if (!user) { setError('Invalid email or password. Try: admin@sonatrach.dz / admin123'); return; }
     onLogin(user);
     onNavigate('dashboard');
@@ -1549,22 +1880,22 @@ function LoginPage({ onNavigate, onLogin, users, language = 'en' }) {
     <div className="auth-page">
       <button className="back-btn" style={{alignSelf:'flex-start', marginBottom:'16px'}} onClick={() => onNavigate('home')}><Icon.Back /></button>
       <div style={{textAlign:'center', marginBottom:'16px'}}>
-        <h2 style={{fontFamily:'var(--font-display)', fontSize:'1.6rem', fontWeight:'800', color:'white', textShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>SonaTech Platform</h2>
+        <h2 style={{fontFamily:'var(--font-display)', fontSize:'1.6rem', fontWeight:'800', color:'white', textShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>{t('platformTitle', language)}</h2>
       </div>
       <div className="auth-card">
         {error && <div className="alert alert-error">{error}</div>}
         <div className="form-group">
-          <label>Email</label>
+          <label>{t('email', language)}</label>
           <div className="input-with-icon">
             <Icon.Person />
-            <input type="email" placeholder="Type your email here" value={email} onChange={e => setEmail(e.target.value)} />
+            <input type="email" placeholder={t('typeYourEmail', language)} value={email} onChange={e => setEmail(e.target.value)} />
           </div>
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label>{t('password', language)}</label>
           <div className="input-with-icon">
             <Icon.Lock />
-            <input type="password" placeholder="Type your password" value={password} onChange={e => setPassword(e.target.value)}
+            <input type="password" placeholder={t('typeYourPassword', language)} value={password} onChange={e => setPassword(e.target.value)}
               onKeyDown={e => e.key==='Enter' && handleLogin()} />
           </div>
         </div>
@@ -1746,16 +2077,30 @@ function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
 // ===== CERTIFICATE PAGE =====
 function CertificatePage({ course, userName, onNavigate, language = 'en' }) {
   const today = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+  const certRef = useRef();
+
+  const downloadPDF = () => {
+    const element = certRef.current;
+    const options = {
+      margin: 10,
+      filename: `${userName}_${course.title}_Certificate.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+    };
+    html2pdf().set(options).from(element).save();
+  };
+
   return (
     <div style={{padding:'32px'}}>
       <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'24px'}}>
         <button className="back-btn" onClick={() => onNavigate('courses')}><Icon.Back /></button>
         <span style={{fontFamily:'var(--font-display)', fontWeight:'700'}}>Certificate of Completion</span>
-        <button className="btn-primary" style={{marginLeft:'auto'}} onClick={() => window.print()}>
+        <button className="btn-primary" style={{marginLeft:'auto'}} onClick={downloadPDF}>
           Download PDF
         </button>
       </div>
-      <div className="certificate-card">
+      <div className="certificate-card" ref={certRef}>
         <div className="cert-decoration"></div>
         <div className="cert-decoration2"></div>
         <div className="cert-logo">SonaTech</div>
@@ -1776,7 +2121,7 @@ function CertificatePage({ course, userName, onNavigate, language = 'en' }) {
 }
 
 // ===== ADMIN DASHBOARD =====
-function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: setGlobalUsers }) {
+function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: setGlobalUsers, language = 'en' }) {
   const [users, setUsers] = useState([
     { id:1, name:'Ahmed Benali', email:'ahmed@sonatrach.dz', role:'employee', status:'active', enrolled:3 },
     { id:2, name:'Sara Meziane', email:'sara@sonatrach.dz', role:'employee', status:'active', enrolled:1 },
@@ -1791,8 +2136,8 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
     <div className="dashboard-main">
       {activeNav === 'overview' && (
         <>
-          <div className="dashboard-title">Welcome, Administrator 👋</div>
-          <div className="dashboard-sub">E-Learning Platform Overview</div>
+          <div className="dashboard-title">{t('welcomeAdministrator', language)}</div>
+          <div className="dashboard-sub">{t('dashboardOverview', language)}</div>
           <div className="stats-grid">
             {[
               { icon:'👥', val:'5', label:'Total Users' },
@@ -1808,7 +2153,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
             ))}
           </div>
           <div className="section-card">
-            <div className="section-card-title">📈 Monthly Enrollments</div>
+            <div className="section-card-title">📈 {t('monthlyEnrollments', language)}</div>
             <div className="report-chart">
               <div className="chart-bars">
                 {[{m:'Jan',v:80},{m:'Feb',v:65},{m:'Mar',v:90},{m:'Apr',v:75},{m:'May',v:95},{m:'Jun',v:100}].map((b,i) => (
@@ -1827,11 +2172,11 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
         <>
           <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px'}}>
             <div>
-              <div className="dashboard-title">Manage Users</div>
-              <div className="dashboard-sub">Create and manage employee & trainer accounts</div>
+              <div className="dashboard-title">{t('manageUsers', language)}</div>
+              <div className="dashboard-sub">{t('createNewAccount', language)}</div>
             </div>
             <button className="btn-primary" onClick={() => setShowModal(true)} style={{display:'flex', alignItems:'center', gap:'8px'}}>
-              <Icon.Plus /> Create Account
+              <Icon.Plus /> {t('createNewAccount', language)}
             </button>
           </div>
           <div className="section-card">
@@ -1867,18 +2212,18 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
           {showModal && (
             <div className="modal-overlay" onClick={() => setShowModal(false)}>
               <div className="modal-card" onClick={e => e.stopPropagation()}>
-                <h2>Create New Account</h2>
+                <h2>{t('createNewAccount', language)}</h2>
                 <div className="form-group">
-                  <label>Full Name</label>
-                  <input className="form-input" type="text" placeholder="Full name" value={newUser.name} onChange={e => setNewUser({...newUser, name:e.target.value})} />
+                  <label>{t('fullName', language)}</label>
+                  <input className="form-input" type="text" placeholder={t('fullName', language)} value={newUser.name} onChange={e => setNewUser({...newUser, name:e.target.value})} />
                 </div>
                 <div className="form-group">
-                  <label>Email</label>
+                  <label>{t('email', language)}</label>
                   <input className="form-input" type="email" placeholder="email@sonatrach.dz" value={newUser.email} onChange={e => setNewUser({...newUser, email:e.target.value})} />
                 </div>
                 <div className="form-group">
-                  <label>Password</label>
-                  <input className="form-input" type="password" placeholder="Set password" value={newUser.password} onChange={e => setNewUser({...newUser, password:e.target.value})} />
+                  <label>{t('password', language)}</label>
+                  <input className="form-input" type="password" placeholder={t('setPassword', language)} value={newUser.password} onChange={e => setNewUser({...newUser, password:e.target.value})} />
                 </div>
                 <div className="form-group">
                   <label>Role</label>
@@ -1889,7 +2234,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
                   </select>
                 </div>
                 <div className="modal-actions">
-                  <button className="btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                  <button className="btn-secondary" onClick={() => setShowModal(false)}>{t('cancel', language)}</button>
                   <button className="btn-primary" onClick={() => {
                     if (newUser.name && newUser.email && newUser.password) {
                       const newUserObj = { email: newUser.email, password: newUser.password, role: newUser.role, name: newUser.name };
@@ -2007,22 +2352,64 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
 }
 
 // ===== TRAINER DASHBOARD =====
-function TrainerDashboard({ user, onNavigate }) {
-  const [activeNav, setActiveNav] = useState('courses');
+function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en' }) {
   const [showUpload, setShowUpload] = useState(false);
   const [quizCreated, setQuizCreated] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleFileSelect = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    setSelectedFiles(files);
+    setUploadStatus(null);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    const files = Array.from(e.dataTransfer.files || []);
+    if (!files.length) return;
+    setSelectedFiles(prev => [...prev, ...files]);
+    setUploadStatus(null);
+  };
+
+  const handleUpload = () => {
+    if (!selectedFiles.length) {
+      setUploadStatus('error');
+      return;
+    }
+    setUploadStatus('uploading');
+
+    // Simulate upload, then reset modal and show success state
+    setTimeout(() => {
+      setUploadStatus('success');
+      setShowUpload(false);
+      setSelectedFiles([]);
+      setTimeout(() => setUploadStatus(null), 1800);
+    }, 900);
+  };
 
   return (
     <div className="dashboard-main">
+      <div style={{display:'flex', gap:'10px', marginBottom:'20px'}}>
+        <button className={`btn-secondary ${activeNav==='courses'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('courses')}>{t('myCourses', language)}</button>
+        <button className={`btn-secondary ${activeNav==='quiz'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('quiz')}>{t('createQuiz', language)}</button>
+        <button className={`btn-secondary ${activeNav==='results'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('results')}>{t('viewResults', language)}</button>
+      </div>
+
       {activeNav === 'courses' && (
         <>
-          <div className="dashboard-title">My Courses 📚</div>
-          <div className="dashboard-sub">Manage your course content</div>
+          <div className="dashboard-title">{t('myCourses', language)} 📚</div>
+          <div className="dashboard-sub">{t('manageCourseContent', language)}</div>
           <div className="section-card">
             <div className="section-card-title" style={{justifyContent:'space-between'}}>
-              <span>Course List</span>
+              <span>{t('courseList', language)}</span>
               <button className="btn-primary" style={{fontSize:'0.85rem', padding:'8px 16px'}} onClick={() => setShowUpload(true)}>
-                + Upload Materials
+                + {t('uploadMaterials', language)}
               </button>
             </div>
             <table>
@@ -2045,16 +2432,59 @@ function TrainerDashboard({ user, onNavigate }) {
           {showUpload && (
             <div className="modal-overlay" onClick={() => setShowUpload(false)}>
               <div className="modal-card" onClick={e => e.stopPropagation()}>
-                <h2>Upload Course Materials</h2>
-                <p>Upload PDFs, videos, or documents for your course.</p>
-                <div style={{border:'2px dashed var(--gray-300)', borderRadius:'12px', padding:'40px', textAlign:'center', cursor:'pointer', marginBottom:'20px', background:'var(--gray-50)'}}>
+                <h2>{t('uploadCourseMaterials', language)}</h2>
+                <p>{t('uploadDescription', language)}</p>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  multiple
+                  accept=".pdf,.mp4,.pptx,.docx"
+                  onChange={handleFileSelect}
+                />
+                <div
+                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                  onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
+                  onDrop={handleDrop}
+                  style={{
+                    border: `2px dashed ${isDragging ? 'var(--orange)' : 'var(--gray-300)'}`,
+                    borderRadius: '12px',
+                    padding: '36px',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    marginBottom: '20px',
+                    background: isDragging ? 'rgba(232, 149, 54, 0.1)' : 'var(--gray-50)'
+                  }}
+                >
                   <div style={{fontSize:'2.5rem', marginBottom:'8px'}}>📁</div>
-                  <div style={{fontWeight:'600', marginBottom:'4px'}}>Drop files here</div>
-                  <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>PDF, MP4, PPTX, DOCX</div>
+                  <div style={{fontWeight:'600', marginBottom:'4px'}}>{selectedFiles.length ? t('selectedFiles', language) : t('selectFiles', language)}</div>
+                  <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>{t('fileTypes', language)}</div>
                 </div>
+
+                {selectedFiles.length > 0 && (
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 12px 0', maxHeight: '140px', overflowY: 'auto' }}>
+                    {selectedFiles.map((file, index) => (
+                      <li key={`${file.name}-${index}`} style={{ fontSize: '0.85rem', marginBottom: '6px' }}>
+                        {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {uploadStatus === 'error' && <div className="alert alert-error">{t('fillAllFields', language)}</div>}
+                {uploadStatus === 'uploading' && <div className="alert" style={{ background: '#faf6e6', border: '1px solid #facc15', color: '#92400e' }}>{t('uploading', language)}</div>}
+
                 <div className="modal-actions">
-                  <button className="btn-secondary" onClick={() => setShowUpload(false)}>Cancel</button>
-                  <button className="btn-primary" onClick={() => setShowUpload(false)}>Upload</button>
+                  <button className="btn-secondary" onClick={() => { setShowUpload(false); setSelectedFiles([]); setUploadStatus(null); }}>{t('cancel', language)}</button>
+                  <button
+                    className="btn-primary"
+                    onClick={handleUpload}
+                    disabled={uploadStatus === 'uploading'}
+                    style={{ opacity: uploadStatus === 'uploading' ? 0.7 : 1 }}
+                  >
+                    {uploadStatus === 'uploading' ? t('uploading', language) : t('upload', language)}
+                  </button>
                 </div>
               </div>
             </div>
@@ -2063,9 +2493,9 @@ function TrainerDashboard({ user, onNavigate }) {
       )}
       {activeNav === 'quiz' && (
         <>
-          <div className="dashboard-title">Create Quiz ✏️</div>
-          <div className="dashboard-sub">Build assessments for your students</div>
-          {quizCreated && <div className="alert alert-success">Quiz created and published successfully!</div>}
+          <div className="dashboard-title">{t('createQuiz', language)} ✏️</div>
+          <div className="dashboard-sub">{t('quizInstruction', language)}</div>
+          {quizCreated && <div className="alert alert-success">{t('quizCreatedSuccess', language)}</div>}
           <div className="section-card">
             {QUIZ_QUESTIONS.slice(0,3).map((q, i) => (
               <div key={i} style={{border:'2px solid var(--gray-200)', borderRadius:'12px', padding:'20px', marginBottom:'16px'}}>
@@ -2082,16 +2512,16 @@ function TrainerDashboard({ user, onNavigate }) {
                 ))}
               </div>
             ))}
-            <button className="btn-primary" onClick={() => setQuizCreated(true)}>Publish Quiz</button>
+            <button className="btn-primary" onClick={() => setQuizCreated(true)}>{t('publishQuiz', language)}</button>
           </div>
         </>
       )}
       {activeNav === 'results' && (
         <>
-          <div className="dashboard-title">View Results 📊</div>
-          <div className="dashboard-sub">Student performance analytics</div>
+          <div className="dashboard-title">{t('viewResultsTitle', language)}</div>
+          <div className="dashboard-sub">{t('studentPerformanceAnalytics', language)}</div>
           <div className="stats-grid" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
-            {[{icon:'👥', val:'2,341', label:'Students'}, {icon:'✅', val:'1,876', label:'Completed'}, {icon:'📈', val:'78%', label:'Avg. Score'}].map((s,i) => (
+            {[{icon:'👥', val:'2,341', label:t('students', language)}, {icon:'✅', val:'1,876', label:t('completed', language)}, {icon:'📈', val:'78%', label:t('averageScore', language)}].map((s,i) => (
               <div key={i} className="stat-card">
                 <div className="stat-card-icon">{s.icon}</div>
                 <div className="stat-card-value">{s.val}</div>
@@ -2100,7 +2530,7 @@ function TrainerDashboard({ user, onNavigate }) {
             ))}
           </div>
           <div className="section-card">
-            <div className="section-card-title">Recent Quiz Results</div>
+            <div className="section-card-title">{t('recentQuizResults', language)}</div>
             <table>
               <thead><tr><th>Student</th><th>Course</th><th>Score</th><th>Date</th><th>Status</th></tr></thead>
               <tbody>
@@ -2128,8 +2558,7 @@ function TrainerDashboard({ user, onNavigate }) {
 }
 
 // ===== EMPLOYEE DASHBOARD =====
-function EmployeeDashboard({ user, onNavigate }) {
-  const [activeNav, setActiveNav] = useState('home');
+function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en' }) {
   const [enrolled] = useState([
     { course: COURSES_DATA[0], progress: 85, completed: false },
     { course: COURSES_DATA[4], progress: 100, completed: true },
@@ -2140,13 +2569,13 @@ function EmployeeDashboard({ user, onNavigate }) {
     <div className="dashboard-main">
       {activeNav === 'home' && (
         <>
-          <div className="dashboard-title">Welcome, {user.name} 👋</div>
-          <div className="dashboard-sub">Continue your learning journey</div>
+          <div className="dashboard-title">{t('welcomeUser', language).replace('{name}', user.name)}</div>
+          <div className="dashboard-sub">{t('continueLearning', language)}</div>
           <div className="stats-grid" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
             {[
-              {icon:'📚', val:enrolled.length, label:'Enrolled Courses'},
-              {icon:'✅', val:enrolled.filter(e=>e.completed).length, label:'Completed'},
-              {icon:'🏅', val:'1', label:'Certificates Earned'}
+              {icon:'📚', val:enrolled.length, label:t('enrolledCourses', language)},
+              {icon:'✅', val:enrolled.filter(e=>e.completed).length, label:t('completed', language)},
+              {icon:'🏅', val:'1', label:t('certificatesEarned', language)}
             ].map((s,i) => (
               <div key={i} className="stat-card">
                 <div className="stat-card-icon">{s.icon}</div>
@@ -2156,7 +2585,7 @@ function EmployeeDashboard({ user, onNavigate }) {
             ))}
           </div>
           <div className="section-card">
-            <div className="section-card-title">📚 My Enrolled Courses</div>
+            <div className="section-card-title">📚 {t('myEnrolledCourses', language)}</div>
             <div className="enrolled-grid">
               {enrolled.map((e, i) => (
                 <div key={i} className="enrolled-card">
@@ -2164,7 +2593,7 @@ function EmployeeDashboard({ user, onNavigate }) {
                   <div className="enrolled-title">{e.course.title}</div>
                   <div style={{marginBottom:'10px'}}>
                     <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.78rem', color:'var(--gray-500)', marginBottom:'4px'}}>
-                      <span>Progress</span><span style={{fontWeight:'700'}}>{e.progress}%</span>
+                      <span>{t('progress', language)}</span><span style={{fontWeight:'700'}}>{e.progress}%</span>
                     </div>
                     <div className="progress-bar">
                       <div className="progress-fill" style={{width:`${e.progress}%`}}></div>
@@ -2172,22 +2601,22 @@ function EmployeeDashboard({ user, onNavigate }) {
                   </div>
                   <button className="btn-primary" style={{fontSize:'0.82rem', padding:'7px 16px', width:'100%'}}
                     onClick={() => onNavigate('quiz', {course: e.course})}>
-                    {e.completed ? 'Retake Quiz' : 'Continue'}
+                    {e.completed ? t('retakeQuiz', language) : t('continueBtn', language)}
                   </button>
                 </div>
               ))}
             </div>
           </div>
           <div className="section-card">
-            <div className="section-card-title">🎯 Explore More Courses</div>
-            <button className="btn-primary" onClick={() => onNavigate('courses')}>Browse All Courses</button>
+            <div className="section-card-title">🎯 {t('exploreMoreCourses', language)}</div>
+            <button className="btn-primary" onClick={() => onNavigate('courses')}>{t('browseAllCourses', language)}</button>
           </div>
         </>
       )}
       {activeNav === 'certificates' && (
         <>
-          <div className="dashboard-title">My Certificates 🏅</div>
-          <div className="dashboard-sub">Download your earned certificates</div>
+          <div className="dashboard-title">{t('myCertificates', language)}</div>
+          <div className="dashboard-sub">{t('downloadCertificates', language)}</div>
           <div style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'16px'}}>
             {enrolled.filter(e => e.completed).map((e, i) => (
               <div key={i} className="section-card" style={{textAlign:'center'}}>
@@ -2196,7 +2625,7 @@ function EmployeeDashboard({ user, onNavigate }) {
                 <div style={{fontSize:'0.82rem', color:'var(--gray-500)', marginBottom:'16px'}}>{e.course.category}</div>
                 <button className="btn-primary" style={{fontSize:'0.85rem'}}
                   onClick={() => onNavigate('certificate', {course: e.course, userName: user.name})}>
-                  Download Certificate
+                  {t('downloadCertificate', language)}
                 </button>
               </div>
             ))}
@@ -2213,29 +2642,29 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
 
   const navItems = {
     admin: [
-      { id:'overview', label:'Overview', icon:'Home' },
-      { id:'users', label:'Manage Users', icon:'Users' },
-      { id:'courses', label:'Manage Courses', icon:'Book' },
-      { id:'progress', label:'Monitor Progress', icon:'Monitor' },
-      { id:'reports', label:'Generate Reports', icon:'Chart' }
+      { id:'overview', label:'overview', icon:'Home' },
+      { id:'users', label:'manageUsers', icon:'Users' },
+      { id:'courses', label:'manageCourses', icon:'Book' },
+      { id:'progress', label:'monitorProgress', icon:'Monitor' },
+      { id:'reports', label:'generateReports', icon:'Chart' }
     ],
     trainer: [
-      { id:'courses', label:'My Courses', icon:'Book' },
-      { id:'quiz', label:'Create Quiz', icon:'HelpCircle' },
-      { id:'results', label:'View Results', icon:'Chart' }
+      { id:'courses', label:'myCourses', icon:'Book' },
+      { id:'quiz', label:'createQuiz', icon:'HelpCircle' },
+      { id:'results', label:'viewResults', icon:'Chart' }
     ],
     employee: [
-      { id:'home', label:'My Learning', icon:'Home' },
-      { id:'certificates', label:'Certificates', icon:'Award' }
+      { id:'home', label:'myLearning', icon:'Home' },
+      { id:'certificates', label:'certificates', icon:'Award' }
     ]
   };
 
   const items = navItems[user.role] || navItems.employee;
 
   const renderMain = () => {
-    if (user.role === 'admin') return <AdminDashboard onNavigate={onNavigate} activeNav={activeNav} setActiveNav={setActiveNav} />;
-    if (user.role === 'trainer') return <TrainerDashboard user={user} onNavigate={onNavigate} />;
-    return <EmployeeDashboard user={user} onNavigate={onNavigate} />;
+    if (user.role === 'admin') return <AdminDashboard onNavigate={onNavigate} activeNav={activeNav} setActiveNav={setActiveNav} language={language} />;
+    if (user.role === 'trainer') return <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={activeNav} setActiveNav={setActiveNav} language={language} />;
+    return <EmployeeDashboard user={user} onNavigate={onNavigate} language={language} />;
   };
 
   // For admin, sync nav
@@ -2254,7 +2683,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
             {adminItems.map(item => (
               <div key={item.id} className={`nav-item ${nav===item.id?'active':''}`} onClick={() => setNav(item.id)}>
                 {Icon[item.icon] ? React.createElement(Icon[item.icon]) : null}
-                {item.label}
+                {t(item.label, language)}
               </div>
             ))}
           </nav>
@@ -2263,7 +2692,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <AdminDashboard activeNav={nav} users={users} setUsers={setUsers} />
+          <AdminDashboard activeNav={nav} users={users} setUsers={setUsers} language={language} />
         </div>
       </div>
     );
@@ -2283,7 +2712,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
             {navItems.trainer.map(item => (
               <div key={item.id} className={`nav-item ${nav===item.id?'active':''}`} onClick={() => setNav(item.id)}>
                 {Icon[item.icon] ? React.createElement(Icon[item.icon]) : null}
-                {item.label}
+                {t(item.label, language)}
               </div>
             ))}
           </nav>
@@ -2292,7 +2721,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} />
+          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} />
         </div>
       </div>
     );
@@ -2312,11 +2741,11 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
             {navItems.employee.map(item => (
               <div key={item.id} className={`nav-item ${nav===item.id?'active':''}`} onClick={() => setNav(item.id)}>
                 {Icon[item.icon] ? React.createElement(Icon[item.icon]) : null}
-                {item.label}
+                {t(item.label, language)}
               </div>
             ))}
             <div className="nav-item" onClick={() => onNavigate('courses')}>
-              <Icon.Book /> Browse Courses
+              <Icon.Book /> {t('browseCourses', language)}
             </div>
           </nav>
           <div className="sidebar-logout">
@@ -2324,7 +2753,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} />
+          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} />
         </div>
       </div>
     );

@@ -973,6 +973,118 @@
     .chart-bar-label { font-size: 0.72rem; color: var(--gray-500); font-weight: 600; text-align: center; }
     .chart-bar-val { font-size: 0.75rem; font-weight: 700; color: var(--black); }
 
+    /* ===== VIDEO PLAYER ===== */
+    .video-player-container {
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur-sm);
+      -webkit-backdrop-filter: var(--backdrop-blur-sm);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--glass-shadow-lg);
+      overflow: hidden;
+    }
+    .video-player {
+      width: 100%;
+      height: 420px;
+      background: #000;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-player video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .video-player-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #fff;
+      gap: 12px;
+    }
+    .video-player-placeholder svg {
+      width: 80px;
+      height: 80px;
+      color: var(--orange);
+      opacity: 0.7;
+    }
+    .video-player-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .video-lesson-list {
+      display: grid;
+      gap: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .video-lesson-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      background: #fff;
+    }
+    .video-lesson-item:hover {
+      border-color: var(--orange);
+      background: #fff8ec;
+      transform: translateX(4px);
+    }
+    .video-lesson-item.active {
+      border-color: var(--orange);
+      background: #fff8ec;
+      font-weight: 700;
+    }
+    .video-lesson-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .video-lesson-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .video-lesson-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+      color: var(--black);
+    }
+    .video-lesson-meta {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      display: flex;
+      gap: 8px;
+    }
+
     /* RESPONSIVE HELPERS */
     @media (max-width: 900px) {
       .courses-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1008,14 +1120,14 @@ const COURSES_DATA = [
     hours: 70, employees: 15234, language: 'Arabic', certificate: true,
     image: 'images/linux.png',
     outline: [
-      { lesson: 'Introduction to Linux & Shell', duration: '12 min', type: 'Video' },
-      { lesson: 'Filesystem Hierarchy and Navigation', duration: '20 min', type: 'Video' },
-      { lesson: 'Basic File Operations (ls, cp, mv, rm)', duration: '18 min', type: 'Video' },
-      { lesson: 'Permission and Ownership', duration: '22 min', type: 'Video' },
-      { lesson: 'Process Management', duration: '18 min', type: 'Video' },
-      { lesson: 'Networking Basics & Practical Exercises', duration: '26 min', type: 'Live Workshop' }
+      { lesson: 'Introduction to Linux & Shell', duration: '12 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/BkZ_KgV8qic' },
+      { lesson: 'Filesystem Hierarchy and Navigation', duration: '20 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/rE0VCf9wBR8' },
+      { lesson: 'Basic File Operations (ls, cp, mv, rm)', duration: '18 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/5JkxD0T2M7g' },
+      { lesson: 'Permission and Ownership', duration: '22 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/FT_1r6RtNbk' },
+      { lesson: 'Process Management', duration: '18 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/01N1p-sDMW0' },
+      { lesson: 'Networking Basics & Practical Exercises', duration: '26 min', type: 'Live Workshop', videoUrl: 'https://www.youtube.com/embed/5WfiIBBceQY' }
     ],
-    trainer: { name: 'SAADI Maria', role: 'Computer scientist & Instructor', rating: 4.9, reviews: 12000, employees: 15234, courses: 10, about: 'A third year bachelor degree Computer Science at university of Algiers 1.' }
+    trainer: { name: 'SAADI MARIA', role: 'Computer scientist & Instructor', rating: 4.9, reviews: 12000, employees: 15234, courses: 10, about: 'A third year bachelor degree Computer Science at university of Algiers 1.' }
   },
   {
     id: 'softskills', category: 'Soft Skills', title: 'Management & Leadership Trainings',
@@ -1023,13 +1135,13 @@ const COURSES_DATA = [
     hours: 90, employees: 20134, language: 'Arabic', certificate: true,
     image: 'images/Management.png',
     outline: [
-      { lesson: 'Leadership styles and self-awareness', duration: '15 min', type: 'Video' },
-      { lesson: 'Communication skills for managers', duration: '18 min', type: 'Video' },
-      { lesson: 'Team building & conflict resolution', duration: '22 min', type: 'Workshop' },
-      { lesson: 'Decision making and problem solving', duration: '20 min', type: 'Video' },
-      { lesson: 'Change management in corporate culture', duration: '25 min', type: 'Video' }
+      { lesson: 'Leadership styles and self-awareness', duration: '15 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/vKrJhR_pMt4' },
+      { lesson: 'Communication skills for managers', duration: '18 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/3KxUY_BlNWc' },
+      { lesson: 'Team building & conflict resolution', duration: '22 min', type: 'Workshop', videoUrl: 'https://www.youtube.com/embed/tYzMGcUty6s' },
+      { lesson: 'Decision making and problem solving', duration: '20 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/pMj5sA5iXpI' },
+      { lesson: 'Change management in corporate culture', duration: '25 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/sRvLqMfFB5I' }
     ],
-    trainer: { name: 'BENALI Ahmed', role: 'HR Specialist & Coach', rating: 4.7, reviews: 9800, employees: 20134, courses: 8, about: 'Senior HR manager with 15+ years of experience in leadership training and organizational development.' }
+    trainer: { name: 'ZELLOUF YASMINE', role: 'HR Specialist & Coach', rating: 4.7, reviews: 9800, employees: 20134, courses: 8, about: 'Senior HR manager with 15+ years of experience in leadership training and organizational development.' }
   },
   {
     id: 'techskills', category: 'Tech Skills', title: 'Digital Transformation & Future Skills',
@@ -1037,13 +1149,13 @@ const COURSES_DATA = [
     hours: 90, employees: 18745, language: 'Arabic', certificate: true,
     image: 'images/Digital.png',
     outline: [
-      { lesson: 'Digital maturity assessment', duration: '14 min', type: 'Video' },
-      { lesson: 'Emerging technologies (AI, IoT, Cloud)', duration: '20 min', type: 'Video' },
-      { lesson: 'Data-driven decision making', duration: '18 min', type: 'Case study' },
-      { lesson: 'Business process automation', duration: '22 min', type: 'Workshop' },
-      { lesson: 'Digital transformation roadmap', duration: '24 min', type: 'Project' }
+      { lesson: 'Digital maturity assessment', duration: '14 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/OVc3u6xHi78' },
+      { lesson: 'Emerging technologies (AI, IoT, Cloud)', duration: '20 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/n1ICWxks8gQ' },
+      { lesson: 'Data-driven decision making', duration: '18 min', type: 'Case study', videoUrl: 'https://www.youtube.com/embed/6QVmYVME4Xo' },
+      { lesson: 'Business process automation', duration: '22 min', type: 'Workshop', videoUrl: 'https://www.youtube.com/embed/Wq0oGc1dFKs' },
+      { lesson: 'Digital transformation roadmap', duration: '24 min', type: 'Project', videoUrl: 'https://www.youtube.com/embed/2LhXwhl6Zow' }
     ],
-    trainer: { name: 'OUALI Karim', role: 'Digital Transformation Expert', rating: 4.8, reviews: 11000, employees: 18745, courses: 12, about: 'Expert in digital strategy and business transformation with a decade of consulting experience.' }
+    trainer: { name: 'SAADI MARIA', role: 'Digital Transformation Expert', rating: 4.8, reviews: 11000, employees: 18745, courses: 12, about: 'Expert in digital strategy and business transformation with a decade of consulting experience.' }
   },
   {
     id: 'ecoenergy', category: 'Eco Energy', title: 'Energy Transition & Sustainability',
@@ -1051,13 +1163,13 @@ const COURSES_DATA = [
     hours: 95, employees: 45000, language: 'Arabic', certificate: true,
     image: 'images/energy.jpg',
     outline: [
-      { lesson: 'Renewable energy basics', duration: '15 min', type: 'Video' },
-      { lesson: 'Energy policy & regulation', duration: '18 min', type: 'Video' },
-      { lesson: 'Sustainability metrics', duration: '20 min', type: 'Workshop' },
-      { lesson: 'Carbon footprint reduction strategies', duration: '22 min', type: 'Video' },
-      { lesson: 'Case study: successful transition programs', duration: '25 min', type: 'Case study' }
+      { lesson: 'Renewable energy basics', duration: '15 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/MbUl6JI8cKo' },
+      { lesson: 'Energy policy & regulation', duration: '18 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/eW4l5R3KdV0' },
+      { lesson: 'Sustainability metrics', duration: '20 min', type: 'Workshop', videoUrl: 'https://www.youtube.com/embed/RQhoHlJqkWQ' },
+      { lesson: 'Carbon footprint reduction strategies', duration: '22 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/oa0spDcDVNE' },
+      { lesson: 'Case study: successful transition programs', duration: '25 min', type: 'Case study', videoUrl: 'https://www.youtube.com/embed/gvK-gVH2_Yc' }
     ],
-    trainer: { name: 'HAMDI Lyes', role: 'Energy Engineer & Researcher', rating: 4.9, reviews: 22000, employees: 45000, courses: 6, about: 'PhD in Renewable Energy Systems. Passionate about sustainable development and energy policy in Algeria.' }
+    trainer: { name: 'ZELLOUF YASMINE', role: 'Energy Engineer & Researcher', rating: 4.9, reviews: 22000, employees: 45000, courses: 6, about: 'PhD in Renewable Energy Systems. Passionate about sustainable development and energy policy in Algeria.' }
   },
   {
     id: 'cybersafety', category: 'Cyber Safety', title: 'Cybersecurity & Digital Safety',
@@ -1065,13 +1177,13 @@ const COURSES_DATA = [
     hours: 80, employees: 40500, language: 'Arabic', certificate: true,
     image: 'images/cyber.png',
     outline: [
-      { lesson: 'Threat modeling and security mindset', duration: '14 min', type: 'Video' },
-      { lesson: 'Network security fundamentals', duration: '18 min', type: 'Video' },
-      { lesson: 'Phishing & social engineering', duration: '16 min', type: 'Workshop' },
-      { lesson: 'Endpoint hardening practices', duration: '20 min', type: 'Video' },
-      { lesson: 'Incident response workflow', duration: '25 min', type: 'Simulation' }
+      { lesson: 'Threat modeling and security mindset', duration: '14 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/lLxK4b9DP2Q' },
+      { lesson: 'Network security fundamentals', duration: '18 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/XuHR5XkM8jE' },
+      { lesson: 'Phishing & social engineering', duration: '16 min', type: 'Workshop', videoUrl: 'https://www.youtube.com/embed/8c_Q0TZBczc' },
+      { lesson: 'Endpoint hardening practices', duration: '20 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/YqQG1C0wA88' },
+      { lesson: 'Incident response workflow', duration: '25 min', type: 'Simulation', videoUrl: 'https://www.youtube.com/embed/8c_Q0TZBczc' }
     ],
-    trainer: { name: 'MEZIANE Sara', role: 'Cybersecurity Analyst', rating: 4.8, reviews: 18000, employees: 40500, courses: 9, about: 'Certified ethical hacker and security consultant with expertise in industrial network security.' }
+    trainer: { name: 'SAADI MARIA', role: 'Cybersecurity Analyst', rating: 4.8, reviews: 18000, employees: 40500, courses: 9, about: 'Certified ethical hacker and security consultant with expertise in industrial network security.' }
   },
   {
     id: 'rd', category: 'R&D', title: 'Research, Innovation & Knowledge Capital',
@@ -1079,23 +1191,60 @@ const COURSES_DATA = [
     hours: 30, employees: 45500, language: 'Arabic', certificate: true,
     image: 'images/research.png',
     outline: [
-      { lesson: 'Research methodologies and stages', duration: '12 min', type: 'Video' },
-      { lesson: 'Idea generation and evaluation', duration: '16 min', type: 'Seminar' },
-      { lesson: 'Innovation lifecycle', duration: '18 min', type: 'Video' },
-      { lesson: 'Knowledge management tools', duration: '20 min', type: 'Workshop' },
-      { lesson: 'R&D in energy sector case study', duration: '22 min', type: 'Case study' }
+      { lesson: 'Research methodologies and stages', duration: '12 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/P9o4YNnqbKw' },
+      { lesson: 'Idea generation and evaluation', duration: '16 min', type: 'Seminar', videoUrl: 'https://www.youtube.com/embed/1hFKCchHEhs' },
+      { lesson: 'Innovation lifecycle', duration: '18 min', type: 'Video', videoUrl: 'https://www.youtube.com/embed/EyNdvjFjY9U' },
+      { lesson: 'Knowledge management tools', duration: '20 min', type: 'Workshop', videoUrl: 'https://www.youtube.com/embed/sFl-tBnJ2PI' },
+      { lesson: 'R&D in energy sector case study', duration: '22 min', type: 'Case study', videoUrl: 'https://www.youtube.com/embed/xSiW9MQMhLs' }
     ],
-    trainer: { name: 'TALEB Nadia', role: 'Research Scientist', rating: 4.6, reviews: 15000, employees: 45500, courses: 5, about: 'PhD researcher specializing in innovation management and knowledge transfer in the oil & gas sector.' }
+    trainer: { name: 'ZELLOUF YASMINE', role: 'Research Scientist', rating: 4.6, reviews: 15000, employees: 45500, courses: 5, about: 'PhD researcher specializing in innovation management and knowledge transfer in the oil & gas sector.' }
   }
 ];
 
-const QUIZ_QUESTIONS = [
-  { q: 'What does the Linux command "ls" do?', options: ['List files and directories', 'Load system', 'Log status', 'Launch server'], correct: 0 },
-  { q: 'Which command is used to change directory in Linux?', options: ['mkdir', 'cd', 'mv', 'rm'], correct: 1 },
-  { q: 'What does "sudo" stand for?', options: ['Super User Do', 'System Update Do', 'Secure User Domain', 'Switch User Default'], correct: 0 },
-  { q: 'Which file contains user account information in Linux?', options: ['/etc/passwd', '/etc/users', '/home/users', '/var/passwd'], correct: 0 },
-  { q: 'What is the root directory in Linux?', options: ['/root', '/', '/home', '/bin'], correct: 1 }
-];
+const QUIZ_QUESTIONS = {
+  linux: [
+    { q: 'What does the Linux command "ls" do?', options: ['List files and directories', 'Load system', 'Log status', 'Launch server'], correct: 0 },
+    { q: 'Which command is used to change directory in Linux?', options: ['mkdir', 'cd', 'mv', 'rm'], correct: 1 },
+    { q: 'What does "sudo" stand for?', options: ['Super User Do', 'System Update Do', 'Secure User Domain', 'Switch User Default'], correct: 0 },
+    { q: 'Which file contains user account information in Linux?', options: ['/etc/passwd', '/etc/users', '/home/users', '/var/passwd'], correct: 0 },
+    { q: 'What is the root directory in Linux?', options: ['/root', '/', '/home', '/bin'], correct: 1 }
+  ],
+  softskills: [
+    { q: 'What is a key component of effective leadership?', options: ['Micromanagement', 'Empowerment and delegation', 'Avoiding decisions', 'Ignoring team feedback'], correct: 1 },
+    { q: 'Which communication style focuses on facts and data?', options: ['Passive', 'Aggressive', 'Analytical', 'Emotional'], correct: 2 },
+    { q: 'What is the first step in conflict resolution?', options: ['Assign blame', 'Listen actively', 'Make demands', 'Avoid the issue'], correct: 1 },
+    { q: 'What does EQ stand for in leadership?', options: ['Executive Quality', 'Emotional Quotient', 'Effective Quality', 'Executive Quotient'], correct: 1 },
+    { q: 'Which is NOT a leadership style?', options: ['Autocratic', 'Democratic', 'Laissez-faire', 'Micromanaging'], correct: 3 }
+  ],
+  techskills: [
+    { q: 'What does AI stand for?', options: ['Automated Intelligence', 'Artificial Intelligence', 'Advanced Integration', 'Algorithmic Interface'], correct: 1 },
+    { q: 'Which technology is used for storing data in the cloud?', options: ['Local storage', 'USB drives', 'Cloud computing', 'Floppy disks'], correct: 2 },
+    { q: 'What is IoT?', options: ['Internet of Things', 'Input Output Technology', 'Integrated Online Tools', 'Intelligent Operating System'], correct: 0 },
+    { q: 'Which is a benefit of digital transformation?', options: ['Increased complexity', 'Cost reduction', 'Manual processes', 'Limited access'], correct: 1 },
+    { q: 'What does RPA stand for?', options: ['Robotic Process Automation', 'Rapid Program Access', 'Remote Processing Algorithm', 'Real-time Performance Analysis'], correct: 0 }
+  ],
+  ecoenergy: [
+    { q: 'Which is a renewable energy source?', options: ['Coal', 'Natural gas', 'Solar power', 'Nuclear fission'], correct: 2 },
+    { q: 'What is carbon footprint?', options: ['Foot size measurement', 'Total greenhouse gas emissions', 'Carbon credit score', 'Energy consumption rate'], correct: 1 },
+    { q: 'Which gas is primarily responsible for global warming?', options: ['Oxygen', 'Nitrogen', 'Carbon dioxide', 'Hydrogen'], correct: 2 },
+    { q: 'What does ESG stand for?', options: ['Energy Saving Goals', 'Environmental, Social, and Governance', 'Economic Sustainability Guide', 'Eco-friendly System Guidelines'], correct: 1 },
+    { q: 'Which is an energy transition strategy?', options: ['Increasing fossil fuel use', 'Investing in renewables', 'Ignoring efficiency', 'Reducing regulations'], correct: 1 }
+  ],
+  cybersafety: [
+    { q: 'What is phishing?', options: ['A type of fish', 'Fraudulent attempt to obtain sensitive information', 'Network speed test', 'Password generator'], correct: 1 },
+    { q: 'Which is a strong password practice?', options: ['Use "password123"', 'Use the same password everywhere', 'Use complex unique passwords', 'Share passwords with colleagues'], correct: 2 },
+    { q: 'What does VPN stand for?', options: ['Virtual Private Network', 'Very Protected Node', 'Visual Processing Network', 'Variable Password Number'], correct: 0 },
+    { q: 'Which is a common cyber attack?', options: ['Email greeting', 'Ransomware', 'Coffee break', 'Team meeting'], correct: 1 },
+    { q: 'What should you do if you suspect a security breach?', options: ['Ignore it', 'Report it immediately', 'Delete evidence', 'Tell no one'], correct: 1 }
+  ],
+  rd: [
+    { q: 'What is R&D?', options: ['Research and Development', 'Revenue and Distribution', 'Risk and Documentation', 'Resources and Data'], correct: 0 },
+    { q: 'Which is a stage in the research process?', options: ['Data collection', 'Coffee breaks', 'Social media', 'Entertainment'], correct: 0 },
+    { q: 'What is innovation?', options: ['Following old methods', 'Implementing new ideas', 'Avoiding change', 'Reducing efficiency'], correct: 1 },
+    { q: 'What does IP stand for in R&D?', options: ['Internet Protocol', 'Intellectual Property', 'Innovation Process', 'Investment Plan'], correct: 1 },
+    { q: 'Which is important for knowledge management?', options: ['Data silos', 'Information sharing', 'Isolated work', 'Limited access'], correct: 1 }
+  ]
+};
 
 // ===== TRANSLATIONS =====
 const TRANSLATIONS = {
@@ -1812,8 +1961,49 @@ function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) 
   );
 }
 
-function CoursePlanPage({ course, onNavigate, language = 'en' }) {
+function CoursePlanPage({ course, onNavigate, language = 'en', courseVideos = {}, videoProgress = {}, setVideoProgress }) {
   const recommended = COURSES_DATA.filter(c => c.id !== course.id).slice(0, 4);
+  const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
+  
+  // Use trainer-uploaded videos if available, otherwise use default course outline videos
+  const videosForCourse = courseVideos[course.id] && courseVideos[course.id].length > 0
+    ? courseVideos[course.id]
+    : course.outline || [];
+  
+  const currentLesson = videosForCourse && videosForCourse[selectedLessonIndex] ? videosForCourse[selectedLessonIndex] : null;
+
+  // Check if all videos are completed
+  const courseProgress = videoProgress[course.id] || {};
+  const allVideosCompleted = videosForCourse.length > 0 && videosForCourse.every((_, index) => courseProgress[index]);
+
+  const markVideoCompleted = (index) => {
+    setVideoProgress(prev => ({
+      ...prev,
+      [course.id]: {
+        ...prev[course.id],
+        [index]: true
+      }
+    }));
+  };
+
+  const handleLessonClick = (index) => {
+    setSelectedLessonIndex(index);
+    // Mark as completed when clicked (simulating watching)
+    markVideoCompleted(index);
+  };
+
+  const getVideoTypeEmoji = (type) => {
+    switch(type?.toLowerCase()) {
+      case 'video': return '▶️';
+      case 'live workshop': return '🎤';
+      case 'workshop': return '👥';
+      case 'case study': return '📊';
+      case 'project': return '🎯';
+      case 'seminar': return '🎓';
+      case 'simulation': return '⚙️';
+      default: return '📹';
+    }
+  };
 
   return (
     <div className="course-detail-page">
@@ -1828,30 +2018,113 @@ function CoursePlanPage({ course, onNavigate, language = 'en' }) {
           <div className="course-detail-title" style={{ fontSize:'1.2rem', marginBottom:'8px' }}>{getCourseTranslation(course.id, 'title', language)}</div>
           <div className="course-detail-desc">{getCourseTranslation(course.id, 'desc', language)}</div>
 
+          {/* VIDEO PLAYER SECTION */}
+          {videosForCourse && videosForCourse.length > 0 && (
+            <div className="video-player-container">
+              {courseVideos[course.id] && courseVideos[course.id].length > 0 && (
+                <div style={{background:'#e0f2fe', border:'1px solid #0ea5e9', borderRadius:'8px', padding:'10px 12px', marginBottom:'12px', display:'flex', alignItems:'center', gap:'8px', fontSize:'0.85rem', color:'#0369a1', fontWeight:'600'}}>
+                  ✓ Trainer Content: This course has custom videos uploaded by your instructor
+                </div>
+              )}
+              <div className="video-player">
+                {currentLesson && currentLesson.videoUrl ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={currentLesson.videoUrl + (currentLesson.videoUrl.includes('youtube') ? '?modestbranding=1&rel=0&showinfo=0' : '')}
+                    title={currentLesson.lesson || currentLesson.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    style={{ borderRadius: 'var(--radius)' }}
+                  ></iframe>
+                ) : (
+                  <div className="video-player-placeholder">
+                    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <div>Video Player Ready</div>
+                    <div style={{fontSize:'0.75rem', opacity:0.7}}>Select a lesson to start learning</div>
+                  </div>
+                )}
+              </div>
+              
+              {currentLesson && (
+                <div>
+                  <div className="video-player-title">
+                    {getVideoTypeEmoji(currentLesson.type)} Now Playing
+                  </div>
+                  <div style={{background:'#f9f5ef', border:'1px solid #e8d5c4', borderRadius:'10px', padding:'14px', marginBottom:'16px'}}>
+                    <div style={{fontWeight:'700', fontSize:'0.95rem', marginBottom:'4px', color:'var(--black)'}}>
+                      {selectedLessonIndex + 1}. {currentLesson.lesson || currentLesson.title}
+                    </div>
+                    <div style={{fontSize:'0.8rem', color:'var(--gray-600)'}}>
+                      <span style={{display:'inline-block', marginRight:'12px'}}>⏱️ {currentLesson.duration}</span>
+                      <span>📚 {currentLesson.type}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="video-player-title">
+                📽️ Course Videos ({videosForCourse.length})
+              </div>
+              <div className="video-lesson-list">
+                {videosForCourse.map((lesson, index) => (
+                  <div
+                    key={index}
+                    className={`video-lesson-item ${selectedLessonIndex === index ? 'active' : ''}`}
+                    onClick={() => handleLessonClick(index)}
+                  >
+                    <div className="video-lesson-icon">
+                      {courseProgress[index] ? '✅' : getVideoTypeEmoji(lesson.type)}
+                    </div>
+                    <div className="video-lesson-content">
+                      <div className="video-lesson-name">
+                        {index + 1}. {lesson.lesson || lesson.title}
+                      </div>
+                      <div className="video-lesson-meta">
+                        <span>⏱️ {lesson.duration}</span>
+                        <span>📚 {lesson.type}</span>
+                      </div>
+                    </div>
+                    {selectedLessonIndex === index && (
+                      <div style={{color:'var(--orange)', fontSize:'1.2rem'}}>▶️</div>
+                    )}
+                    {courseProgress[index] && selectedLessonIndex !== index && (
+                      <div style={{color:'green', fontSize:'1.2rem'}}>✓</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!videosForCourse || videosForCourse.length === 0 && <div style={{ fontSize:'0.9rem', color:'var(--gray-500)', margin:'16px 0' }}>Outline not available yet for this course.</div>}
+
           <div style={{ margin:'22px 0 10px', fontWeight:'800', color:'var(--gray-700)' }}>{t('courseOutline', language)}:</div>
           <div style={{ display:'grid', gap:'10px', marginBottom:'16px' }}>
-            {course.outline?.map((item, index) => (
-              <div key={index} style={{ background:'#fff', border:'1px solid #ddd', borderRadius:'10px', padding:'12px 14px' }}>
-                <div style={{ fontWeight:'700' }}>{index + 1}. {item.lesson}</div>
-                <div style={{ fontSize:'0.82rem', color:'var(--gray-600)' }}>{item.type} • {item.duration}</div>
+            {videosForCourse?.map((item, index) => (
+              <div key={index} style={{ background:'#fff', border:'1px solid #ddd', borderRadius:'10px', padding:'12px 14px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+                <div>
+                  <div style={{ fontWeight:'700' }}>{index + 1}. {item.lesson || item.title}</div>
+                  <div style={{ fontSize:'0.82rem', color:'var(--gray-600)' }}>{item.type} • {item.duration}</div>
+                </div>
+                {courseProgress[index] && <div style={{color:'green', fontSize:'1.2rem'}}>✓</div>}
               </div>
             ))}
-            {!course.outline?.length && <div style={{ fontSize:'0.9rem', color:'var(--gray-500)' }}>Outline not available yet for this course.</div>}
+            {!videosForCourse?.length && <div style={{ fontSize:'0.9rem', color:'var(--gray-500)' }}>Outline not available yet for this course.</div>}
           </div>
 
-          <div style={{ margin:'12px 0 10px', fontWeight:'700', color:'var(--gray-700)' }}>{t('nextRecommendedCourses', language)}:</div>
-          {recommended.map((c) => (
-            <div key={c.id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff', border:'1px solid #ddd', borderRadius:'10px', padding:'10px 14px', marginBottom:'10px' }}>
-              <div>
-                <div style={{ fontWeight:'700' }}>{c.title}</div>
-                <div style={{ fontSize:'0.8rem', color:'var(--gray-600)' }}>{c.category} · {c.hours}h</div>
-              </div>
-              <button className="btn-secondary" style={{ padding:'6px 12px', fontSize:'0.75rem' }} onClick={() => onNavigate('course-detail', { course: c })}>{t('open', language)}</button>
-            </div>
-          ))}
-
           <div style={{ marginTop:'20px' }}>
-            <button className="btn-primary" onClick={() => onNavigate('quiz', { course })}>{t('goToQuizForCourse', language)}</button>
+            <button className="btn-primary" onClick={() => onNavigate('quiz', { course })}>
+              {t('goToQuizForCourse', language)}
+            </button>
+            {!allVideosCompleted && (
+              <div style={{background:'#fef3c7', border:'1px solid #f59e0b', borderRadius:'8px', padding:'8px', marginTop:'8px', textAlign:'center', color:'#92400e', fontSize:'0.85rem'}}>
+                ⚠️ Complete all videos to pass the quiz and earn your certificate
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1969,14 +2242,19 @@ function SignupPage({ onNavigate, onLogin, language = 'en' }) {
 }
 
 // ===== QUIZ PAGE =====
-function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
+function QuizPage({ course, onNavigate, currentUser, courseQuizzes, language = 'en', videoProgress = {} }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answered, setAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
-  const q = QUIZ_QUESTIONS[currentQ];
+  // Use course-specific quiz if available, otherwise use default QUIZ_QUESTIONS for the course
+  const quizData = courseQuizzes[course.id] && courseQuizzes[course.id].length > 0 
+    ? courseQuizzes[course.id] 
+    : QUIZ_QUESTIONS[course.id] || QUIZ_QUESTIONS.linux; // fallback to linux questions
+
+  const q = quizData[currentQ];
 
   const handleSelect = (idx) => {
     if (answered) return;
@@ -1985,7 +2263,7 @@ function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
     if (idx === q.correct) setScore(s => s+1);
   };
   const handleNext = () => {
-    if (currentQ < QUIZ_QUESTIONS.length - 1) {
+    if (currentQ < quizData.length - 1) {
       setCurrentQ(c => c+1);
       setSelected(null);
       setAnswered(false);
@@ -1995,8 +2273,15 @@ function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
   };
 
   if (done) {
-    const pct = Math.round((score / QUIZ_QUESTIONS.length) * 100);
-    const passed = pct >= 70;
+    const pct = Math.round((score / quizData.length) * 100);
+    
+    // Check if all videos are completed
+    const videosForCourse = course.outline || [];
+    const courseProgress = videoProgress[course.id] || {};
+    const allVideosCompleted = videosForCourse.length > 0 && videosForCourse.every((_, index) => courseProgress[index]);
+    
+    const passed = pct >= 70 && allVideosCompleted;
+    
     return (
       <div style={{padding:'32px'}}>
         <button className="back-btn" onClick={() => onNavigate('courses')}><Icon.Back /></button>
@@ -2006,9 +2291,14 @@ function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
             {passed ? 'Congratulations!' : 'Keep Learning!'}
           </h2>
           <p style={{color:'var(--gray-600)', marginBottom:'24px'}}>
-            You scored <strong>{score}/{QUIZ_QUESTIONS.length}</strong> ({pct}%)
-            {passed ? ' — You passed!' : ' — 70% required to pass.'}
+            You scored <strong>{score}/{quizData.length}</strong> ({pct}%)
+            {passed ? ' — You passed!' : allVideosCompleted ? ' — 70% required to pass.' : ' — Complete all videos to pass.'}
           </p>
+          {!allVideosCompleted && (
+            <div style={{background:'#fef3c7', border:'1px solid #f59e0b', borderRadius:'8px', padding:'12px', marginBottom:'16px', color:'#92400e'}}>
+              <div style={{fontWeight:'600'}}>⚠️ Complete all course videos before taking the quiz to earn your certificate.</div>
+            </div>
+          )}
           <div style={{background: passed ? '#f0fdf4':'#fef2f2', border:`2px solid ${passed?'#86efac':'#fca5a5'}`, borderRadius:'12px', padding:'16px', marginBottom:'24px'}}>
             <div style={{fontSize:'2rem', fontWeight:'800', color: passed?'#16a34a':'#dc2626'}}>{pct}%</div>
             <div style={{fontSize:'0.85rem', color:'var(--gray-600)'}}>{passed?'Certificate earned!':'Try again to earn your certificate'}</div>
@@ -2035,13 +2325,18 @@ function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
         <button className="back-btn" onClick={() => onNavigate('course-detail', {course})}><Icon.Back /></button>
         <span style={{fontFamily:'var(--font-display)', fontWeight:'700', fontSize:'1.1rem'}}>{course.category} — Quiz</span>
       </div>
+      {courseQuizzes[course.id] && courseQuizzes[course.id].length > 0 && (
+        <div style={{background:'#e0f2fe', border:'1px solid #0ea5e9', borderRadius:'8px', padding:'10px 12px', marginBottom:'12px', display:'flex', alignItems:'center', gap:'8px', fontSize:'0.85rem', color:'#0369a1', fontWeight:'600'}}>
+          ✓ Trainer Content: This quiz was created by your instructor
+        </div>
+      )}
       <div className="quiz-card">
         <div className="quiz-progress-header">
-          <span>Question {currentQ + 1} of {QUIZ_QUESTIONS.length}</span>
+          <span>Question {currentQ + 1} of {quizData.length}</span>
           <span>Score: {score}</span>
         </div>
         <div className="progress-bar" style={{marginBottom:'24px'}}>
-          <div className="progress-fill" style={{width:`${((currentQ)/QUIZ_QUESTIONS.length)*100}%`}}></div>
+          <div className="progress-fill" style={{width:`${((currentQ)/quizData.length)*100}%`}}></div>
         </div>
         <div className="quiz-question">{q.q}</div>
         <div className="quiz-options">
@@ -2065,7 +2360,7 @@ function QuizPage({ course, onNavigate, currentUser, language = 'en' }) {
           <div></div>
           {answered && (
             <button className="btn-primary" onClick={handleNext}>
-              {currentQ < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results'}
+              {currentQ < quizData.length - 1 ? 'Next Question →' : 'See Results'}
             </button>
           )}
         </div>
@@ -2352,13 +2647,21 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
 }
 
 // ===== TRAINER DASHBOARD =====
-function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en' }) {
+function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en', courseVideos = {}, setCourseVideos, courseQuizzes = {}, setCourseQuizzes }) {
   const [showUpload, setShowUpload] = useState(false);
+  const [showQuizEditor, setShowQuizEditor] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(COURSES_DATA[0].id);
   const [quizCreated, setQuizCreated] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [newQuizQuestion, setNewQuizQuestion] = useState({ q: '', options: ['', '', '', ''], correct: 0 });
+  const [editingQuizIndex, setEditingQuizIndex] = useState(null);
   const fileInputRef = useRef(null);
+
+  const currentCourse = COURSES_DATA.find(c => c.id === selectedCourse) || COURSES_DATA[0];
+  const courseVidList = courseVideos[selectedCourse] || [];
+  const courseQuizList = courseQuizzes[selectedCourse] || [];
 
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files || []);
@@ -2377,15 +2680,28 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
     setUploadStatus(null);
   };
 
-  const handleUpload = () => {
+  const handleUploadVideo = () => {
     if (!selectedFiles.length) {
       setUploadStatus('error');
       return;
     }
     setUploadStatus('uploading');
 
-    // Simulate upload, then reset modal and show success state
+    // Simulate upload
     setTimeout(() => {
+      const newVideos = selectedFiles.map(file => ({
+        id: Date.now() + Math.random(),
+        title: file.name.replace(/\.[^/.]+$/, ''),
+        videoUrl: '#', // In real app, would upload to server
+        duration: '15 min',
+        type: 'Video'
+      }));
+      
+      setCourseVideos({
+        ...courseVideos,
+        [selectedCourse]: [...(courseVideos[selectedCourse] || []), ...newVideos]
+      });
+      
       setUploadStatus('success');
       setShowUpload(false);
       setSelectedFiles([]);
@@ -2393,53 +2709,120 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
     }, 900);
   };
 
+  const handleDeleteVideo = (videoId) => {
+    setCourseVideos({
+      ...courseVideos,
+      [selectedCourse]: courseVideos[selectedCourse].filter(v => v.id !== videoId)
+    });
+  };
+
+  const handleAddQuizQuestion = () => {
+    if (!newQuizQuestion.q.trim() || newQuizQuestion.options.some(o => !o.trim())) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    const updated = [...courseQuizList];
+    if (editingQuizIndex !== null) {
+      updated[editingQuizIndex] = newQuizQuestion;
+      setEditingQuizIndex(null);
+    } else {
+      updated.push(newQuizQuestion);
+    }
+    
+    setCourseQuizzes({
+      ...courseQuizzes,
+      [selectedCourse]: updated
+    });
+    
+    setNewQuizQuestion({ q: '', options: ['', '', '', ''], correct: 0 });
+  };
+
+  const handleDeleteQuizQuestion = (index) => {
+    setCourseQuizzes({
+      ...courseQuizzes,
+      [selectedCourse]: courseQuizList.filter((_, i) => i !== index)
+    });
+  };
+
+  const handleEditQuestion = (index) => {
+    setNewQuizQuestion(courseQuizList[index]);
+    setEditingQuizIndex(index);
+    setShowQuizEditor(true);
+  };
+
   return (
     <div className="dashboard-main">
-      <div style={{display:'flex', gap:'10px', marginBottom:'20px'}}>
+      <div style={{display:'flex', gap:'10px', marginBottom:'20px', alignItems:'center', flexWrap:'wrap'}}>
         <button className={`btn-secondary ${activeNav==='courses'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('courses')}>{t('myCourses', language)}</button>
         <button className={`btn-secondary ${activeNav==='quiz'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('quiz')}>{t('createQuiz', language)}</button>
         <button className={`btn-secondary ${activeNav==='results'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('results')}>{t('viewResults', language)}</button>
+        <div style={{marginLeft:'auto'}}>
+          <select className="select-input" value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} style={{padding:'8px 12px', fontSize:'0.9rem'}}>
+            {COURSES_DATA.map(c => (
+              <option key={c.id} value={c.id}>{c.category}</option>
+            ))}
+          </select>
+        </div>
       </div>
+
+      {uploadStatus === 'success' && <div className="alert alert-success" style={{marginBottom:'16px'}}>✅ Videos uploaded successfully!</div>}
+      {uploadStatus === 'error' && <div className="alert alert-error" style={{marginBottom:'16px'}}>❌ Please select files to upload</div>}
 
       {activeNav === 'courses' && (
         <>
-          <div className="dashboard-title">{t('myCourses', language)} 📚</div>
-          <div className="dashboard-sub">{t('manageCourseContent', language)}</div>
-          <div className="section-card">
-            <div className="section-card-title" style={{justifyContent:'space-between'}}>
-              <span>{t('courseList', language)}</span>
-              <button className="btn-primary" style={{fontSize:'0.85rem', padding:'8px 16px'}} onClick={() => setShowUpload(true)}>
-                + {t('uploadMaterials', language)}
-              </button>
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px'}}>
+            <div>
+              <div className="dashboard-title">{t('myCourses', language)} 📚</div>
+              <div className="dashboard-sub">{currentCourse.category} - {t('manageCourseContent', language)}</div>
             </div>
-            <table>
-              <thead><tr><th>Course</th><th>Enrolled</th><th>Avg. Score</th><th>Actions</th></tr></thead>
-              <tbody>
-                {COURSES_DATA.slice(0,3).map(c => (
-                  <tr key={c.id}>
-                    <td><strong>{c.title}</strong></td>
-                    <td>{c.employees.toLocaleString()}</td>
-                    <td><span className="badge badge-green">78%</span></td>
-                    <td>
-                      <button style={{background:'none', border:'1px solid var(--gray-200)', borderRadius:'6px', padding:'4px 10px', cursor:'pointer', fontSize:'0.82rem'}}
-                        onClick={() => setActiveNav('quiz')}>Manage Quiz</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <button className="btn-primary" style={{fontSize:'0.85rem', padding:'10px 16px'}} onClick={() => setShowUpload(true)}>
+              + Upload Videos
+            </button>
           </div>
+
+          <div className="section-card">
+            <div className="section-card-title">📹 Uploaded Videos for {currentCourse.category}</div>
+            {courseVidList.length > 0 ? (
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Video Title</th><th>Duration</th><th>Type</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  {courseVidList.map((vid, idx) => (
+                    <tr key={vid.id}>
+                      <td>{idx + 1}</td>
+                      <td><strong>{vid.title}</strong></td>
+                      <td>{vid.duration}</td>
+                      <td><span className="badge badge-blue">{vid.type}</span></td>
+                      <td>
+                        <button style={{background:'none', border:'1px solid #fca5a5', borderRadius:'6px', padding:'4px 8px', cursor:'pointer', color:'#dc2626'}} 
+                          onClick={() => handleDeleteVideo(vid.id)}>
+                          <Icon.Trash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div style={{padding:'24px', textAlign:'center', color:'var(--gray-500)'}}>
+                No videos uploaded yet. Click "Upload Videos" to add course videos.
+              </div>
+            )}
+          </div>
+
           {showUpload && (
             <div className="modal-overlay" onClick={() => setShowUpload(false)}>
               <div className="modal-card" onClick={e => e.stopPropagation()}>
-                <h2>{t('uploadCourseMaterials', language)}</h2>
-                <p>{t('uploadDescription', language)}</p>
+                <h2>Upload Videos - {currentCourse.category}</h2>
+                <p>Upload video files for your course. Students will see these videos when taking the course.</p>
                 <input
                   type="file"
                   ref={fileInputRef}
                   style={{ display: 'none' }}
                   multiple
-                  accept=".pdf,.mp4,.pptx,.docx"
+                  accept=".mp4,.avi,.mov,.mkv"
                   onChange={handleFileSelect}
                 />
                 <div
@@ -2458,32 +2841,29 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
                   }}
                 >
                   <div style={{fontSize:'2.5rem', marginBottom:'8px'}}>📁</div>
-                  <div style={{fontWeight:'600', marginBottom:'4px'}}>{selectedFiles.length ? t('selectedFiles', language) : t('selectFiles', language)}</div>
-                  <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>{t('fileTypes', language)}</div>
+                  <div style={{fontWeight:'600', marginBottom:'4px'}}>{selectedFiles.length ? 'Files selected' : 'Drop files here or click to select'}</div>
+                  <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>MP4, AVI, MOV, MKV supported</div>
                 </div>
 
                 {selectedFiles.length > 0 && (
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 12px 0', maxHeight: '140px', overflowY: 'auto' }}>
                     {selectedFiles.map((file, index) => (
                       <li key={`${file.name}-${index}`} style={{ fontSize: '0.85rem', marginBottom: '6px' }}>
-                        {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                        📹 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
                       </li>
                     ))}
                   </ul>
                 )}
 
-                {uploadStatus === 'error' && <div className="alert alert-error">{t('fillAllFields', language)}</div>}
-                {uploadStatus === 'uploading' && <div className="alert" style={{ background: '#faf6e6', border: '1px solid #facc15', color: '#92400e' }}>{t('uploading', language)}</div>}
-
                 <div className="modal-actions">
-                  <button className="btn-secondary" onClick={() => { setShowUpload(false); setSelectedFiles([]); setUploadStatus(null); }}>{t('cancel', language)}</button>
+                  <button className="btn-secondary" onClick={() => { setShowUpload(false); setSelectedFiles([]); setUploadStatus(null); }}>Cancel</button>
                   <button
                     className="btn-primary"
-                    onClick={handleUpload}
+                    onClick={handleUploadVideo}
                     disabled={uploadStatus === 'uploading'}
                     style={{ opacity: uploadStatus === 'uploading' ? 0.7 : 1 }}
                   >
-                    {uploadStatus === 'uploading' ? t('uploading', language) : t('upload', language)}
+                    {uploadStatus === 'uploading' ? 'Uploading...' : 'Upload Videos'}
                   </button>
                 </div>
               </div>
@@ -2491,35 +2871,84 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
           )}
         </>
       )}
+
       {activeNav === 'quiz' && (
         <>
-          <div className="dashboard-title">{t('createQuiz', language)} ✏️</div>
-          <div className="dashboard-sub">{t('quizInstruction', language)}</div>
-          {quizCreated && <div className="alert alert-success">{t('quizCreatedSuccess', language)}</div>}
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px'}}>
+            <div>
+              <div className="dashboard-title">Create Quiz - {currentCourse.category} ✏️</div>
+              <div className="dashboard-sub">Build custom assessments for your students</div>
+            </div>
+            <button className="btn-primary" style={{fontSize:'0.85rem', padding:'10px 16px'}} onClick={() => { setShowQuizEditor(true); setEditingQuizIndex(null); setNewQuizQuestion({ q: '', options: ['', '', '', ''], correct: 0 }); }}>
+              + Add Question
+            </button>
+          </div>
+
           <div className="section-card">
-            {QUIZ_QUESTIONS.slice(0,3).map((q, i) => (
-              <div key={i} style={{border:'2px solid var(--gray-200)', borderRadius:'12px', padding:'20px', marginBottom:'16px'}}>
-                <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:'12px'}}>
-                  <strong style={{fontSize:'0.92rem'}}>Q{i+1}: {q.q}</strong>
-                  <button style={{background:'none', border:'none', cursor:'pointer', color:'var(--gray-400)'}}><Icon.Edit /></button>
-                </div>
-                {q.options.map((opt, oi) => (
-                  <div key={oi} style={{display:'flex', alignItems:'center', gap:'8px', padding:'6px 10px', borderRadius:'8px', background: oi===q.correct?'#f0fdf4':'transparent', marginBottom:'4px', fontSize:'0.85rem'}}>
-                    <span style={{width:'20px', height:'20px', borderRadius:'50%', background: oi===q.correct?'#16a34a':'var(--gray-200)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.7rem', color: oi===q.correct?'white':'var(--gray-600)', flexShrink:0, fontWeight:'700'}}>{String.fromCharCode(65+oi)}</span>
-                    {opt}
-                    {oi===q.correct && <span style={{marginLeft:'auto', fontSize:'0.75rem', color:'#16a34a', fontWeight:'700'}}>✓ Correct</span>}
+            <div className="section-card-title">📝 Quiz Questions ({courseQuizList.length})</div>
+            {courseQuizList.length > 0 ? (
+              <div>
+                {courseQuizList.map((q, idx) => (
+                  <div key={idx} style={{border:'2px solid var(--gray-200)', borderRadius:'12px', padding:'20px', marginBottom:'16px'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:'12px'}}>
+                      <strong style={{fontSize:'0.92rem'}}>Q{idx+1}: {q.q}</strong>
+                      <div style={{display:'flex', gap:'8px'}}>
+                        <button style={{background:'none', border:'none', cursor:'pointer', color:'var(--orange)', fontSize:'1rem'}} onClick={() => handleEditQuestion(idx)}><Icon.Edit /></button>
+                        <button style={{background:'none', border:'none', cursor:'pointer', color:'#dc2626', fontSize:'1rem'}} onClick={() => handleDeleteQuizQuestion(idx)}><Icon.Trash /></button>
+                      </div>
+                    </div>
+                    {q.options.map((opt, oi) => (
+                      <div key={oi} style={{display:'flex', alignItems:'center', gap:'8px', padding:'6px 10px', borderRadius:'8px', background: oi===q.correct?'#f0fdf4':'transparent', marginBottom:'4px', fontSize:'0.85rem'}}>
+                        <span style={{width:'20px', height:'20px', borderRadius:'50%', background: oi===q.correct?'#16a34a':'var(--gray-200)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.7rem', color: oi===q.correct?'white':'var(--gray-600)', flexShrink:0, fontWeight:'700'}}>{String.fromCharCode(65+oi)}</span>
+                        {opt}
+                        {oi===q.correct && <span style={{marginLeft:'auto', fontSize:'0.75rem', color:'#16a34a', fontWeight:'700'}}>✓ Correct</span>}
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
-            ))}
-            <button className="btn-primary" onClick={() => setQuizCreated(true)}>{t('publishQuiz', language)}</button>
+            ) : (
+              <div style={{padding:'24px', textAlign:'center', color:'var(--gray-500)'}}>
+                No quiz questions yet. Click "Add Question" to create your first question.
+              </div>
+            )}
           </div>
+
+          {showQuizEditor && (
+            <div className="modal-overlay" onClick={() => { setShowQuizEditor(false); setEditingQuizIndex(null); }}>
+              <div className="modal-card" onClick={e => e.stopPropagation()} style={{maxWidth:'600px'}}>
+                <h2>{editingQuizIndex !== null ? 'Edit Question' : 'Add Question'}</h2>
+                <div className="form-group">
+                  <label>Question</label>
+                  <input className="form-input" type="text" placeholder="Enter the question" value={newQuizQuestion.q} onChange={e => setNewQuizQuestion({...newQuizQuestion, q: e.target.value})} />
+                </div>
+                <label style={{display:'block', fontWeight:'600', marginBottom:'12px', marginTop:'16px'}}>Options</label>
+                {newQuizQuestion.options.map((opt, i) => (
+                  <div key={i} className="form-group">
+                    <div style={{display:'flex', gap:'8px', alignItems:'center'}}>
+                      <input type="radio" name="correct" checked={newQuizQuestion.correct === i} onChange={() => setNewQuizQuestion({...newQuizQuestion, correct: i})} style={{cursor:'pointer'}} />
+                      <input className="form-input" style={{flex:1, margin:0}} type="text" placeholder={`Option ${String.fromCharCode(65+i)}`} value={opt} onChange={e => {
+                        const opts = [...newQuizQuestion.options];
+                        opts[i] = e.target.value;
+                        setNewQuizQuestion({...newQuizQuestion, options: opts});
+                      }} />
+                    </div>
+                  </div>
+                ))}
+                <div className="modal-actions" style={{marginTop:'24px'}}>
+                  <button className="btn-secondary" onClick={() => { setShowQuizEditor(false); setEditingQuizIndex(null); }}>Cancel</button>
+                  <button className="btn-primary" onClick={handleAddQuizQuestion}>{editingQuizIndex !== null ? 'Update' : 'Add'} Question</button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
+
       {activeNav === 'results' && (
         <>
           <div className="dashboard-title">{t('viewResultsTitle', language)}</div>
-          <div className="dashboard-sub">{t('studentPerformanceAnalytics', language)}</div>
+          <div className="dashboard-sub">{t('studentPerformanceAnalytics', language)} - {currentCourse.category}</div>
           <div className="stats-grid" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
             {[{icon:'👥', val:'2,341', label:t('students', language)}, {icon:'✅', val:'1,876', label:t('completed', language)}, {icon:'📈', val:'78%', label:t('averageScore', language)}].map((s,i) => (
               <div key={i} className="stat-card">
@@ -2532,17 +2961,16 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
           <div className="section-card">
             <div className="section-card-title">{t('recentQuizResults', language)}</div>
             <table>
-              <thead><tr><th>Student</th><th>Course</th><th>Score</th><th>Date</th><th>Status</th></tr></thead>
+              <thead><tr><th>Student</th><th>Score</th><th>Date</th><th>Status</th></tr></thead>
               <tbody>
                 {[
-                  {name:'Ahmed B.', course:'Linux', score:85, date:'2026-03-20', passed:true},
-                  {name:'Sara M.', course:'Cyber Safety', score:92, date:'2026-03-19', passed:true},
-                  {name:'Karim O.', course:'Tech Skills', score:60, date:'2026-03-18', passed:false},
-                  {name:'Nadia T.', course:'R&D', score:78, date:'2026-03-17', passed:true},
+                  {name:'Ahmed B.', score:85, date:'2026-03-20', passed:true},
+                  {name:'Sara M.', score:92, date:'2026-03-19', passed:true},
+                  {name:'Karim O.', score:60, date:'2026-03-18', passed:false},
+                  {name:'Nadia T.', score:78, date:'2026-03-17', passed:true},
                 ].map((r,i) => (
                   <tr key={i}>
                     <td><strong>{r.name}</strong></td>
-                    <td>{r.course}</td>
                     <td><strong>{r.score}%</strong></td>
                     <td style={{color:'var(--gray-500)'}}>{r.date}</td>
                     <td><span className={`badge ${r.passed?'badge-green':'badge-orange'}`}>{r.passed?'Passed':'Failed'}</span></td>
@@ -2558,11 +2986,11 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
 }
 
 // ===== EMPLOYEE DASHBOARD =====
-function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en' }) {
+function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en', courseVideos = {}, courseQuizzes = {} }) {
   const [enrolled] = useState([
-    { course: COURSES_DATA[0], progress: 85, completed: false },
-    { course: COURSES_DATA[4], progress: 100, completed: true },
-    { course: COURSES_DATA[2], progress: 30, completed: false }
+    { course: COURSES_DATA[0], progress: 85, completed: false, videosCount: courseVideos[COURSES_DATA[0].id]?.length || COURSES_DATA[0].outline?.length || 0, quizCount: courseQuizzes[COURSES_DATA[0].id]?.length || 5 },
+    { course: COURSES_DATA[4], progress: 100, completed: true, videosCount: courseVideos[COURSES_DATA[4].id]?.length || COURSES_DATA[4].outline?.length || 0, quizCount: courseQuizzes[COURSES_DATA[4].id]?.length || 5 },
+    { course: COURSES_DATA[2], progress: 30, completed: false, videosCount: courseVideos[COURSES_DATA[2].id]?.length || COURSES_DATA[2].outline?.length || 0, quizCount: courseQuizzes[COURSES_DATA[2].id]?.length || 5 }
   ]);
 
   return (
@@ -2591,17 +3019,22 @@ function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language
                 <div key={i} className="enrolled-card">
                   <div className="enrolled-cat">{e.course.category}</div>
                   <div className="enrolled-title">{e.course.title}</div>
-                  <div style={{marginBottom:'10px'}}>
-                    <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.78rem', color:'var(--gray-500)', marginBottom:'4px'}}>
-                      <span>{t('progress', language)}</span><span style={{fontWeight:'700'}}>{e.progress}%</span>
+                  <div style={{marginBottom:'10px', paddingBottom:'10px', borderBottom:'1px solid #ddd'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'0.78rem', color:'var(--gray-500)', marginBottom:'4px'}}>
+                      <span>{t('progress', language)}</span>
+                      <span style={{fontWeight:'700'}}>{e.progress}%</span>
                     </div>
                     <div className="progress-bar">
                       <div className="progress-fill" style={{width:`${e.progress}%`}}></div>
                     </div>
                   </div>
+                  <div style={{fontSize:'0.78rem', color:'var(--gray-500)', marginBottom:'10px', display:'flex', gap:'8px', flexWrap:'wrap'}}>
+                    <span title="Videos">📹 {e.videosCount} {e.videosCount === 1 ? 'video' : 'videos'}</span>
+                    <span title="Quiz Questions">❓ {e.quizCount} questions</span>
+                  </div>
                   <button className="btn-primary" style={{fontSize:'0.82rem', padding:'7px 16px', width:'100%'}}
-                    onClick={() => onNavigate('quiz', {course: e.course})}>
-                    {e.completed ? t('retakeQuiz', language) : t('continueBtn', language)}
+                    onClick={() => onNavigate('course-plan', {course: e.course})}>
+                    {e.completed ? '📺 Review' : '▶️ Continue'}
                   </button>
                 </div>
               ))}
@@ -2637,7 +3070,7 @@ function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language
 }
 
 // ===== DASHBOARD PAGE =====
-function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language = 'en' }) {
+function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language = 'en', courseVideos, setCourseVideos, courseQuizzes, setCourseQuizzes, videoProgress }) {
   const [activeNav, setActiveNav] = useState('overview');
 
   const navItems = {
@@ -2721,7 +3154,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} />
+          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} courseVideos={courseVideos} setCourseVideos={setCourseVideos} courseQuizzes={courseQuizzes} setCourseQuizzes={setCourseQuizzes} />
         </div>
       </div>
     );
@@ -2753,7 +3186,7 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} />
+          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} courseVideos={courseVideos} courseQuizzes={courseQuizzes} />
         </div>
       </div>
     );
@@ -2770,9 +3203,12 @@ function App() {
   const [pageData, setPageData] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [language, setLanguage] = useState('en');
+  const [courseVideos, setCourseVideos] = useState({}); // {courseId: [{id, title, videoUrl, duration}]}
+  const [courseQuizzes, setCourseQuizzes] = useState({}); // {courseId: [{q, options, correct}]}
+  const [videoProgress, setVideoProgress] = useState({}); // {courseId: {videoIndex: true/false}}
   const [users, setUsers] = useState([
     { email: 'admin@sonatrach.dz', password: 'admin123', role: 'admin', name: 'Admin User' },
-    { email: 'trainer@sonatrach.dz', password: 'trainer123', role: 'trainer', name: 'SAADI Maria' },
+    { email: 'trainer@sonatrach.dz', password: 'trainer123', role: 'trainer', name: 'SAADI MARIA' },
     { email: 'employee@sonatrach.dz', password: 'emp123', role: 'employee', name: 'Ahmed Benali' }
   ]);
 
@@ -2791,11 +3227,11 @@ function App() {
       case 'courses': return <CoursesPage onNavigate={navigate} currentUser={currentUser} language={language} />;
       case 'auth-gate': return <AuthGatePage onNavigate={navigate} language={language} />;
       case 'course-detail': return <CourseDetailPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} />;
-      case 'course-plan': return <CoursePlanPage course={pageData.course} onNavigate={navigate} language={language} />;
+      case 'course-plan': return <CoursePlanPage course={pageData.course} onNavigate={navigate} language={language} courseVideos={courseVideos} videoProgress={videoProgress} setVideoProgress={setVideoProgress} />;
       case 'login': return <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
       case 'signup': return <SignupPage onNavigate={navigate} onLogin={handleLogin} language={language} />;
-      case 'dashboard': return currentUser ? <DashboardPage user={currentUser} onNavigate={navigate} onLogout={handleLogout} users={users} setUsers={setUsers} language={language} /> : <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
-      case 'quiz': return <QuizPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} />;
+      case 'dashboard': return currentUser ? <DashboardPage user={currentUser} onNavigate={navigate} onLogout={handleLogout} users={users} setUsers={setUsers} language={language} courseVideos={courseVideos} setCourseVideos={setCourseVideos} courseQuizzes={courseQuizzes} setCourseQuizzes={setCourseQuizzes} videoProgress={videoProgress} /> : <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
+      case 'quiz': return <QuizPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} courseQuizzes={courseQuizzes} videoProgress={videoProgress} />;
       case 'certificate': return <CertificatePage course={pageData.course} userName={pageData.userName} onNavigate={navigate} language={language} />;
       default: return <HomePage onNavigate={navigate} language={language} />;
     }

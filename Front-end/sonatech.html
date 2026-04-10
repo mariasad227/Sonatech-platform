@@ -135,7 +135,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 3px solid var(--black);
       flex-shrink: 0;
       box-shadow: 0 6px 16px rgba(0,0,0,0.2);
       overflow: hidden;
@@ -874,18 +873,33 @@
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal-card {
-      background: var(--white);
-      border: 2px solid var(--black);
+      background: var(--card-bg);
+      backdrop-filter: var(--backdrop-blur);
+      border: var(--glass-border);
       border-radius: var(--radius-lg);
       padding: 36px 40px;
       max-width: 480px;
       width: 100%;
-      box-shadow: 8px 8px 0 var(--black);
+      box-shadow: var(--glass-shadow-lg);
       animation: slideUp 0.3s ease both;
     }
     .modal-card h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
     .modal-card p { color: var(--gray-600); font-size: 0.9rem; margin-bottom: 24px; }
     .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+    .modal-card input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .modal-card input:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(226, 145, 26, 0.1);
+    }
     .btn-danger { background: #ef4444; color: white; border: 2px solid var(--black); font-family: var(--font-body); font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
 
     /* ALERT */
@@ -1271,7 +1285,7 @@ const TRANSLATIONS = {
     nextRecommendedCourses: 'Next recommended courses',
     gotoQuiz: 'Go to quiz for this course',
     courseOutline: 'Course outline & videos',
-    authGateMessage: 'You have to login or create account',
+    authGateMessage: 'You have to login',
     faqSection: 'Frequently Asked Questions',
     policyTitle: 'Policy',
     policyText: 'All course enrollments are subject to Sonatrach\'s internal training policy. Completion of this course is voluntary unless specified otherwise by your department manager. For any issues, contact your HR representative.',
@@ -1304,9 +1318,10 @@ const TRANSLATIONS = {
     goToQuizForCourse: 'Go to quiz for this course',
     viewResults: 'View Results',
     createQuiz: 'Create Quiz',
+    editCourse: 'Edit Course',
     myCourses: 'My Courses',
     manageUsers: 'Manage Users',
-    manageCourses: 'Manage Courses',
+    manageCourses: 'View Courses',
     overview: 'Overview',
     myLearning: 'My Learning',
     certificates: 'Certificates',
@@ -1318,6 +1333,12 @@ const TRANSLATIONS = {
     reports: 'Reports',
     downloadCertificate: 'Download Certificate',
     uploadMaterials: 'Upload Materials',
+    changePassword: 'Change Password',
+    currentPassword: 'Current Password',
+    newPassword: 'New Password',
+    confirmPassword: 'Confirm Password',
+    changePasswordSuccess: 'Password changed successfully',
+    changePasswordError: 'Error changing password',
     cancel: 'Cancel',
     upload: 'Upload',
     uploading: 'Uploading...',
@@ -1401,7 +1422,7 @@ const TRANSLATIONS = {
     nextRecommendedCourses: 'الدورات الموصى بها التالية',
     gotoQuiz: 'انتقل إلى الاختبار لهذه الدورة',
     courseOutline: 'مخطط الدورة والفيديوهات',
-    authGateMessage: 'يجب عليك تسجيل الدخول أو إنشاء حساب',
+    authGateMessage: 'يجب عليك تسجيل الدخول',
     faqSection: 'الأسئلة الشائعة',
     policyTitle: 'السياسة',
     policyText: 'جميع التسجيلات في الدورة تخضع لسياسة التدريب الداخلية لسوناطراك. إكمال هذه الدورة اختيارية ما لم يحدد خلاف ذلك مدير القسم. لأي مشاكل، اتصل بممثل الموارد البشرية.',
@@ -1434,9 +1455,10 @@ const TRANSLATIONS = {
     goToQuizForCourse: 'اذهب إلى الاختبار لهذه الدورة',
     viewResults: 'عرض النتائج',
     createQuiz: 'إنشاء اختبار',
+    editCourse: 'تعديل الدورة',
     myCourses: 'دوراتي',
     manageUsers: 'إدارة المستخدمين',
-    manageCourses: 'إدارة الدورات',
+    manageCourses: 'عرض الدورات',
     overview: 'نظرة عامة',
     myLearning: 'التعلم الخاص بي',
     certificates: 'الشهادات',
@@ -1491,16 +1513,12 @@ const TRANSLATIONS = {
     uploading: 'جارٍ التحميل...',
     quizInstruction: 'إنشاء تقييمات للمتدربين.',
     uploadMaterials: 'تحميل المواد',
-    upload: 'تحميل',
-    cancel: 'إلغاء',
-    selectFiles: 'اسحب الملفات هنا أو انقر للاختيار',
-    uploadMaterials: 'تحميل المواد',
-    cancel: 'إلغاء',
-    upload: 'تحميل',
-    selectFiles: 'اسحب الملفات هنا أو انقر للاختيار',
-    selectedFiles: 'الملفات المحددة',
-    certificateIncluded: 'الشهادة متضمنة',
-    about: 'حول',
+    changePassword: 'تغيير كلمة المرور',
+    currentPassword: 'كلمة المرور الحالية',
+    newPassword: 'كلمة المرور الجديدة',
+    confirmPassword: 'تأكيد كلمة المرور',
+    changePasswordSuccess: 'تم تغيير كلمة المرور بنجاح',
+    changePasswordError: 'خطأ في تغيير كلمة المرور',
     platformTitle: 'منصة سونا تك',
     platformDesc: 'سونا تك عبارة عن منصة تعليمية موجهة لموظفي سوناطراك لتعزيز مهاراتهم في مختلف المجالات.',
     email: 'البريد الإلكتروني',
@@ -1534,7 +1552,7 @@ const TRANSLATIONS = {
     nextRecommendedCourses: 'Prochains cours recommandés',
     gotoQuiz: 'Aller au quiz pour ce cours',
     courseOutline: 'Plan de cours et vidéos',
-    authGateMessage: 'Vous devez vous connecter ou créer un compte',
+    authGateMessage: 'Vous devez vous connecter',
     faqSection: 'Questions fréquemment posées',
     policyTitle: 'Politique',
     policyText: 'Toutes les inscriptions aux cours sont soumises à la politique de formation interne de Sonatrach. L\'achèvement de ce cours est volontaire sauf indication contraire de votre responsable de service. Pour tout problème, contactez votre représentant RH.',
@@ -1567,9 +1585,10 @@ const TRANSLATIONS = {
     goToQuizForCourse: 'Aller au quiz pour ce cours',
     viewResults: 'Voir les résultats',
     createQuiz: 'Créer un quiz',
+    editCourse: 'Modifier le cours',
     myCourses: 'Mes cours',
     manageUsers: 'Gérer les utilisateurs',
-    manageCourses: 'Gérer les cours',
+    manageCourses: 'Voir les cours',
     overview: 'Aperçu',
     myLearning: 'Mon apprentissage',
     certificates: 'Certificats',
@@ -1624,16 +1643,12 @@ const TRANSLATIONS = {
     uploading: 'Téléchargement...',
     quizInstruction: 'Créez des évaluations pour vos apprenants',
     uploadMaterials: 'Télécharger des supports',
-    upload: 'Télécharger',
-    cancel: 'Annuler',
-    selectFiles: 'Glissez les fichiers ici ou cliquez pour sélectionner',
-    uploadMaterials: 'Télécharger des documents',
-    cancel: 'Annuler',
-    upload: 'Télécharger',
-    selectFiles: 'Glissez les fichiers ici ou cliquez pour sélectionner',
-    selectedFiles: 'Fichiers sélectionnés',
-    certificateIncluded: 'Certificat inclus',
-    about: 'À propos',
+    changePassword: 'Changer le mot de passe',
+    currentPassword: 'Mot de passe actuel',
+    newPassword: 'Nouveau mot de passe',
+    confirmPassword: 'Confirmer le mot de passe',
+    changePasswordSuccess: 'Mot de passe changé avec succès',
+    changePasswordError: 'Erreur lors du changement de mot de passe',
     platformTitle: 'Plateforme SonaTech',
     platformDesc: 'SonaTech est une plateforme éducative destinée aux employés de Sonatrach pour renforcer leurs compétences dans divers domaines.',
     email: 'E-mail',
@@ -1743,13 +1758,12 @@ function Navbar({ onNavigate, currentUser, onLogout, language, onLanguageChange 
         </div>
         {currentUser ? (
           <>
-            <button className="btn-ghost" onClick={() => onNavigate('dashboard')}>{t('dashboard', language)}</button>
+            {currentUser.role === 'trainer' && <button className="btn-ghost" onClick={() => onNavigate('dashboard')}>{t('dashboard', language)}</button>}
             <button className="btn-primary" onClick={onLogout}>{t('logout', language)}</button>
           </>
         ) : (
           <>
             <button className="btn-ghost" onClick={() => onNavigate('login')}>{t('login', language)}</button>
-            <button className="btn-primary" onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
           </>
         )}
       </div>
@@ -1776,7 +1790,6 @@ function HomePage({ onNavigate, language = 'en' }) {
         </h1>
         <div style={{ display:'flex', gap:'12px', justifyContent:'center', flexWrap:'wrap' }}>
           <button className="btn-primary" style={{padding:'12px 32px', fontSize:'1rem'}} onClick={() => onNavigate('login')}>{t('login', language)}</button>
-          <button className="btn-secondary" style={{padding:'12px 32px', fontSize:'1rem'}} onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
         </div>
       </div>
       <button className="discover-btn" onClick={() => onNavigate('courses')}>
@@ -1787,9 +1800,9 @@ function HomePage({ onNavigate, language = 'en' }) {
 }
 
 // ===== COURSES LISTING =====
-function CoursesPage({ onNavigate, currentUser, language = 'en' }) {
+function CoursesPage({ onNavigate, currentUser, language = 'en', courses }) {
   const [search, setSearch] = useState('');
-  const filtered = COURSES_DATA.filter(c => {
+  const filtered = courses.filter(c => {
     const courseTitle = getCourseTranslation(c.id, 'title', language);
     return c.category.toLowerCase().includes(search.toLowerCase()) ||
            courseTitle.toLowerCase().includes(search.toLowerCase());
@@ -1845,9 +1858,7 @@ function AuthGatePage({ onNavigate, language = 'en' }) {
     <div className="auth-page">
       <div className="auth-gate-card">
         <p>{t('authGateMessage', language)}</p>
-        <button className="btn-primary btn-full" style={{marginBottom:'8px'}} onClick={() => onNavigate('login')}>{t('login', language)}</button>
-        <div className="auth-gate-sep">or</div>
-        <button className="btn-primary btn-full" onClick={() => onNavigate('signup')}>{t('signup', language)}</button>
+        <button className="btn-primary btn-full" onClick={() => onNavigate('login')}>{t('login', language)}</button>
         <button className="back-btn" style={{margin:'24px auto 0', display:'flex'}} onClick={() => onNavigate('courses')}><Icon.Back /></button>
       </div>
     </div>
@@ -1855,7 +1866,7 @@ function AuthGatePage({ onNavigate, language = 'en' }) {
 }
 
 // ===== COURSE DETAIL =====
-function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) {
+function CourseDetailPage({ course, onNavigate, currentUser, language = 'en', courses }) {
   const [tab, setTab] = useState('details');
   const [faqOpen, setFaqOpen] = useState(null);
   const [enrolled, setEnrolled] = useState(false);
@@ -1961,8 +1972,8 @@ function CourseDetailPage({ course, onNavigate, currentUser, language = 'en' }) 
   );
 }
 
-function CoursePlanPage({ course, onNavigate, language = 'en', courseVideos = {}, videoProgress = {}, setVideoProgress }) {
-  const recommended = COURSES_DATA.filter(c => c.id !== course.id).slice(0, 4);
+function CoursePlanPage({ course, onNavigate, language = 'en', courseVideos = {}, videoProgress = {}, setVideoProgress, courses }) {
+  const recommended = courses.filter(c => c.id !== course.id).slice(0, 4);
   const [selectedLessonIndex, setSelectedLessonIndex] = useState(0);
   
   // Use trainer-uploaded videos if available, otherwise use default course outline videos
@@ -2138,6 +2149,9 @@ function LoginPage({ onNavigate, onLogin, users, language = 'en' }) {
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState('');
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotMessage, setForgotMessage] = useState('');
 
   const handleLogin = () => {
     const cleanEmail = email.trim().toLowerCase();
@@ -2178,7 +2192,9 @@ function LoginPage({ onNavigate, onLogin, users, language = 'en' }) {
             <div className="remember-checkbox">{remember && <Icon.Check />}</div>
             Remember me
           </div>
-          <span className="forgot-link">Forgot password?</span>
+          <span className="forgot-link" role="button" onClick={() => { setShowForgot(true); setForgotMessage(''); }}>
+            {t('forgotPassword', language)}
+          </span>
         </div>
         <div style={{marginTop:'20px', padding:'12px', background:'var(--gray-50)', borderRadius:'10px', fontSize:'0.8rem', color:'var(--gray-600)'}}>
           <strong>Demo accounts:</strong><br/>
@@ -2187,6 +2203,35 @@ function LoginPage({ onNavigate, onLogin, users, language = 'en' }) {
           employee@sonatrach.dz / emp123
         </div>
       </div>
+
+      {showForgot && (
+        <div className="modal-overlay" onClick={() => { setShowForgot(false); setForgotMessage(''); }}>
+          <div className="modal-card" onClick={e => e.stopPropagation()}>
+            <h2>{t('forgotPassword', language)}</h2>
+            <div className="form-group">
+              <label>{t('email', language)}</label>
+              <input type="email" placeholder={t('typeYourEmail', language)} value={forgotEmail} onChange={e => setForgotEmail(e.target.value)} />
+            </div>
+            {forgotMessage && <div className="alert alert-success" style={{marginBottom:'16px'}}>{forgotMessage}</div>}
+            <div className="modal-actions">
+              <button className="btn-secondary" onClick={() => { setShowForgot(false); setForgotEmail(''); setForgotMessage(''); }}>{t('cancel', language)}</button>
+              <button className="btn-primary" onClick={() => {
+                const target = forgotEmail.trim().toLowerCase();
+                if (!target) {
+                  setForgotMessage('Please enter your email.');
+                  return;
+                }
+                const targetUser = users.find(u => u.email.toLowerCase() === target);
+                if (!targetUser) {
+                  setForgotMessage('No account found for this email.');
+                  return;
+                }
+                setForgotMessage(`Password recovery: your password is \"${targetUser.password}\"`);
+              }}>{t('forgotPassword', language)}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2416,7 +2461,7 @@ function CertificatePage({ course, userName, onNavigate, language = 'en' }) {
 }
 
 // ===== ADMIN DASHBOARD =====
-function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: setGlobalUsers, language = 'en' }) {
+function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: setGlobalUsers, language = 'en', courses }) {
   const [users, setUsers] = useState([
     { id:1, name:'Ahmed Benali', email:'ahmed@sonatrach.dz', role:'employee', status:'active', enrolled:3 },
     { id:2, name:'Sara Meziane', email:'sara@sonatrach.dz', role:'employee', status:'active', enrolled:1 },
@@ -2535,6 +2580,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
                       const newUserObj = { email: newUser.email, password: newUser.password, role: newUser.role, name: newUser.name };
                       setGlobalUsers([...globalUsers, newUserObj]);
                       setUsers([...users, {id: Date.now(), ...newUser, status:'active', enrolled:0}]);
+                      alert('Account created successfully! An email has been sent to ' + newUser.email + ' with login credentials.');
                       setNewUser({name:'', email:'', password:'', role:'employee'});
                       setShowModal(false);
                     }
@@ -2547,7 +2593,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
       )}
       {activeNav === 'courses' && (
         <>
-          <div className="dashboard-title">Manage Courses</div>
+          <div className="dashboard-title">View Courses</div>
           <div className="dashboard-sub">Monitor and manage all platform courses</div>
           <div className="section-card">
             <table>
@@ -2555,7 +2601,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
                 <tr><th>Course</th><th>Category</th><th>Duration</th><th>Enrollments</th><th>Status</th></tr>
               </thead>
               <tbody>
-                {COURSES_DATA.map(c => (
+                {courses.map(c => (
                   <tr key={c.id}>
                     <td><strong>{c.title}</strong></td>
                     <td><span className="badge badge-orange">{c.category}</span></td>
@@ -2592,7 +2638,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
                     <td>
                       <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
                         <div className="progress-bar" style={{flex:1}}>
-                          <div className="progress-fill" style={{width:`${r.progress}%`}}></div>
+                          <div className="progress-fill" style={{width:`${r.progress}%`, backgroundColor: r.progress > 50 ? '#22c55e' : '#E8941A'}}></div>
                         </div>
                         <span style={{fontSize:'0.82rem', fontWeight:'700', minWidth:'36px'}}>{r.progress}%</span>
                       </div>
@@ -2612,7 +2658,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
           <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px'}}>
             <div className="section-card">
               <div className="section-card-title">📊 Enrollment by Category</div>
-              {COURSES_DATA.map(c => (
+              {courses.map(c => (
                 <div key={c.id} style={{marginBottom:'16px'}}>
                   <div style={{display:'flex', justifyContent:'space-between', marginBottom:'6px', fontSize:'0.85rem'}}>
                     <span style={{fontWeight:'600'}}>{c.category}</span>
@@ -2629,7 +2675,7 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
               <table>
                 <thead><tr><th>#</th><th>Course</th><th>Completions</th></tr></thead>
                 <tbody>
-                  {[...COURSES_DATA].sort((a,b) => b.employees-a.employees).slice(0,4).map((c,i) => (
+                  {[...courses].sort((a,b) => b.employees-a.employees).slice(0,4).map((c,i) => (
                     <tr key={c.id}>
                       <td><strong>#{i+1}</strong></td>
                       <td>{c.category}</td>
@@ -2647,26 +2693,41 @@ function AdminDashboard({ onNavigate, activeNav, users: globalUsers, setUsers: s
 }
 
 // ===== TRAINER DASHBOARD =====
-function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en', courseVideos = {}, setCourseVideos, courseQuizzes = {}, setCourseQuizzes }) {
+function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en', courses, setCourses, courseVideos = {}, setCourseVideos, courseQuizzes = {}, setCourseQuizzes }) {
   const [showUpload, setShowUpload] = useState(false);
   const [showQuizEditor, setShowQuizEditor] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(COURSES_DATA[0].id);
+  const [selectedCourse, setSelectedCourse] = useState('');
   const [quizCreated, setQuizCreated] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [newVideoMeta, setNewVideoMeta] = useState({ title: '', duration: '', description: '' });
   const [newQuizQuestion, setNewQuizQuestion] = useState({ q: '', options: ['', '', '', ''], correct: 0 });
   const [editingQuizIndex, setEditingQuizIndex] = useState(null);
+  const [newCourse, setNewCourse] = useState({ category: '', title: '', desc: '', hours: 0, language: 'Arabic', certificate: true, image: '', outline: [] });
   const fileInputRef = useRef(null);
 
-  const currentCourse = COURSES_DATA.find(c => c.id === selectedCourse) || COURSES_DATA[0];
-  const courseVidList = courseVideos[selectedCourse] || [];
-  const courseQuizList = courseQuizzes[selectedCourse] || [];
+  const trainerCourses = courses;
+  const currentCourse = trainerCourses.find(c => c.id === selectedCourse) || trainerCourses[0] || { id: '', category: '', title: '', desc: '', hours: 0, language: 'Arabic', certificate: true, image: 'images/placeholder-course.png', trainer: { name: user.name } };
+  const courseVidList = selectedCourse ? courseVideos[selectedCourse] || [] : [];
+  const courseQuizList = selectedCourse ? courseQuizzes[selectedCourse] || [] : [];
+
+  useEffect(() => {
+    if (!selectedCourse && trainerCourses.length > 0) {
+      setSelectedCourse(trainerCourses[0].id);
+    }
+  }, [trainerCourses, selectedCourse]);
+
+  useEffect(() => {
+    if (!['courses', 'create', 'results'].includes(activeNav)) {
+      setActiveNav('courses');
+    }
+  }, [activeNav, setActiveNav]);
 
   const handleFileSelect = (e) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-    setSelectedFiles(files);
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    setSelectedFile(file);
     setUploadStatus(null);
   };
 
@@ -2674,37 +2735,36 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-    const files = Array.from(e.dataTransfer.files || []);
-    if (!files.length) return;
-    setSelectedFiles(prev => [...prev, ...files]);
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!file) return;
+    setSelectedFile(file);
     setUploadStatus(null);
   };
 
   const handleUploadVideo = () => {
-    if (!selectedFiles.length) {
+    if (!selectedFile || !newVideoMeta.title || !newVideoMeta.duration) {
       setUploadStatus('error');
       return;
     }
     setUploadStatus('uploading');
 
-    // Simulate upload
     setTimeout(() => {
-      const newVideos = selectedFiles.map(file => ({
+      const newVideo = {
         id: Date.now() + Math.random(),
-        title: file.name.replace(/\.[^/.]+$/, ''),
-        videoUrl: '#', // In real app, would upload to server
-        duration: '15 min',
+        title: newVideoMeta.title,
+        videoUrl: '#',
+        duration: newVideoMeta.duration,
+        description: newVideoMeta.description,
         type: 'Video'
-      }));
-      
+      };
       setCourseVideos({
         ...courseVideos,
-        [selectedCourse]: [...(courseVideos[selectedCourse] || []), ...newVideos]
+        [selectedCourse]: [...(courseVideos[selectedCourse] || []), newVideo]
       });
-      
       setUploadStatus('success');
       setShowUpload(false);
-      setSelectedFiles([]);
+      setSelectedFile(null);
+      setNewVideoMeta({ title: '', duration: '', description: '' });
       setTimeout(() => setUploadStatus(null), 1800);
     }, 900);
   };
@@ -2736,6 +2796,7 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
     });
     
     setNewQuizQuestion({ q: '', options: ['', '', '', ''], correct: 0 });
+    setShowQuizEditor(false);
   };
 
   const handleDeleteQuizQuestion = (index) => {
@@ -2751,19 +2812,37 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
     setShowQuizEditor(true);
   };
 
+  const handleCreateCourse = () => {
+    if (!newCourse.category || !newCourse.title || !newCourse.desc) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    const course = {
+      id: newCourse.category.toLowerCase().replace(/\s+/g, ''),
+      category: newCourse.category,
+      title: newCourse.title,
+      desc: newCourse.desc,
+      hours: newCourse.hours,
+      employees: 0,
+      language: newCourse.language,
+      certificate: newCourse.certificate,
+      image: newCourse.image || 'images/placeholder-course.png',
+      outline: newCourse.outline,
+      createdBy: user.email,
+      trainer: { name: user.name, role: 'Trainer', rating: 0, reviews: 0, employees: 0, courses: 1, about: '' }
+    };
+    setCourses([...courses, course]);
+    setNewCourse({ category: '', title: '', desc: '', hours: 0, language: 'Arabic', certificate: true, image: '', outline: [] });
+    setSelectedCourse(course.id);
+    setActiveNav('courses');
+  };
+
   return (
     <div className="dashboard-main">
       <div style={{display:'flex', gap:'10px', marginBottom:'20px', alignItems:'center', flexWrap:'wrap'}}>
         <button className={`btn-secondary ${activeNav==='courses'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('courses')}>{t('myCourses', language)}</button>
-        <button className={`btn-secondary ${activeNav==='quiz'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('quiz')}>{t('createQuiz', language)}</button>
+        <button className={`btn-secondary ${activeNav==='create'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('create')}>{t('createCourse', language)}</button>
         <button className={`btn-secondary ${activeNav==='results'?'active':''}`} style={{fontSize:'0.85rem'}} onClick={() => setActiveNav('results')}>{t('viewResults', language)}</button>
-        <div style={{marginLeft:'auto'}}>
-          <select className="select-input" value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} style={{padding:'8px 12px', fontSize:'0.9rem'}}>
-            {COURSES_DATA.map(c => (
-              <option key={c.id} value={c.id}>{c.category}</option>
-            ))}
-          </select>
-        </div>
       </div>
 
       {uploadStatus === 'success' && <div className="alert alert-success" style={{marginBottom:'16px'}}>✅ Videos uploaded successfully!</div>}
@@ -2774,97 +2853,188 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
           <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px'}}>
             <div>
               <div className="dashboard-title">{t('myCourses', language)} 📚</div>
-              <div className="dashboard-sub">{currentCourse.category} - {t('manageCourseContent', language)}</div>
+              <div className="dashboard-sub">Manage your created courses, videos and quizzes</div>
             </div>
-            <button className="btn-primary" style={{fontSize:'0.85rem', padding:'10px 16px'}} onClick={() => setShowUpload(true)}>
-              + Upload Videos
-            </button>
           </div>
 
-          <div className="section-card">
-            <div className="section-card-title">📹 Uploaded Videos for {currentCourse.category}</div>
-            {courseVidList.length > 0 ? (
-              <table>
-                <thead>
-                  <tr><th>#</th><th>Video Title</th><th>Duration</th><th>Type</th><th>Actions</th></tr>
-                </thead>
-                <tbody>
-                  {courseVidList.map((vid, idx) => (
-                    <tr key={vid.id}>
-                      <td>{idx + 1}</td>
-                      <td><strong>{vid.title}</strong></td>
-                      <td>{vid.duration}</td>
-                      <td><span className="badge badge-blue">{vid.type}</span></td>
-                      <td>
-                        <button style={{background:'none', border:'1px solid #fca5a5', borderRadius:'6px', padding:'4px 8px', cursor:'pointer', color:'#dc2626'}} 
-                          onClick={() => handleDeleteVideo(vid.id)}>
-                          <Icon.Trash />
-                        </button>
-                      </td>
-                    </tr>
+          <div style={{display:'grid', gridTemplateColumns:'1fr 2fr', gap:'20px'}}>
+            <div className="section-card">
+              <div className="section-card-title">Your Courses</div>
+              {trainerCourses.length > 0 ? (
+                <div style={{display:'grid', gap:'14px'}}>
+                  {trainerCourses.map((course) => (
+                    <div key={course.id} onClick={() => setSelectedCourse(course.id)} style={{cursor:'pointer', display:'grid', gridTemplateColumns:'120px 1fr', gap:'14px', padding:'14px', border: `1px solid ${selectedCourse === course.id ? 'var(--orange)' : 'var(--gray-200)'}`, borderRadius:'18px', background: selectedCourse === course.id ? 'rgba(232,148,26,0.08)' : 'white', transition:'all 0.2s ease'}}>
+                      <img src={course.image || 'images/placeholder-course.png'} alt={course.title} style={{width:'100%', height:'100px', objectFit:'cover', borderRadius:'16px', boxShadow:'0 10px 24px rgba(0,0,0,0.08)'}} />
+                      <div style={{display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+                        <div>
+                          <div style={{fontWeight:'700', fontSize:'0.95rem', marginBottom:'8px'}}>{course.title}</div>
+                          <div style={{fontSize:'0.83rem', color:'var(--gray-500)', marginBottom:'10px'}}>{course.category} · {course.hours}h</div>
+                          <div style={{display:'flex', gap:'8px', flexWrap:'wrap'}}>
+                            <span className="badge badge-blue">{(courseVideos[course.id]||[]).length} videos</span>
+                            <span className="badge badge-orange">{(courseQuizzes[course.id]||[]).length} quizzes</span>
+                          </div>
+                        </div>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                          <span style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>Trainer: {course.trainer?.name || user.name}</span>
+                          {selectedCourse === course.id && <span className="badge badge-green">Selected</span>}
+                        </div>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
-            ) : (
-              <div style={{padding:'24px', textAlign:'center', color:'var(--gray-500)'}}>
-                No videos uploaded yet. Click "Upload Videos" to add course videos.
+                </div>
+              ) : (
+                <div style={{padding:'24px', textAlign:'center', color:'var(--gray-500)'}}>
+                  You have not created any courses yet. Use Create Course to add one.
+                </div>
+              )}
+            </div>
+
+            <div className="section-card">
+              <div style={{display:'grid', gridTemplateColumns: currentCourse.id ? '1fr 120px' : '1fr', gap:'20px', alignItems:'start', marginBottom:'18px'}}>
+                <div>
+                  <div className="section-card-title">{currentCourse.title || 'Select a course'}</div>
+                  <div style={{color:'var(--gray-600)', fontSize:'0.95rem', marginTop:'10px'}}>{currentCourse.desc}</div>
+                  {currentCourse.id && (
+                    <div style={{display:'flex', flexWrap:'wrap', gap:'10px', marginTop:'18px'}}>
+                      <span className="badge badge-blue">{courseVidList.length} videos</span>
+                      <span className="badge badge-orange">{courseQuizList.length} quizzes</span>
+                      <span className="badge badge-blue">{currentCourse.language}</span>
+                    </div>
+                  )}
+                </div>
+                {currentCourse.id && (
+                  <img src={currentCourse.image || 'images/placeholder-course.png'} alt={currentCourse.title} style={{width:'100%', height:'140px', objectFit:'cover', borderRadius:'18px', boxShadow:'0 20px 45px rgba(0,0,0,0.08)'}} />
+                )}
               </div>
-            )}
+
+              {currentCourse.id ? (
+                <>
+                  <div style={{display:'flex', gap:'12px', flexWrap:'wrap', marginBottom:'18px'}}>
+                    <button className="btn-primary" style={{fontSize:'0.88rem', padding:'10px 20px'}} onClick={() => setShowUpload(true)}>
+                      + Add Video
+                    </button>
+                    <button className="btn-secondary" style={{fontSize:'0.88rem', padding:'10px 20px'}} onClick={() => { setShowQuizEditor(true); setEditingQuizIndex(null); setNewQuizQuestion({ q: '', options: ['', '', '', ''], correct: 0 }); }}>
+                      + Add Quiz
+                    </button>
+                  </div>
+
+                  <div style={{marginBottom:'20px'}}>
+                    <div style={{fontSize:'1rem', fontWeight:'700', marginBottom:'12px'}}>Video Library</div>
+                    {courseVidList.length > 0 ? (
+                      <div style={{display:'grid', gap:'12px'}}>
+                        {courseVidList.map((vid, idx) => (
+                          <div key={vid.id} style={{border:'1px solid var(--gray-200)', borderRadius:'16px', padding:'16px', display:'grid', gridTemplateColumns:'1fr auto', gap:'16px', alignItems:'center'}}>
+                            <div>
+                              <div style={{fontWeight:'700', marginBottom:'6px'}}>{vid.title}</div>
+                              <div style={{fontSize:'0.85rem', color:'var(--gray-600)'}}>{vid.duration}</div>
+                              <div style={{fontSize:'0.82rem', color:'var(--gray-500)', marginTop:'6px'}}>{vid.description || 'No description provided'}</div>
+                            </div>
+                            <button style={{background:'none', border:'1px solid #fca5a5', borderRadius:'8px', padding:'8px 12px', cursor:'pointer', color:'#dc2626'}} onClick={() => handleDeleteVideo(vid.id)}>
+                              <Icon.Trash />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{padding:'20px', border:'1px dashed var(--gray-300)', borderRadius:'16px', textAlign:'center', color:'var(--gray-500)'}}>
+                        No videos yet. Use Add Video to upload and describe your course videos.
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <div style={{fontSize:'1rem', fontWeight:'700', marginBottom:'12px'}}>Quiz Bank</div>
+                    {courseQuizList.length > 0 ? (
+                      <div style={{display:'grid', gap:'12px'}}>
+                        {courseQuizList.map((q, idx) => (
+                          <div key={idx} style={{border:'1px solid var(--gray-200)', borderRadius:'16px', padding:'16px', display:'grid', gridTemplateColumns:'1fr auto', gap:'16px', alignItems:'center'}}>
+                            <div>
+                              <div style={{fontWeight:'700', marginBottom:'6px'}}>Question {idx + 1}</div>
+                              <div style={{fontSize:'0.85rem', color:'var(--gray-600)'}}>{q.q}</div>
+                            </div>
+                            <div style={{display:'flex', gap:'10px'}}>
+                              <button style={{background:'none', border:'none', cursor:'pointer', color:'var(--orange)', fontSize:'1rem'}} onClick={() => handleEditQuestion(idx)}><Icon.Edit /></button>
+                              <button style={{background:'none', border:'none', cursor:'pointer', color:'#dc2626', fontSize:'1rem'}} onClick={() => handleDeleteQuizQuestion(idx)}><Icon.Trash /></button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{padding:'20px', border:'1px dashed var(--gray-300)', borderRadius:'16px', textAlign:'center', color:'var(--gray-500)'}}>
+                        No quiz questions yet. Click Add Quiz to build the assessment for this course.
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : null}
+            </div>
           </div>
 
           {showUpload && (
             <div className="modal-overlay" onClick={() => setShowUpload(false)}>
               <div className="modal-card" onClick={e => e.stopPropagation()}>
-                <h2>Upload Videos - {currentCourse.category}</h2>
-                <p>Upload video files for your course. Students will see these videos when taking the course.</p>
+                <h2>Add Video to {currentCourse.category}</h2>
+                <p>Provide video title, duration, description and upload the file.</p>
                 <input
                   type="file"
                   ref={fileInputRef}
                   style={{ display: 'none' }}
-                  multiple
                   accept=".mp4,.avi,.mov,.mkv"
                   onChange={handleFileSelect}
                 />
-                <div
-                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                  onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
-                  onDrop={handleDrop}
-                  style={{
-                    border: `2px dashed ${isDragging ? 'var(--orange)' : 'var(--gray-300)'}`,
-                    borderRadius: '12px',
-                    padding: '36px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    marginBottom: '20px',
-                    background: isDragging ? 'rgba(232, 149, 54, 0.1)' : 'var(--gray-50)'
-                  }}
-                >
-                  <div style={{fontSize:'2.5rem', marginBottom:'8px'}}>📁</div>
-                  <div style={{fontWeight:'600', marginBottom:'4px'}}>{selectedFiles.length ? 'Files selected' : 'Drop files here or click to select'}</div>
-                  <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>MP4, AVI, MOV, MKV supported</div>
+                <div style={{display:'grid', gap:'14px', marginTop:'18px'}}>
+                  <div className="form-group">
+                    <label>Video Title</label>
+                    <input className="form-input" type="text" value={newVideoMeta.title} onChange={e => setNewVideoMeta({...newVideoMeta, title: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <label>Duration</label>
+                    <input className="form-input" type="text" placeholder="e.g. 12:34" value={newVideoMeta.duration} onChange={e => setNewVideoMeta({...newVideoMeta, duration: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <label>Description</label>
+                    <textarea className="form-input" rows="3" value={newVideoMeta.description} onChange={e => setNewVideoMeta({...newVideoMeta, description: e.target.value})}></textarea>
+                  </div>
+                  <div style={{padding:'14px', border:'2px dashed var(--gray-300)', borderRadius:'12px', textAlign:'center', cursor:'pointer', background: isDragging ? 'rgba(232, 149, 54, 0.1)' : 'var(--gray-50)'}} onClick={() => fileInputRef.current && fileInputRef.current.click()} onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }} onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }} onDrop={handleDrop}>
+                    <div style={{fontSize:'2rem', marginBottom:'8px'}}>📹</div>
+                    <div style={{fontWeight:'600', marginBottom:'4px'}}>{selectedFile ? selectedFile.name : 'Drop one video file here or click to select'}</div>
+                    <div style={{fontSize:'0.8rem', color:'var(--gray-500)'}}>MP4, AVI, MOV, MKV supported</div>
+                  </div>
                 </div>
 
-                {selectedFiles.length > 0 && (
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 12px 0', maxHeight: '140px', overflowY: 'auto' }}>
-                    {selectedFiles.map((file, index) => (
-                      <li key={`${file.name}-${index}`} style={{ fontSize: '0.85rem', marginBottom: '6px' }}>
-                        📹 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                <div className="modal-actions">
-                  <button className="btn-secondary" onClick={() => { setShowUpload(false); setSelectedFiles([]); setUploadStatus(null); }}>Cancel</button>
-                  <button
-                    className="btn-primary"
-                    onClick={handleUploadVideo}
-                    disabled={uploadStatus === 'uploading'}
-                    style={{ opacity: uploadStatus === 'uploading' ? 0.7 : 1 }}
-                  >
-                    {uploadStatus === 'uploading' ? 'Uploading...' : 'Upload Videos'}
+                <div className="modal-actions" style={{marginTop:'22px'}}>
+                  <button className="btn-secondary" onClick={() => { setShowUpload(false); setSelectedFile(null); setNewVideoMeta({ title: '', duration: '', description: '' }); setUploadStatus(null); }}>Cancel</button>
+                  <button className="btn-primary" onClick={handleUploadVideo} disabled={uploadStatus === 'uploading'} style={{ opacity: uploadStatus === 'uploading' ? 0.7 : 1 }}>
+                    {uploadStatus === 'uploading' ? 'Uploading...' : 'Save Video'}
                   </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showQuizEditor && (
+            <div className="modal-overlay" onClick={() => { setShowQuizEditor(false); setEditingQuizIndex(null); }}>
+              <div className="modal-card" onClick={e => e.stopPropagation()} style={{maxWidth:'620px'}}>
+                <h2>{editingQuizIndex !== null ? 'Edit Quiz Question' : 'Add Quiz Question'}</h2>
+                <div className="form-group">
+                  <label>Question</label>
+                  <input className="form-input" type="text" value={newQuizQuestion.q} onChange={e => setNewQuizQuestion({...newQuizQuestion, q: e.target.value})} />
+                </div>
+                <div style={{display:'grid', gap:'12px', marginTop:'14px'}}>
+                  {newQuizQuestion.options.map((opt, idx) => (
+                    <div key={idx} className="form-group" style={{display:'flex', gap:'10px', alignItems:'center'}}>
+                      <input type="radio" name="correctOption" checked={newQuizQuestion.correct === idx} onChange={() => setNewQuizQuestion({...newQuizQuestion, correct: idx})} />
+                      <input className="form-input" type="text" placeholder={`Option ${String.fromCharCode(65 + idx)}`} value={opt} onChange={e => {
+                        const options = [...newQuizQuestion.options];
+                        options[idx] = e.target.value;
+                        setNewQuizQuestion({...newQuizQuestion, options});
+                      }} />
+                    </div>
+                  ))}
+                </div>
+                <div className="modal-actions" style={{marginTop:'22px'}}>
+                  <button className="btn-secondary" onClick={() => { setShowQuizEditor(false); setEditingQuizIndex(null); }}>{t('cancel', language)}</button>
+                  <button className="btn-primary" onClick={handleAddQuizQuestion}>{editingQuizIndex !== null ? 'Save Changes' : 'Save Question'}</button>
                 </div>
               </div>
             </div>
@@ -2872,76 +3042,55 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
         </>
       )}
 
-      {activeNav === 'quiz' && (
+      {activeNav === 'create' && (
         <>
           <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'24px'}}>
             <div>
-              <div className="dashboard-title">Create Quiz - {currentCourse.category} ✏️</div>
-              <div className="dashboard-sub">Build custom assessments for your students</div>
+              <div className="dashboard-title">Create New Course 📚</div>
+              <div className="dashboard-sub">Add a new course to your trainer dashboard</div>
             </div>
-            <button className="btn-primary" style={{fontSize:'0.85rem', padding:'10px 16px'}} onClick={() => { setShowQuizEditor(true); setEditingQuizIndex(null); setNewQuizQuestion({ q: '', options: ['', '', '', ''], correct: 0 }); }}>
-              + Add Question
-            </button>
           </div>
 
           <div className="section-card">
-            <div className="section-card-title">📝 Quiz Questions ({courseQuizList.length})</div>
-            {courseQuizList.length > 0 ? (
-              <div>
-                {courseQuizList.map((q, idx) => (
-                  <div key={idx} style={{border:'2px solid var(--gray-200)', borderRadius:'12px', padding:'20px', marginBottom:'16px'}}>
-                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:'12px'}}>
-                      <strong style={{fontSize:'0.92rem'}}>Q{idx+1}: {q.q}</strong>
-                      <div style={{display:'flex', gap:'8px'}}>
-                        <button style={{background:'none', border:'none', cursor:'pointer', color:'var(--orange)', fontSize:'1rem'}} onClick={() => handleEditQuestion(idx)}><Icon.Edit /></button>
-                        <button style={{background:'none', border:'none', cursor:'pointer', color:'#dc2626', fontSize:'1rem'}} onClick={() => handleDeleteQuizQuestion(idx)}><Icon.Trash /></button>
-                      </div>
-                    </div>
-                    {q.options.map((opt, oi) => (
-                      <div key={oi} style={{display:'flex', alignItems:'center', gap:'8px', padding:'6px 10px', borderRadius:'8px', background: oi===q.correct?'#f0fdf4':'transparent', marginBottom:'4px', fontSize:'0.85rem'}}>
-                        <span style={{width:'20px', height:'20px', borderRadius:'50%', background: oi===q.correct?'#16a34a':'var(--gray-200)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.7rem', color: oi===q.correct?'white':'var(--gray-600)', flexShrink:0, fontWeight:'700'}}>{String.fromCharCode(65+oi)}</span>
-                        {opt}
-                        {oi===q.correct && <span style={{marginLeft:'auto', fontSize:'0.75rem', color:'#16a34a', fontWeight:'700'}}>✓ Correct</span>}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+            <div className="section-card-title">Course Details</div>
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px'}}>
+              <div className="form-group">
+                <label>Category</label>
+                <input className="form-input" type="text" placeholder="e.g. Advanced Linux" value={newCourse.category} onChange={e => setNewCourse({...newCourse, category: e.target.value})} />
               </div>
-            ) : (
-              <div style={{padding:'24px', textAlign:'center', color:'var(--gray-500)'}}>
-                No quiz questions yet. Click "Add Question" to create your first question.
+              <div className="form-group">
+                <label>Title</label>
+                <input className="form-input" type="text" placeholder="Course title" value={newCourse.title} onChange={e => setNewCourse({...newCourse, title: e.target.value})} />
               </div>
-            )}
-          </div>
-
-          {showQuizEditor && (
-            <div className="modal-overlay" onClick={() => { setShowQuizEditor(false); setEditingQuizIndex(null); }}>
-              <div className="modal-card" onClick={e => e.stopPropagation()} style={{maxWidth:'600px'}}>
-                <h2>{editingQuizIndex !== null ? 'Edit Question' : 'Add Question'}</h2>
-                <div className="form-group">
-                  <label>Question</label>
-                  <input className="form-input" type="text" placeholder="Enter the question" value={newQuizQuestion.q} onChange={e => setNewQuizQuestion({...newQuizQuestion, q: e.target.value})} />
-                </div>
-                <label style={{display:'block', fontWeight:'600', marginBottom:'12px', marginTop:'16px'}}>Options</label>
-                {newQuizQuestion.options.map((opt, i) => (
-                  <div key={i} className="form-group">
-                    <div style={{display:'flex', gap:'8px', alignItems:'center'}}>
-                      <input type="radio" name="correct" checked={newQuizQuestion.correct === i} onChange={() => setNewQuizQuestion({...newQuizQuestion, correct: i})} style={{cursor:'pointer'}} />
-                      <input className="form-input" style={{flex:1, margin:0}} type="text" placeholder={`Option ${String.fromCharCode(65+i)}`} value={opt} onChange={e => {
-                        const opts = [...newQuizQuestion.options];
-                        opts[i] = e.target.value;
-                        setNewQuizQuestion({...newQuizQuestion, options: opts});
-                      }} />
-                    </div>
-                  </div>
-                ))}
-                <div className="modal-actions" style={{marginTop:'24px'}}>
-                  <button className="btn-secondary" onClick={() => { setShowQuizEditor(false); setEditingQuizIndex(null); }}>Cancel</button>
-                  <button className="btn-primary" onClick={handleAddQuizQuestion}>{editingQuizIndex !== null ? 'Update' : 'Add'} Question</button>
-                </div>
+              <div className="form-group" style={{gridColumn:'span 2'}}>
+                <label>Description</label>
+                <textarea className="form-input" placeholder="Course description" rows="3" value={newCourse.desc} onChange={e => setNewCourse({...newCourse, desc: e.target.value})}></textarea>
+              </div>
+              <div className="form-group">
+                <label>Duration (hours)</label>
+                <input className="form-input" type="number" value={newCourse.hours} onChange={e => setNewCourse({...newCourse, hours: parseInt(e.target.value) || 0})} />
+              </div>
+              <div className="form-group">
+                <label>Language</label>
+                <select className="select-input" value={newCourse.language} onChange={e => setNewCourse({...newCourse, language: e.target.value})}>
+                  <option value="Arabic">Arabic</option>
+                  <option value="English">English</option>
+                  <option value="French">French</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Image URL</label>
+                <input className="form-input" type="text" placeholder="images/course.png" value={newCourse.image} onChange={e => setNewCourse({...newCourse, image: e.target.value})} />
+              </div>
+              <div className="form-group" style={{display:'flex', alignItems:'center', gap:'8px'}}>
+                <input type="checkbox" checked={newCourse.certificate} onChange={e => setNewCourse({...newCourse, certificate: e.target.checked})} />
+                <label>Certificate upon completion</label>
               </div>
             </div>
-          )}
+            <div style={{marginTop:'24px', textAlign:'right'}}>
+              <button className="btn-primary" onClick={handleCreateCourse}>Create Course</button>
+            </div>
+          </div>
         </>
       )}
 
@@ -2981,16 +3130,17 @@ function TrainerDashboard({ user, onNavigate, activeNav, setActiveNav, language 
           </div>
         </>
       )}
+
     </div>
   );
 }
 
 // ===== EMPLOYEE DASHBOARD =====
-function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en', courseVideos = {}, courseQuizzes = {} }) {
+function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language = 'en', courses, courseVideos = {}, courseQuizzes = {} }) {
   const [enrolled] = useState([
-    { course: COURSES_DATA[0], progress: 85, completed: false, videosCount: courseVideos[COURSES_DATA[0].id]?.length || COURSES_DATA[0].outline?.length || 0, quizCount: courseQuizzes[COURSES_DATA[0].id]?.length || 5 },
-    { course: COURSES_DATA[4], progress: 100, completed: true, videosCount: courseVideos[COURSES_DATA[4].id]?.length || COURSES_DATA[4].outline?.length || 0, quizCount: courseQuizzes[COURSES_DATA[4].id]?.length || 5 },
-    { course: COURSES_DATA[2], progress: 30, completed: false, videosCount: courseVideos[COURSES_DATA[2].id]?.length || COURSES_DATA[2].outline?.length || 0, quizCount: courseQuizzes[COURSES_DATA[2].id]?.length || 5 }
+    { course: courses[0], progress: 85, completed: false, videosCount: courseVideos[courses[0].id]?.length || courses[0].outline?.length || 0, quizCount: courseQuizzes[courses[0].id]?.length || 5 },
+    { course: courses[4], progress: 100, completed: true, videosCount: courseVideos[courses[4].id]?.length || courses[4].outline?.length || 0, quizCount: courseQuizzes[courses[4].id]?.length || 5 },
+    { course: courses[2], progress: 30, completed: false, videosCount: courseVideos[courses[2].id]?.length || courses[2].outline?.length || 0, quizCount: courseQuizzes[courses[2].id]?.length || 5 }
   ]);
 
   return (
@@ -3025,7 +3175,7 @@ function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language
                       <span style={{fontWeight:'700'}}>{e.progress}%</span>
                     </div>
                     <div className="progress-bar">
-                      <div className="progress-fill" style={{width:`${e.progress}%`}}></div>
+                      <div className="progress-fill" style={{width:`${e.progress}%`, backgroundColor: e.progress > 50 ? '#22c55e' : '#E8941A'}}></div>
                     </div>
                   </div>
                   <div style={{fontSize:'0.78rem', color:'var(--gray-500)', marginBottom:'10px', display:'flex', gap:'8px', flexWrap:'wrap'}}>
@@ -3070,8 +3220,10 @@ function EmployeeDashboard({ user, onNavigate, activeNav, setActiveNav, language
 }
 
 // ===== DASHBOARD PAGE =====
-function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language = 'en', courseVideos, setCourseVideos, courseQuizzes, setCourseQuizzes, videoProgress }) {
+function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language = 'en', courses, setCourses, courseVideos, setCourseVideos, courseQuizzes, setCourseQuizzes, videoProgress }) {
   const [activeNav, setActiveNav] = useState('overview');
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [changePasswordData, setChangePasswordData] = useState({ current: '', new: '', confirm: '' });
 
   const navItems = {
     admin: [
@@ -3083,13 +3235,32 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
     ],
     trainer: [
       { id:'courses', label:'myCourses', icon:'Book' },
-      { id:'quiz', label:'createQuiz', icon:'HelpCircle' },
+      { id:'create', label:'createCourse', icon:'Plus' },
       { id:'results', label:'viewResults', icon:'Chart' }
     ],
     employee: [
       { id:'home', label:'myLearning', icon:'Home' },
       { id:'certificates', label:'certificates', icon:'Award' }
     ]
+  };
+
+  const handleChangePassword = () => {
+    if (changePasswordData.current !== user.password) {
+      alert(t('changePasswordError', language) + ': Incorrect current password');
+      return;
+    }
+    if (changePasswordData.new !== changePasswordData.confirm) {
+      alert(t('changePasswordError', language) + ': Passwords do not match');
+      return;
+    }
+    if (changePasswordData.new.length < 6) {
+      alert(t('changePasswordError', language) + ': Password must be at least 6 characters');
+      return;
+    }
+    setUsers(users.map(u => u.id === user.id ? { ...u, password: changePasswordData.new } : u));
+    setChangePasswordData({ current: '', new: '', confirm: '' });
+    setShowChangePassword(false);
+    alert(t('changePasswordSuccess', language));
   };
 
   const items = navItems[user.role] || navItems.employee;
@@ -3121,11 +3292,12 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
             ))}
           </nav>
           <div className="sidebar-logout">
+            <button className="logout-btn" onClick={() => setShowChangePassword(true)}><Icon.Lock /> {t('changePassword', language)}</button>
             <button className="logout-btn" onClick={onLogout}><Icon.LogOut /> Logout</button>
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <AdminDashboard activeNav={nav} users={users} setUsers={setUsers} language={language} />
+          <AdminDashboard activeNav={nav} users={users} setUsers={setUsers} language={language} courses={courses} />
         </div>
       </div>
     );
@@ -3150,11 +3322,12 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
             ))}
           </nav>
           <div className="sidebar-logout">
+            <button className="logout-btn" onClick={() => setShowChangePassword(true)}><Icon.Lock /> {t('changePassword', language)}</button>
             <button className="logout-btn" onClick={onLogout}><Icon.LogOut /> Logout</button>
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} courseVideos={courseVideos} setCourseVideos={setCourseVideos} courseQuizzes={courseQuizzes} setCourseQuizzes={setCourseQuizzes} />
+          <TrainerDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} courses={courses} setCourses={setCourses} courseVideos={courseVideos} setCourseVideos={setCourseVideos} courseQuizzes={courseQuizzes} setCourseQuizzes={setCourseQuizzes} />
         </div>
       </div>
     );
@@ -3182,19 +3355,45 @@ function DashboardPage({ user, onNavigate, onLogout, users, setUsers, language =
             </div>
           </nav>
           <div className="sidebar-logout">
+            <button className="logout-btn" onClick={() => setShowChangePassword(true)}><Icon.Lock /> {t('changePassword', language)}</button>
             <button className="logout-btn" onClick={onLogout}><Icon.LogOut /> Logout</button>
           </div>
         </aside>
         <div style={{flex:1, overflowY:'auto'}}>
-          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} courseVideos={courseVideos} courseQuizzes={courseQuizzes} />
+          <EmployeeDashboard user={user} onNavigate={onNavigate} activeNav={nav} setActiveNav={setNav} language={language} courses={courses} courseVideos={courseVideos} courseQuizzes={courseQuizzes} />
         </div>
       </div>
     );
   };
 
-  if (user.role === 'admin') return <AdminMain />;
-  if (user.role === 'trainer') return <TrainerMain />;
-  return <EmployeeMain />;
+  return (
+    <>
+      {showChangePassword && (
+        <div className="modal-overlay" onClick={() => setShowChangePassword(false)}>
+          <div className="modal-card" onClick={e => e.stopPropagation()}>
+            <h2>{t('changePassword', language)}</h2>
+            <div className="form-group">
+              <label>{t('currentPassword', language)}</label>
+              <input type="password" value={changePasswordData.current} onChange={e => setChangePasswordData({...changePasswordData, current: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>{t('newPassword', language)}</label>
+              <input type="password" value={changePasswordData.new} onChange={e => setChangePasswordData({...changePasswordData, new: e.target.value})} />
+            </div>
+            <div className="form-group">
+              <label>{t('confirmPassword', language)}</label>
+              <input type="password" value={changePasswordData.confirm} onChange={e => setChangePasswordData({...changePasswordData, confirm: e.target.value})} />
+            </div>
+            <div className="modal-actions">
+              <button className="btn-secondary" onClick={() => setShowChangePassword(false)}>{t('cancel', language)}</button>
+              <button className="btn-primary" onClick={handleChangePassword}>{t('changePassword', language)}</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {user.role === 'admin' ? <AdminMain /> : user.role === 'trainer' ? <TrainerMain /> : <EmployeeMain />}
+    </>
+  );
 }
 
 // ===== APP (Router) =====
@@ -3203,6 +3402,7 @@ function App() {
   const [pageData, setPageData] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [language, setLanguage] = useState('en');
+  const [courses, setCourses] = useState(COURSES_DATA);
   const [courseVideos, setCourseVideos] = useState({}); // {courseId: [{id, title, videoUrl, duration}]}
   const [courseQuizzes, setCourseQuizzes] = useState({}); // {courseId: [{q, options, correct}]}
   const [videoProgress, setVideoProgress] = useState({}); // {courseId: {videoIndex: true/false}}
@@ -3224,13 +3424,13 @@ function App() {
   const renderPage = () => {
     switch (page) {
       case 'home': return <HomePage onNavigate={navigate} language={language} />;
-      case 'courses': return <CoursesPage onNavigate={navigate} currentUser={currentUser} language={language} />;
+      case 'courses': return <CoursesPage onNavigate={navigate} currentUser={currentUser} language={language} courses={courses} />;
       case 'auth-gate': return <AuthGatePage onNavigate={navigate} language={language} />;
-      case 'course-detail': return <CourseDetailPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} />;
-      case 'course-plan': return <CoursePlanPage course={pageData.course} onNavigate={navigate} language={language} courseVideos={courseVideos} videoProgress={videoProgress} setVideoProgress={setVideoProgress} />;
+      case 'course-detail': return <CourseDetailPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} courses={courses} />;
+      case 'course-plan': return <CoursePlanPage course={pageData.course} onNavigate={navigate} language={language} courseVideos={courseVideos} videoProgress={videoProgress} setVideoProgress={setVideoProgress} courses={courses} />;
       case 'login': return <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
       case 'signup': return <SignupPage onNavigate={navigate} onLogin={handleLogin} language={language} />;
-      case 'dashboard': return currentUser ? <DashboardPage user={currentUser} onNavigate={navigate} onLogout={handleLogout} users={users} setUsers={setUsers} language={language} courseVideos={courseVideos} setCourseVideos={setCourseVideos} courseQuizzes={courseQuizzes} setCourseQuizzes={setCourseQuizzes} videoProgress={videoProgress} /> : <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
+      case 'dashboard': return currentUser ? <DashboardPage user={currentUser} onNavigate={navigate} onLogout={handleLogout} users={users} setUsers={setUsers} language={language} courses={courses} setCourses={setCourses} courseVideos={courseVideos} setCourseVideos={setCourseVideos} courseQuizzes={courseQuizzes} setCourseQuizzes={setCourseQuizzes} videoProgress={videoProgress} /> : <LoginPage onNavigate={navigate} onLogin={handleLogin} users={users} language={language} />;
       case 'quiz': return <QuizPage course={pageData.course} onNavigate={navigate} currentUser={currentUser} language={language} courseQuizzes={courseQuizzes} videoProgress={videoProgress} />;
       case 'certificate': return <CertificatePage course={pageData.course} userName={pageData.userName} onNavigate={navigate} language={language} />;
       default: return <HomePage onNavigate={navigate} language={language} />;
